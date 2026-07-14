@@ -1,0 +1,79 @@
+@layer components {
+  .switch {
+    --switch-bg: var(--input);
+    --switch-border: transparent;
+    --switch-ring: color-mix(in oklch, var(--ring) 50%, transparent);
+    --switch-thumb-bg: var(--background);
+
+    @apply relative inline-flex shrink-0 cursor-pointer items-center rounded-full border outline-none transition-[background-color,border-color,box-shadow] duration-150 ease-out motion-reduce:transition-none;
+
+    background-color: var(--switch-bg);
+    border-color: var(--switch-border);
+  }
+
+  .switch--default {
+    @apply h-[18.4px] w-8;
+  }
+
+  .switch--sm {
+    @apply h-3.5 w-6;
+  }
+
+  .switch[data-state='checked'] {
+    --switch-bg: var(--primary);
+    --switch-thumb-bg: var(--primary-foreground);
+  }
+
+  .switch:focus-visible {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px var(--switch-ring);
+  }
+
+  .switch:is([aria-invalid='true'], [data-invalid]) {
+    --switch-bg: color-mix(in oklch, var(--destructive) 10%, transparent);
+    --switch-border: color-mix(in oklch, var(--destructive) 30%, transparent);
+    --switch-ring: color-mix(in oklch, var(--destructive) 20%, transparent);
+    --switch-thumb-bg: var(--destructive);
+
+    box-shadow: 0 0 0 3px var(--switch-ring);
+  }
+
+  .switch:is(:disabled, [data-disabled]) {
+    @apply cursor-not-allowed pointer-events-none;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .switch__thumb {
+    @apply pointer-events-none grid place-items-center rounded-full transition-transform duration-150 ease-out motion-reduce:transition-none;
+
+    background-color: var(--switch-thumb-bg);
+    line-height: 1;
+  }
+
+  .switch--default .switch__thumb {
+    @apply size-4;
+  }
+
+  .switch--sm .switch__thumb {
+    @apply size-3;
+  }
+
+  .switch[data-state='checked'] .switch__thumb {
+    transform: translateX(calc(100% - 2px));
+  }
+
+  :where([data-theme='dark']) .switch:not([data-state='checked']),
+  .switch[data-theme='dark']:not([data-state='checked']) {
+    --switch-bg: color-mix(in oklch, var(--input) 80%, transparent);
+    --switch-thumb-bg: var(--foreground);
+  }
+
+  :where([data-theme='dark']) .switch:is([aria-invalid='true'], [data-invalid]),
+  .switch[data-theme='dark']:is([aria-invalid='true'], [data-invalid]) {
+    --switch-bg: color-mix(in oklch, var(--destructive) 10%, transparent);
+    --switch-border: color-mix(in oklch, var(--destructive) 50%, transparent);
+    --switch-ring: color-mix(in oklch, var(--destructive) 40%, transparent);
+    --switch-thumb-bg: var(--destructive);
+  }
+}

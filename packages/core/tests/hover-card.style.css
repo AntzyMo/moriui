@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "../src/styles/tokens.css";
+@import "../src/styles/base.css";
+@import "../src/components/hover-card/style.css";
+@import "../src/styles/utilities.css";
+@import "../src/styles/motion.css";

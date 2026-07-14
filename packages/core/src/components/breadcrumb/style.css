@@ -1,0 +1,58 @@
+@layer components {
+  .breadcrumb {
+    --breadcrumb-fg: var(--muted-foreground);
+    --breadcrumb-page-fg: var(--foreground);
+    --breadcrumb-link-fg: var(--muted-foreground);
+    --breadcrumb-link-fg-hover: var(--foreground);
+    --breadcrumb-ring: var(--ring);
+
+    color: var(--breadcrumb-fg);
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb__list {
+    @apply flex flex-wrap items-center gap-1.5 break-words;
+  }
+
+  .breadcrumb__item {
+    @apply inline-flex items-center gap-1.5;
+  }
+
+  .breadcrumb__link {
+    @apply rounded-sm outline-none transition-colors duration-100 ease-out;
+
+    color: var(--breadcrumb-link-fg);
+  }
+
+  .breadcrumb__link:hover {
+    color: var(--breadcrumb-link-fg-hover);
+  }
+
+  .breadcrumb__link:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--breadcrumb-ring) 45%, transparent);
+  }
+
+  .breadcrumb__page {
+    color: var(--breadcrumb-page-fg);
+  }
+
+  .breadcrumb__separator {
+    @apply flex shrink-0 items-center justify-center;
+
+    color: var(--breadcrumb-fg);
+  }
+
+  .breadcrumb__separator > svg {
+    @apply size-3.5 shrink-0 pointer-events-none;
+  }
+
+  .breadcrumb__ellipsis {
+    @apply flex size-9 shrink-0 items-center justify-center;
+
+    color: var(--breadcrumb-fg);
+  }
+
+  .breadcrumb__ellipsis > svg {
+    @apply size-4 shrink-0 pointer-events-none;
+  }
+}

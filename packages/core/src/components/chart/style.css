@@ -1,0 +1,55 @@
+@layer components {
+  .chart {
+    --chart-aspect-ratio: 16 / 9;
+    --chart-font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+    --chart-grid: color-mix(in oklch, var(--border) 55%, transparent);
+    --chart-tooltip-bg: var(--popover);
+    --chart-tooltip-border: var(--border);
+    --chart-tooltip-fg: var(--popover-foreground);
+    --chart-tooltip-muted-fg: var(--muted-foreground);
+    --chart-tooltip-shadow: 0 8px 16px oklch(0 0 0 / 8%);
+    --vis-tooltip-padding: 0px;
+    --vis-tooltip-background-color: transparent;
+    --vis-tooltip-border-color: transparent;
+    --vis-tooltip-text-color: transparent;
+    --vis-tooltip-shadow-color: transparent;
+    --vis-tooltip-backdrop-filter: none;
+    --vis-crosshair-circle-stroke-color: transparent;
+    --vis-crosshair-line-stroke-width: 0px;
+    --vis-font-family: var(--chart-font-family);
+
+    @apply flex w-full flex-col justify-center text-xs;
+
+    aspect-ratio: var(--chart-aspect-ratio);
+    color: var(--muted-foreground);
+  }
+
+  .chart--cursor { --vis-crosshair-line-stroke-width: 1px; }
+
+  .chart :is([data-vis-xy-container], [data-vis-single-container]) { height: 100%; width: 100%; }
+  .chart :is(.tick text, .tick_text) { fill: var(--muted-foreground); }
+  .chart :is(.tick line, .tick_line, .grid line) { stroke: var(--chart-grid); }
+  .chart :is(.unovis-layer, .unovis-sector, .unovis-surface) { outline: none; }
+
+  .chart__tooltip {
+    @apply grid min-w-32 gap-1.5 rounded-lg border px-2.5 py-2 text-xs;
+    background-color: var(--chart-tooltip-bg);
+    border-color: var(--chart-tooltip-border);
+    box-shadow: var(--chart-tooltip-shadow);
+    color: var(--chart-tooltip-fg);
+  }
+  .chart__tooltip-label { @apply font-medium; }
+  .chart__tooltip-list { @apply grid gap-1.5; }
+  .chart__tooltip-item { @apply flex min-w-0 items-center gap-2; }
+  .chart__tooltip-indicator { @apply size-2.5 shrink-0 rounded-sm; }
+  .chart__tooltip-indicator[data-indicator='line'] { @apply w-1 rounded-none; }
+  .chart__tooltip-indicator[data-indicator='dashed'] { @apply w-0 rounded-none border border-dashed bg-transparent; }
+  .chart__tooltip-metadata { @apply grid min-w-0 flex-1 gap-1; color: var(--chart-tooltip-muted-fg); }
+  .chart__tooltip-value { @apply shrink-0 font-mono font-medium tabular-nums; color: var(--chart-tooltip-fg); }
+  .chart__legend { @apply flex items-center justify-center gap-4 text-xs; }
+  .chart__legend[data-vertical-align='top'] { @apply pb-3; }
+  .chart__legend[data-vertical-align='bottom'] { @apply pt-3; }
+  .chart__legend-item { @apply flex items-center gap-1.5; }
+  .chart__legend-item > svg { @apply size-3; color: var(--muted-foreground); }
+  .chart__legend-indicator { @apply size-2 shrink-0 rounded-sm; }
+}

@@ -1,0 +1,142 @@
+@layer components {
+  .context-menu__trigger {
+    @apply select-none;
+  }
+
+  .context-menu__trigger[data-disabled] {
+    @apply cursor-not-allowed;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .context-menu__content {
+    --context-menu-content-bg: var(--popover);
+    --context-menu-content-fg: var(--popover-foreground);
+    --context-menu-content-ring: color-mix(in oklch, var(--foreground) 10%, transparent);
+
+    @apply relative z-50 min-w-40 overflow-hidden rounded-lg p-1 text-sm outline-none;
+
+    animation-duration: 100ms;
+    background-color: var(--context-menu-content-bg);
+    box-shadow:
+      0 0 0 1px var(--context-menu-content-ring),
+      0 4px 6px -1px rgb(0 0 0 / 10%),
+      0 2px 4px -2px rgb(0 0 0 / 10%);
+    color: var(--context-menu-content-fg);
+    max-height: var(--reka-context-menu-content-available-height);
+    max-width: var(--reka-context-menu-content-available-width);
+    transform-origin: var(--reka-context-menu-content-transform-origin);
+  }
+
+  .context-menu__content[data-state='open'] {
+    animation-name: context-menu-content-in;
+  }
+
+  .context-menu__content[data-state='closed'] {
+    animation-name: context-menu-content-out;
+  }
+
+  .context-menu__content[data-side='top'] {
+    --context-menu-slide: 0 0.5rem;
+  }
+
+  .context-menu__content[data-side='bottom'] {
+    --context-menu-slide: 0 -0.5rem;
+  }
+
+  .context-menu__content[data-side='left'] {
+    --context-menu-slide: 0.5rem 0;
+  }
+
+  .context-menu__content[data-side='right'] {
+    --context-menu-slide: -0.5rem 0;
+  }
+
+  .context-menu__arrow {
+    fill: var(--context-menu-content-bg);
+    stroke: var(--border);
+  }
+
+  .context-menu__group:not(:first-child) {
+    @apply mt-1 pt-1;
+  }
+
+  .context-menu__label {
+    @apply px-1.5 py-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .context-menu__separator {
+    @apply -mx-1 my-1 h-px bg-border;
+  }
+
+  .context-menu__item {
+    @apply relative flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-sm font-normal outline-none select-none;
+  }
+
+  .context-menu__item:is(:focus-visible, [data-highlighted]) {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .context-menu__item:is(:disabled, [data-disabled]) {
+    @apply pointer-events-none;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .context-menu__checkbox-item,
+  .context-menu__radio-item {
+    @apply pl-7;
+  }
+
+  .context-menu__item-indicator {
+    @apply pointer-events-none absolute left-1.5 inline-flex size-4 items-center justify-center;
+  }
+
+  .context-menu__item-indicator-mark {
+    @apply size-3;
+  }
+
+  .context-menu__shortcut {
+    @apply ml-auto text-xs tracking-widest text-muted-foreground;
+  }
+
+  .context-menu__sub-trigger[data-state='open'] {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .context-menu__sub-trigger-icon {
+    @apply ml-auto size-4;
+  }
+
+  @keyframes context-menu-content-in {
+    from {
+      opacity: 0;
+      transform: translate(var(--context-menu-slide, 0 0)) scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+  }
+
+  @keyframes context-menu-content-out {
+    from {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate(var(--context-menu-slide, 0 0)) scale(0.95);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .context-menu__content {
+      animation-duration: 0ms;
+    }
+  }
+}

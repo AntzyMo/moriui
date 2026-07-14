@@ -1,0 +1,49 @@
+@layer components {
+  .message {
+    @apply relative flex w-full min-w-0 gap-2 text-sm;
+  }
+
+  .message--end {
+    @apply flex-row-reverse;
+  }
+
+  .message-group {
+    @apply flex min-w-0 flex-col gap-2;
+  }
+
+  .message-avatar {
+    @apply flex min-w-8 w-fit shrink-0 self-end items-center justify-center overflow-hidden rounded-full;
+
+    background-color: var(--muted);
+  }
+
+  .message:has(.message__footer) .message-avatar {
+    transform: translateY(-2rem);
+  }
+
+  .message__content {
+    @apply flex w-full min-w-0 flex-col gap-2.5;
+
+    overflow-wrap: break-word;
+  }
+
+  .message--end .message__content > [data-slot] {
+    align-self: flex-end;
+  }
+
+  .message__header,
+  .message__footer {
+    @apply flex max-w-full min-w-0 items-center px-3 text-xs font-medium;
+
+    color: var(--muted-foreground);
+  }
+
+  .message:has([data-variant='ghost']) :is(.message__header, .message__footer) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .message--end .message__footer {
+    justify-content: flex-end;
+  }
+}

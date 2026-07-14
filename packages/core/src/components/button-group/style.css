@@ -1,0 +1,75 @@
+@layer components {
+  .button-group {
+    @apply inline-flex w-fit items-stretch;
+  }
+
+  .button-group--vertical {
+    @apply flex-col;
+  }
+
+  .button-group:has(> [data-slot='button-group']) {
+    @apply gap-2;
+  }
+
+  .button-group > [data-slot] {
+    @apply min-w-0;
+  }
+
+  .button-group > [data-slot]:is(:focus-visible, :has(:focus-visible)) {
+    @apply relative z-10;
+  }
+
+  .button-group:not(:has(> [data-slot='button-group']))[data-orientation='horizontal'] > [data-slot]:not(:first-child) {
+    border-bottom-left-radius: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+  }
+
+  .button-group:not(:has(> [data-slot='button-group']))[data-orientation='horizontal'] > [data-slot]:not(:last-child) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .button-group:not(:has(> [data-slot='button-group']))[data-orientation='vertical'] > [data-slot]:not(:first-child) {
+    border-top-left-radius: 0;
+    border-top-width: 0;
+    border-top-right-radius: 0;
+  }
+
+  .button-group:not(:has(> [data-slot='button-group']))[data-orientation='vertical'] > [data-slot]:not(:last-child) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .button-group__text {
+    --button-group-text-bg: var(--muted);
+    --button-group-text-border: var(--border);
+    --button-group-text-fg: var(--foreground);
+
+    @apply flex min-w-0 items-center gap-1.5 border px-2.5 text-sm font-medium;
+
+    background-color: var(--button-group-text-bg);
+    border-color: var(--button-group-text-border);
+    color: var(--button-group-text-fg);
+  }
+
+  .button-group__text > svg {
+    @apply size-4 shrink-0 pointer-events-none;
+  }
+
+  .button-group__separator {
+    --button-group-separator-bg: var(--input);
+
+    @apply shrink-0 self-stretch;
+
+    background-color: var(--button-group-separator-bg);
+  }
+
+  .button-group__separator[data-orientation='vertical'] {
+    @apply h-auto w-px;
+  }
+
+  .button-group__separator[data-orientation='horizontal'] {
+    @apply h-px w-auto;
+  }
+}

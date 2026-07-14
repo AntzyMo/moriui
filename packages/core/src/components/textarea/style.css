@@ -1,0 +1,44 @@
+@layer components {
+  .textarea {
+    --textarea-bg: transparent;
+    --textarea-border: var(--input);
+    --textarea-fg: var(--foreground);
+    --textarea-placeholder: var(--muted-foreground);
+    --textarea-ring: var(--ring);
+
+    @apply flex min-h-16 w-full min-w-0 resize-y rounded-lg border px-2.5 py-2 text-base outline-none transition-[background-color,border-color,box-shadow,color] duration-100 ease-out md:text-sm;
+
+    background-color: var(--textarea-bg);
+    border-color: var(--textarea-border);
+    color: var(--textarea-fg);
+    font-family: inherit;
+  }
+
+  .textarea::placeholder {
+    color: var(--textarea-placeholder);
+  }
+
+  .textarea:focus-visible {
+    border-color: var(--textarea-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--textarea-ring) 45%, transparent);
+  }
+
+  .textarea:is([aria-invalid='true'], [data-invalid]) {
+    --textarea-border: var(--destructive);
+    --textarea-ring: var(--destructive);
+  }
+
+  .textarea:is(:disabled, [data-disabled]) {
+    --textarea-bg: color-mix(in oklch, var(--input) 50%, transparent);
+    --textarea-fg: var(--muted-foreground);
+
+    @apply cursor-not-allowed pointer-events-none;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  :where([data-theme='dark']) .textarea,
+  .textarea[data-theme='dark'] {
+    --textarea-bg: color-mix(in oklch, var(--input) 30%, transparent);
+  }
+}

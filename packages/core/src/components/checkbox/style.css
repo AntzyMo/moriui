@@ -1,0 +1,75 @@
+@layer components {
+  .checkbox {
+    --checkbox-bg: transparent;
+    --checkbox-border: var(--input);
+    --checkbox-fg: var(--foreground);
+    --checkbox-ring: color-mix(in oklch, var(--ring) 50%, transparent);
+
+    @apply relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border outline-none transition-[background-color,border-color,box-shadow,color] duration-150 ease-out;
+
+    background-color: var(--checkbox-bg);
+    border-color: var(--checkbox-border);
+    color: var(--checkbox-fg);
+    font-family: inherit;
+  }
+
+  .checkbox::after {
+    content: '';
+    inset-block: -0.5rem;
+    inset-inline: -0.75rem;
+    position: absolute;
+  }
+
+  .checkbox:is([data-state='checked'], [data-state='indeterminate']) {
+    --checkbox-bg: var(--primary);
+    --checkbox-border: var(--primary);
+  }
+
+  .checkbox:focus-visible {
+    border-color: var(--checkbox-ring);
+    box-shadow: 0 0 0 3px var(--checkbox-ring);
+  }
+
+  .checkbox:is([aria-invalid='true'], [data-invalid]) {
+    --checkbox-border: var(--destructive);
+    --checkbox-ring: color-mix(in oklch, var(--destructive) 20%, transparent);
+
+    box-shadow: 0 0 0 3px var(--checkbox-ring);
+  }
+
+  .checkbox:is([aria-invalid='true'], [data-invalid]):is([data-state='checked'], [data-state='indeterminate']) {
+    --checkbox-border: var(--primary);
+  }
+
+  .checkbox:is(:disabled, [data-disabled]) {
+    @apply cursor-not-allowed pointer-events-none;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .checkbox__indicator {
+    @apply grid place-content-center;
+
+    color: inherit;
+  }
+
+  .checkbox__indicator-mark {
+    @apply size-3;
+  }
+
+  :where([data-theme='dark']) .checkbox:not([data-state='checked'], [data-state='indeterminate']),
+  .checkbox[data-theme='dark']:not([data-state='checked'], [data-state='indeterminate']) {
+    --checkbox-bg: color-mix(in oklch, var(--input) 30%, transparent);
+  }
+
+  :where([data-theme='dark']) .checkbox:is([aria-invalid='true'], [data-invalid]),
+  .checkbox[data-theme='dark']:is([aria-invalid='true'], [data-invalid]) {
+    --checkbox-border: color-mix(in oklch, var(--destructive) 50%, transparent);
+    --checkbox-ring: color-mix(in oklch, var(--destructive) 40%, transparent);
+  }
+
+  :where([data-theme='dark']) .checkbox:is([aria-invalid='true'], [data-invalid]):is([data-state='checked'], [data-state='indeterminate']),
+  .checkbox[data-theme='dark']:is([aria-invalid='true'], [data-invalid]):is([data-state='checked'], [data-state='indeterminate']) {
+    --checkbox-border: var(--primary);
+  }
+}

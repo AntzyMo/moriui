@@ -1,0 +1,238 @@
+@keyframes spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes attachment-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes accordion-expand {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+
+  to {
+    height: var(--reka-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-collapse {
+  from {
+    height: var(--reka-accordion-content-height);
+    opacity: 1;
+  }
+
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes collapsible-expand {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+
+  to {
+    height: var(--reka-collapsible-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes collapsible-collapse {
+  from {
+    height: var(--reka-collapsible-content-height);
+    opacity: 1;
+  }
+
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes alert-dialog-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes alert-dialog-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes alert-dialog-content-in {
+  from {
+    opacity: 0;
+    scale: 0.95;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes alert-dialog-content-out {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+
+  to {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+
+@keyframes dialog-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dialog-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes dialog-content-in {
+  from {
+    opacity: 0;
+    scale: 0.95;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes dialog-content-out {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+
+  to {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+
+@keyframes sheet-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes sheet-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes sheet-content-in-top {
+  from { opacity: 0; translate: 0 -2.5rem; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes sheet-content-out-top {
+  from { opacity: 1; translate: 0 0; }
+  to { opacity: 0; translate: 0 -2.5rem; }
+}
+
+@keyframes sheet-content-in-right {
+  from { opacity: 0; translate: 2.5rem 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes sheet-content-out-right {
+  from { opacity: 1; translate: 0 0; }
+  to { opacity: 0; translate: 2.5rem 0; }
+}
+
+@keyframes sheet-content-in-bottom {
+  from { opacity: 0; translate: 0 2.5rem; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes sheet-content-out-bottom {
+  from { opacity: 1; translate: 0 0; }
+  to { opacity: 0; translate: 0 2.5rem; }
+}
+
+@keyframes sheet-content-in-left {
+  from { opacity: 0; translate: -2.5rem 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes sheet-content-out-left {
+  from { opacity: 1; translate: 0 0; }
+  to { opacity: 0; translate: -2.5rem 0; }
+}
+
+@keyframes drawer-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes drawer-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes drawer-content-in-down {
+  from { translate: 0 100%; }
+  to { translate: 0 0; }
+}
+
+@keyframes drawer-content-out-down {
+  from { translate: 0 0; }
+  to { translate: 0 100%; }
+}
+
+@keyframes drawer-content-in-up {
+  from { translate: 0 -100%; }
+  to { translate: 0 0; }
+}
+
+@keyframes drawer-content-out-up {
+  from { translate: 0 0; }
+  to { translate: 0 -100%; }
+}
+
+@keyframes drawer-content-in-left {
+  from { translate: -100% 0; }
+  to { translate: 0 0; }
+}
+
+@keyframes drawer-content-out-left {
+  from { translate: 0 0; }
+  to { translate: -100% 0; }
+}
+
+@keyframes drawer-content-in-right {
+  from { translate: 100% 0; }
+  to { translate: 0 0; }
+}
+
+@keyframes drawer-content-out-right {
+  from { translate: 0 0; }
+  to { translate: 100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,12 @@
+@layer components {
+  .label {
+    @apply flex items-center gap-2 text-sm leading-none font-medium select-none;
+  }
+
+  .label:is([data-disabled], :has(:is(:disabled, [data-disabled]))),
+  [data-disabled] > .label {
+    @apply pointer-events-none cursor-not-allowed;
+
+    opacity: var(--disabled-opacity);
+  }
+}

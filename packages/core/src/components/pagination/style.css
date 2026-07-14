@@ -1,0 +1,97 @@
+@layer components {
+  .pagination {
+    --pagination-bg: transparent;
+    --pagination-bg-hover: var(--muted);
+    --pagination-bg-selected: var(--background);
+    --pagination-border: transparent;
+    --pagination-border-selected: var(--border);
+    --pagination-fg: var(--muted-foreground);
+    --pagination-fg-hover: var(--foreground);
+    --pagination-fg-selected: var(--foreground);
+    --pagination-ring: var(--ring);
+
+    @apply mx-auto flex w-full justify-center;
+  }
+
+  .pagination__list {
+    @apply inline-flex items-center;
+  }
+
+  .pagination__item,
+  .pagination__first,
+  .pagination__last {
+    @apply inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-transparent text-sm font-medium leading-none outline-none select-none transition-[background-color,border-color,box-shadow,color] duration-100 ease-out;
+
+    background: var(--pagination-bg);
+    border-color: var(--pagination-border);
+    color: var(--pagination-fg);
+  }
+
+  .pagination__prev,
+  .pagination__next {
+    @apply inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-transparent px-2.5 text-sm font-medium leading-none outline-none select-none transition-[background-color,border-color,box-shadow,color] duration-100 ease-out;
+
+    background: var(--pagination-bg);
+    border-color: var(--pagination-border);
+    color: var(--pagination-fg);
+  }
+
+  .pagination__item:hover:not(:disabled, [data-disabled]),
+  .pagination__first:hover:not(:disabled, [data-disabled]),
+  .pagination__prev:hover:not(:disabled, [data-disabled]),
+  .pagination__next:hover:not(:disabled, [data-disabled]),
+  .pagination__last:hover:not(:disabled, [data-disabled]) {
+    background: var(--pagination-bg-hover);
+    color: var(--pagination-fg-hover);
+  }
+
+  .pagination__item[data-selected='true'] {
+    background: var(--pagination-bg-selected);
+    border-color: var(--pagination-border-selected);
+    color: var(--pagination-fg-selected);
+  }
+
+  .pagination__item:is(:focus-visible),
+  .pagination__first:is(:focus-visible),
+  .pagination__prev:is(:focus-visible),
+  .pagination__next:is(:focus-visible),
+  .pagination__last:is(:focus-visible) {
+    border-color: var(--pagination-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--pagination-ring) 45%, transparent);
+  }
+
+  .pagination__item:is(:disabled, [data-disabled]),
+  .pagination__first:is(:disabled, [data-disabled]),
+  .pagination__prev:is(:disabled, [data-disabled]),
+  .pagination__next:is(:disabled, [data-disabled]),
+  .pagination__last:is(:disabled, [data-disabled]) {
+    @apply cursor-not-allowed;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .pagination__ellipsis {
+    @apply inline-flex h-8 shrink-0 items-center justify-center px-2 text-sm;
+
+    color: var(--pagination-fg);
+  }
+
+  .pagination__ellipsis-icon {
+    @apply size-4 shrink-0;
+  }
+
+  .pagination__prev-text,
+  .pagination__next-text {
+    @apply hidden sm:block;
+  }
+
+  .pagination__first-icon,
+  .pagination__last-icon {
+    @apply size-4;
+  }
+
+  .pagination__prev-icon,
+  .pagination__next-icon {
+    @apply size-4;
+  }
+}

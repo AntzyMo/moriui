@@ -1,0 +1,15 @@
+@layer components {
+  .separator {
+    @apply shrink-0;
+
+    background-color: var(--border);
+  }
+
+  .separator[data-orientation='horizontal'] {
+    @apply h-px w-full;
+  }
+
+  .separator[data-orientation='vertical'] {
+    @apply w-px self-stretch;
+  }
+}

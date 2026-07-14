@@ -1,0 +1,85 @@
+@layer components {
+  .resizable {
+    @apply flex h-full w-full;
+  }
+
+  .resizable[data-orientation='vertical'] {
+    @apply flex-col;
+  }
+
+  .resizable__panel {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .resizable__handle {
+    --resizable-handle-bg: var(--border);
+    --resizable-handle-active-bg: var(--ring);
+
+    align-items: center;
+    background: var(--resizable-handle-bg);
+    cursor: col-resize;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    outline: none;
+    position: relative;
+    transition: background-color 100ms ease, box-shadow 100ms ease;
+    width: 1px;
+  }
+
+  .resizable__handle::after {
+    content: '';
+    inset-block: 0;
+    inset-inline-start: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 0.75rem;
+  }
+
+  .resizable__handle:is([data-state='hover'], [data-state='drag'], :focus-visible) {
+    background: var(--resizable-handle-active-bg);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 24%, transparent);
+    z-index: 1;
+  }
+
+  .resizable__handle[data-orientation='vertical'] {
+    cursor: row-resize;
+    height: 1px;
+    width: 100%;
+  }
+
+  .resizable__handle[data-orientation='vertical']::after {
+    height: 0.75rem;
+    inset-block-start: 50%;
+    inset-inline: 0;
+    transform: translateY(-50%);
+    width: auto;
+  }
+
+  .resizable__handle[data-disabled] {
+    cursor: not-allowed;
+    opacity: var(--disabled-opacity);
+  }
+
+  .resizable__grip {
+    background: var(--border);
+    border-radius: var(--radius-lg);
+    display: block;
+    flex-shrink: 0;
+    height: 1.5rem;
+    pointer-events: none;
+    width: 0.25rem;
+    z-index: 1;
+  }
+
+  .resizable__handle[data-orientation='vertical'] .resizable__grip {
+    transform: rotate(90deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .resizable__handle {
+      transition: none;
+    }
+  }
+}

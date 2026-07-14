@@ -1,0 +1,59 @@
+@layer components {
+  .marker {
+    --marker-fg: color-mix(in oklch, var(--muted-foreground) 72%, var(--background));
+    --marker-border: var(--border);
+
+    @apply relative flex min-h-4 w-full items-center gap-2 text-left text-sm;
+
+    color: var(--marker-fg);
+  }
+
+  .marker--border {
+    @apply border-b pb-2;
+
+    border-color: var(--marker-border);
+  }
+
+  .marker--separator::before,
+  .marker--separator::after {
+    background-color: var(--marker-border);
+    content: '';
+    flex: 1 1 0%;
+    height: 1px;
+    min-width: 0;
+  }
+
+  .marker--separator::before {
+    margin-inline-end: 0.25rem;
+  }
+
+  .marker--separator::after {
+    margin-inline-start: 0.25rem;
+  }
+
+  .marker__icon {
+    @apply flex size-4 shrink-0 items-center justify-center;
+  }
+
+  .marker__icon > svg {
+    @apply size-full shrink-0 pointer-events-none;
+  }
+
+  .marker__content {
+    @apply min-w-0;
+
+    overflow-wrap: anywhere;
+  }
+
+  .marker--separator .marker__content {
+    @apply flex-none text-center;
+  }
+
+  .marker__content :is(a) {
+    @apply underline underline-offset-3;
+  }
+
+  .marker__content :is(a):hover {
+    color: var(--foreground);
+  }
+}

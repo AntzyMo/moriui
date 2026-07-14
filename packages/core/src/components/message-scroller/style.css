@@ -1,0 +1,132 @@
+@layer components {
+  .message-scroller {
+    --message-scroller-button-offset: 1.5rem;
+    --message-scroller-fade-size: 3.5rem;
+    --message-scroller-scrollbar-thumb: color-mix(in oklch, var(--muted-foreground) 38%, transparent);
+    --message-scroller-scrollbar-track: transparent;
+
+    @apply relative flex size-full min-h-0 min-w-0 flex-col overflow-hidden;
+  }
+
+  .message-scroller[data-scrollable~='end']::after {
+    background: linear-gradient(to bottom, transparent, var(--background));
+    bottom: 0;
+    content: '';
+    height: var(--message-scroller-fade-size);
+    inset-inline: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .message-scroller__viewport {
+    @apply size-full min-h-0 min-w-0 overflow-y-auto overscroll-contain outline-none;
+
+    contain: content;
+    scrollbar-color: var(--message-scroller-scrollbar-thumb) var(--message-scroller-scrollbar-track);
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+  }
+
+  .message-scroller__viewport[data-autoscrolling] {
+    scrollbar-color: transparent transparent;
+  }
+
+  .message-scroller__viewport::-webkit-scrollbar {
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+
+  .message-scroller__viewport::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: var(--message-scroller-scrollbar-thumb);
+    border: 2px solid transparent;
+    border-radius: 999px;
+  }
+
+  .message-scroller__viewport::-webkit-scrollbar-track {
+    background-color: var(--message-scroller-scrollbar-track);
+  }
+
+  .message-scroller__viewport[data-autoscrolling]::-webkit-scrollbar-thumb,
+  .message-scroller__viewport[data-autoscrolling]::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .message-scroller__viewport:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--ring);
+  }
+
+  .message-scroller__content {
+    @apply flex h-max min-h-full min-w-0 flex-col;
+  }
+
+  .message-scroller__item {
+    @apply min-w-0 shrink-0;
+
+    contain-intrinsic-size: auto 10rem;
+    content-visibility: auto;
+  }
+
+  .message-scroller__spacer {
+    @apply pointer-events-none shrink-0;
+  }
+
+  .message-scroller__button {
+    @apply absolute z-10 border;
+
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    transition: opacity 200ms cubic-bezier(0.23, 1, 0.32, 1), scale 200ms cubic-bezier(0.23, 1, 0.32, 1), translate 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .message-scroller__button.button--secondary {
+    --button-bg: var(--background);
+    --button-bg-hover: var(--muted);
+    --button-border: var(--border);
+    --button-fg: var(--foreground);
+  }
+
+  .message-scroller__button--end {
+    bottom: var(--message-scroller-button-offset);
+  }
+
+  .message-scroller__button--start {
+    top: var(--message-scroller-button-offset);
+  }
+
+  .message-scroller__button--start svg {
+    transform: rotate(180deg);
+  }
+
+  .message-scroller__button[data-active='false'] {
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+
+    opacity: 0;
+    pointer-events: none;
+    scale: 0.95;
+  }
+
+  .message-scroller__button--end[data-active='false'] {
+    translate: 0 100%;
+  }
+
+  .message-scroller__button--start[data-active='false'] {
+    translate: 0 -100%;
+  }
+
+  .message-scroller__button svg {
+    @apply size-4 shrink-0;
+  }
+
+  [dir='rtl'] .message-scroller__button {
+    transform: translateX(50%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .message-scroller__button {
+      transition: none;
+    }
+  }
+}

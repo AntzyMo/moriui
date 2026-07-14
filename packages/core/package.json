@@ -1,0 +1,71 @@
+{
+  "name": "moriui",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "基于 Reka UI 与 Nova 视觉语言的 Vue 组件库。",
+  "license": "MIT",
+  "sideEffects": [
+    "./dist/style.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json",
+    "./style.css": "./dist/style.css"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": "./dist/index.js",
+      "./package.json": "./package.json",
+      "./style.css": "./dist/style.css"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest --config vitest.config.ts",
+    "typecheck": "vue-tsc --noEmit",
+    "release": "bumpp",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.24.0",
+    "@tanstack/vue-table": "^8.21.3",
+    "@unovis/ts": "^1.6.2",
+    "@unovis/vue": "^1.6.2",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-vue": "^8.6.0",
+    "reka-ui": "^2.10.1",
+    "tailwind-merge": "^3.4.0",
+    "tailwind-variants": "^3.2.2",
+    "vue-sonner": "^2.0.9"
+  },
+  "devDependencies": {
+    "@internationalized/date": "3.12.2",
+    "@tailwindcss/vite": "^4.3.2",
+    "@tsdown/css": "^0.22.0",
+    "@types/node": "^25.6.2",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitest/browser-playwright": "^4.1.5",
+    "bumpp": "^11.1.0",
+    "playwright": "^1.59.1",
+    "tailwindcss": "^4.3.2",
+    "tsdown": "^0.22.0",
+    "typescript": "^6.0.3",
+    "unplugin-vue": "^7.2.0",
+    "vite": "^8.0.11",
+    "vitest": "^4.1.5",
+    "vitest-browser-vue": "^2.1.0",
+    "vue": "^3.5.34",
+    "vue-tsc": "^3.2.8"
+  }
+}

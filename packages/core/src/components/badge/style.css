@@ -1,0 +1,87 @@
+@layer components {
+  .badge {
+    --badge-bg: transparent;
+    --badge-bg-hover: transparent;
+    --badge-fg: var(--foreground);
+    --badge-border: transparent;
+    --badge-ring: var(--ring);
+
+    @apply inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-full border border-transparent px-2 py-0.5 text-xs font-medium leading-none outline-none select-none transition-[background-color,border-color,box-shadow,color] duration-100 ease-out;
+
+    background-color: var(--badge-bg);
+    border-color: var(--badge-border);
+    color: var(--badge-fg);
+    font-family: inherit;
+  }
+
+  .badge:focus-visible {
+    border-color: var(--badge-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--badge-ring) 45%, transparent);
+  }
+
+  .badge:is([aria-invalid='true'], [data-invalid]) {
+    --badge-border: var(--destructive);
+    --badge-ring: var(--destructive);
+  }
+
+  .badge > svg {
+    @apply size-3 shrink-0 pointer-events-none;
+  }
+
+  .badge:has([data-icon='inline-start']) {
+    @apply ps-1.5;
+  }
+
+  .badge:has([data-icon='inline-end']) {
+    @apply pe-1.5;
+  }
+
+  .badge--default {
+    --badge-bg: var(--primary);
+    --badge-bg-hover: color-mix(in oklch, var(--primary), var(--background) 20%);
+    --badge-fg: var(--primary-foreground);
+  }
+
+  .badge--secondary {
+    --badge-bg: var(--secondary);
+    --badge-bg-hover: color-mix(in oklch, var(--secondary), var(--foreground) 5%);
+    --badge-fg: var(--secondary-foreground);
+  }
+
+  .badge--destructive {
+    --badge-bg: color-mix(in oklch, var(--destructive) 10%, transparent);
+    --badge-bg-hover: color-mix(in oklch, var(--destructive) 20%, transparent);
+    --badge-fg: var(--destructive);
+    --badge-ring: var(--destructive);
+  }
+
+  .badge--outline {
+    --badge-bg: var(--background);
+    --badge-bg-hover: var(--muted);
+    --badge-border: var(--border);
+  }
+
+  .badge--ghost {
+    --badge-bg-hover: var(--muted);
+    --badge-fg: var(--foreground);
+  }
+
+  .badge--link {
+    --badge-fg: var(--primary);
+
+    @apply underline-offset-4 hover:underline;
+  }
+
+  .badge--ghost:hover {
+    background-color: var(--badge-bg-hover);
+    color: var(--muted-foreground);
+  }
+
+  .badge:is(a):not(.badge--ghost, .badge--link):hover {
+    background-color: var(--badge-bg-hover);
+  }
+
+  .badge--outline:is(a):hover {
+    --badge-fg: var(--muted-foreground);
+  }
+}

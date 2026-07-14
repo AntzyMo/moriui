@@ -1,0 +1,83 @@
+@layer components {
+  .radio-group {
+    @apply flex w-full flex-col gap-3;
+  }
+
+  .radio-group[data-orientation='horizontal'] {
+    @apply flex-row flex-wrap;
+  }
+
+  .radio-group__item {
+    --radio-group-bg: transparent;
+    --radio-group-border: var(--input);
+    --radio-group-fg: var(--primary-foreground);
+    --radio-group-ring: color-mix(in oklch, var(--ring) 50%, transparent);
+
+    @apply relative flex size-4 shrink-0 items-center justify-center rounded-full border outline-none transition-[background-color,border-color,box-shadow,color] duration-150 ease-out;
+
+    background-color: var(--radio-group-bg);
+    border-color: var(--radio-group-border);
+    color: var(--radio-group-fg);
+    font-family: inherit;
+  }
+
+  .radio-group__item::after {
+    content: '';
+    inset-block: -0.5rem;
+    inset-inline: -0.75rem;
+    position: absolute;
+  }
+
+  .radio-group__item[data-state='checked'] {
+    --radio-group-bg: var(--primary);
+    --radio-group-border: var(--primary);
+  }
+
+  .radio-group__item:focus-visible {
+    border-color: var(--radio-group-ring);
+    box-shadow: 0 0 0 3px var(--radio-group-ring);
+  }
+
+  .radio-group__item:is([aria-invalid='true'], [data-invalid]) {
+    --radio-group-border: var(--destructive);
+    --radio-group-ring: color-mix(in oklch, var(--destructive) 20%, transparent);
+
+    box-shadow: 0 0 0 3px var(--radio-group-ring);
+  }
+
+  .radio-group__item:is([aria-invalid='true'], [data-invalid])[data-state='checked'] {
+    --radio-group-border: var(--primary);
+  }
+
+  .radio-group__item:is(:disabled, [data-disabled]) {
+    @apply cursor-not-allowed pointer-events-none;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .radio-group__indicator {
+    @apply grid place-content-center;
+
+    color: inherit;
+  }
+
+  .radio-group__indicator-mark {
+    @apply size-3;
+  }
+
+  :where([data-theme='dark']) .radio-group__item:not([data-state='checked']),
+  .radio-group__item[data-theme='dark']:not([data-state='checked']) {
+    --radio-group-bg: color-mix(in oklch, var(--input) 30%, transparent);
+  }
+
+  :where([data-theme='dark']) .radio-group__item:is([aria-invalid='true'], [data-invalid]),
+  .radio-group__item[data-theme='dark']:is([aria-invalid='true'], [data-invalid]) {
+    --radio-group-border: color-mix(in oklch, var(--destructive) 50%, transparent);
+    --radio-group-ring: color-mix(in oklch, var(--destructive) 40%, transparent);
+  }
+
+  :where([data-theme='dark']) .radio-group__item:is([aria-invalid='true'], [data-invalid])[data-state='checked'],
+  .radio-group__item[data-theme='dark']:is([aria-invalid='true'], [data-invalid])[data-state='checked'] {
+    --radio-group-border: var(--primary);
+  }
+}

@@ -1,0 +1,83 @@
+@layer components {
+  .hover-card__trigger {
+    @apply select-none;
+  }
+
+  .hover-card__content {
+    --hover-card-content-bg: var(--popover);
+    --hover-card-content-fg: var(--popover-foreground);
+    --hover-card-content-ring: color-mix(in oklch, var(--foreground) 10%, transparent);
+
+    @apply z-50 w-64 rounded-lg p-4 text-sm outline-none;
+
+    animation-duration: 100ms;
+    background-color: var(--hover-card-content-bg);
+    box-shadow:
+      0 0 0 1px var(--hover-card-content-ring),
+      0 4px 6px -1px rgb(0 0 0 / 10%),
+      0 2px 4px -2px rgb(0 0 0 / 10%);
+    color: var(--hover-card-content-fg);
+    max-height: var(--reka-hover-card-content-available-height);
+    max-width: var(--reka-hover-card-content-available-width);
+    transform-origin: var(--reka-hover-card-content-transform-origin);
+  }
+
+  .hover-card__content[data-state='open'] {
+    animation-name: hover-card-content-in;
+  }
+
+  .hover-card__content[data-state='closed'] {
+    animation-name: hover-card-content-out;
+  }
+
+  .hover-card__content[data-side='top'] {
+    --hover-card-slide: 0 0.5rem;
+  }
+
+  .hover-card__content[data-side='bottom'] {
+    --hover-card-slide: 0 -0.5rem;
+  }
+
+  .hover-card__content[data-side='left'] {
+    --hover-card-slide: 0.5rem 0;
+  }
+
+  .hover-card__content[data-side='right'] {
+    --hover-card-slide: -0.5rem 0;
+  }
+
+  .hover-card__arrow {
+    fill: var(--hover-card-content-bg);
+    stroke: var(--border);
+  }
+
+  @keyframes hover-card-content-in {
+    from {
+      opacity: 0;
+      transform: translate(var(--hover-card-slide, 0 0)) scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+  }
+
+  @keyframes hover-card-content-out {
+    from {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate(var(--hover-card-slide, 0 0)) scale(0.95);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hover-card__content {
+      animation-duration: 0ms;
+    }
+  }
+}

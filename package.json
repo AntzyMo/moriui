@@ -1,0 +1,20 @@
+{
+  "name": "moriui-workspace",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.6.4",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": {
+    "dev": "vp run playground#dev",
+    "build": "vp run moriui#build",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@antzy/eslint-config": "^3.4.1",
+    "eslint": "^10.7.0"
+  }
+}

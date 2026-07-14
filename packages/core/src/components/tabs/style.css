@@ -1,0 +1,155 @@
+@layer components {
+  .tabs {
+    --tabs-list-bg: var(--muted);
+    --tabs-list-fg: var(--muted-foreground);
+    --tabs-list-gap: 0;
+    --tabs-list-padding: 3px;
+    --tabs-list-radius: var(--radius-lg);
+    --tabs-trigger-active-bg: var(--background);
+    --tabs-trigger-active-fg: var(--foreground);
+    --tabs-trigger-active-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+    --tabs-trigger-fg: color-mix(in oklch, var(--foreground) 60%, transparent);
+    --tabs-trigger-hover-fg: var(--foreground);
+    --tabs-trigger-indicator: var(--foreground);
+    --tabs-trigger-indicator-opacity: 0;
+    --tabs-trigger-ring: color-mix(in oklch, var(--ring) 50%, transparent);
+
+    @apply flex gap-2;
+  }
+
+  .tabs[data-orientation='horizontal'] {
+    @apply flex-col;
+  }
+
+  .tabs[data-orientation='vertical'] {
+    @apply flex-row;
+  }
+
+  .tabs__list {
+    @apply inline-flex w-fit shrink-0 items-center justify-center text-sm;
+
+    background-color: var(--tabs-list-bg);
+    border-radius: var(--tabs-list-radius);
+    color: var(--tabs-list-fg);
+    gap: var(--tabs-list-gap);
+    padding: var(--tabs-list-padding);
+  }
+
+  .tabs[data-orientation='horizontal'] .tabs__list {
+    @apply h-8;
+  }
+
+  .tabs[data-orientation='vertical'] .tabs__list {
+    @apply h-fit flex-col;
+  }
+
+  .tabs__list--default {
+    --tabs-list-bg: var(--muted);
+    --tabs-list-gap: 0;
+    --tabs-list-padding: 3px;
+    --tabs-list-radius: var(--radius-lg);
+    --tabs-trigger-active-bg: var(--background);
+    --tabs-trigger-active-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+    --tabs-trigger-indicator-opacity: 0;
+  }
+
+  .tabs__list--line {
+    --tabs-list-bg: transparent;
+    --tabs-list-gap: 0.25rem;
+    --tabs-list-padding: 0;
+    --tabs-list-radius: 0;
+    --tabs-trigger-active-bg: transparent;
+    --tabs-trigger-active-shadow: none;
+  }
+
+  .tabs__trigger {
+    @apply relative inline-flex min-h-[26px] min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-0.5 text-sm font-medium whitespace-nowrap outline-none select-none;
+
+    background-color: transparent;
+    color: var(--tabs-trigger-fg);
+    transition: background-color 150ms ease-out, box-shadow 150ms ease-out, color 150ms ease-out;
+  }
+
+  .tabs[data-orientation='vertical'] .tabs__trigger {
+    @apply w-full justify-start;
+  }
+
+  .tabs__trigger:hover:not(:disabled, [data-disabled]) {
+    color: var(--tabs-trigger-hover-fg);
+  }
+
+  .tabs__trigger[data-state='active'] {
+    background-color: var(--tabs-trigger-active-bg);
+    box-shadow: var(--tabs-trigger-active-shadow);
+    color: var(--tabs-trigger-active-fg);
+  }
+
+  .tabs__list--line .tabs__trigger[data-state='active'] {
+    --tabs-trigger-indicator-opacity: 1;
+  }
+
+  .tabs__trigger::after {
+    @apply absolute pointer-events-none;
+
+    background-color: var(--tabs-trigger-indicator);
+    bottom: -5px;
+    content: '';
+    height: 2px;
+    inset-inline: 0;
+    opacity: var(--tabs-trigger-indicator-opacity);
+    transition: opacity 150ms ease-out;
+  }
+
+  .tabs[data-orientation='vertical'] .tabs__trigger::after {
+    bottom: auto;
+    height: auto;
+    inset-block: 0;
+    inset-inline: auto -5px;
+    width: 2px;
+  }
+
+  .tabs__trigger:focus-visible {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px var(--tabs-trigger-ring);
+  }
+
+  .tabs__trigger:is(:disabled, [aria-disabled='true'], [data-disabled]) {
+    @apply pointer-events-none cursor-not-allowed;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .tabs__trigger svg:not([class*='size-']) {
+    @apply size-4 shrink-0;
+  }
+
+  .tabs__content {
+    @apply flex-1 text-sm outline-none;
+  }
+
+  .tabs__content:focus-visible {
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 3px var(--tabs-trigger-ring);
+  }
+
+  .tabs__content[hidden] {
+    display: none !important;
+  }
+
+  :where([data-theme='dark']) .tabs__list--default,
+  .tabs__list--default[data-theme='dark'] {
+    --tabs-trigger-active-bg: color-mix(in oklch, var(--input) 30%, transparent);
+  }
+
+  :where([data-theme='dark']) .tabs,
+  .tabs[data-theme='dark'] {
+    --tabs-trigger-fg: var(--muted-foreground);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tabs__trigger,
+    .tabs__trigger::after {
+      transition: none;
+    }
+  }
+}

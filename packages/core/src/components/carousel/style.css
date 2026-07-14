@@ -1,0 +1,23 @@
+@layer components {
+  .carousel { --carousel-gap: 1rem; --carousel-control-offset: 3rem; @apply relative w-full outline-none; }
+  .carousel:focus-visible { border-radius: calc(var(--radius) * 1.4); box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 45%, transparent); }
+  .carousel__viewport { @apply overflow-hidden; }
+  .carousel__content { @apply flex touch-pan-y; margin-left: calc(var(--carousel-gap) * -1); }
+  .carousel__item { @apply min-w-0 shrink-0 grow-0 basis-full; padding-left: var(--carousel-gap); }
+  .carousel[data-orientation='vertical'] .carousel__content { @apply flex-col touch-pan-x; height: 100%; margin-left: 0; margin-top: calc(var(--carousel-gap) * -1); }
+  .carousel[data-orientation='vertical'] .carousel__viewport { height: 100%; }
+  .carousel[data-orientation='vertical'] .carousel__item { min-height: 0; padding-left: 0; padding-top: var(--carousel-gap); }
+  .carousel__previous, .carousel__next, .carousel__autoplay { @apply absolute z-10 touch-manipulation; }
+  .carousel__previous, .carousel__next { top: 50%; transform: translateY(-50%); }
+  .carousel__previous { left: calc(var(--carousel-control-offset) * -1); }
+  .carousel__next { right: calc(var(--carousel-control-offset) * -1); }
+  .carousel[data-orientation='vertical'] .carousel__previous, .carousel[data-orientation='vertical'] .carousel__next { left: 50%; transform: translateX(-50%) rotate(90deg); }
+  .carousel[data-orientation='vertical'] .carousel__previous { top: calc(var(--carousel-control-offset) * -1); }
+  .carousel[data-orientation='vertical'] .carousel__next { bottom: calc(var(--carousel-control-offset) * -1); top: auto; }
+  .carousel__autoplay { right: 0.5rem; top: 0.5rem; }
+  .carousel__previous-icon, .carousel__next-icon, .carousel__autoplay-play-icon, .carousel__autoplay-pause-icon { @apply size-4 shrink-0; }
+  .carousel__indicators { @apply absolute right-1/2 bottom-2 z-10 flex translate-x-1/2 items-center gap-1.5 rounded-full border border-border/70 bg-background/85 px-2 py-1 shadow-sm backdrop-blur-sm; }
+  .carousel__indicator { @apply size-1.5 rounded-full bg-muted-foreground/40 outline-none transition-[width,background-color] duration-150; }
+  .carousel__indicator[data-state='active'] { @apply w-4 bg-foreground; }
+  .carousel__indicator:focus-visible { outline: 3px solid color-mix(in oklch, var(--ring) 45%, transparent); outline-offset: 2px; }
+}

@@ -1,0 +1,65 @@
+@layer components {
+  .dialog__overlay {
+    @apply fixed inset-0 z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs;
+  }
+
+  .dialog__content {
+    --dialog-bg: var(--popover);
+    --dialog-fg: var(--popover-foreground);
+
+    @apply fixed left-1/2 top-1/2 z-50 grid max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 text-sm outline-none ring-1 ring-foreground/10 duration-100 sm:max-w-sm;
+
+    background: var(--dialog-bg);
+    color: var(--dialog-fg);
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+  }
+
+  .dialog__close-button {
+    @apply absolute right-2 top-2;
+  }
+
+  .dialog__header {
+    @apply flex flex-col gap-2;
+  }
+
+  .dialog__title {
+    @apply text-base leading-none font-medium;
+
+    font-family: var(--font-heading);
+  }
+
+  .dialog__description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .dialog__description a {
+    @apply underline underline-offset-3 hover:text-foreground;
+  }
+
+  .dialog__footer {
+    @apply -mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4;
+  }
+
+  .dialog__overlay[data-state='open'] {
+    animation: dialog-overlay-in 100ms ease-out;
+  }
+
+  .dialog__overlay[data-state='closed'] {
+    animation: dialog-overlay-out 100ms ease-in;
+  }
+
+  .dialog__content[data-state='open'] {
+    animation: dialog-content-in 100ms ease-out;
+  }
+
+  .dialog__content[data-state='closed'] {
+    animation: dialog-content-out 100ms ease-in;
+  }
+
+  @media (min-width: 640px) {
+    .dialog__footer {
+      @apply flex-row justify-end;
+    }
+  }
+}

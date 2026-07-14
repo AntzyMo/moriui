@@ -1,0 +1,122 @@
+@layer components {
+  .bubble {
+    --bubble-bg: var(--primary);
+    --bubble-bg-hover: color-mix(in oklch, var(--primary), var(--background) 20%);
+    --bubble-fg: var(--primary-foreground);
+    --bubble-border: transparent;
+    --bubble-ring: var(--ring);
+    --bubble-max-width: 80%;
+    --bubble-content-radius: calc(var(--radius) * 1.4);
+    --bubble-content-padding: 0.5rem 0.75rem;
+
+    @apply relative flex w-fit min-w-0 flex-col gap-1;
+
+    max-width: var(--bubble-max-width);
+  }
+
+  .bubble--end {
+    @apply self-end;
+  }
+
+  .bubble__content {
+    @apply w-fit max-w-full min-w-0 overflow-hidden border border-transparent text-sm leading-relaxed wrap-break-word;
+
+    background-color: var(--bubble-bg);
+    border-color: var(--bubble-border);
+    border-radius: var(--bubble-content-radius);
+    color: var(--bubble-fg);
+    padding: var(--bubble-content-padding);
+  }
+
+  .bubble__content:is(button, a) {
+    @apply text-left outline-none transition-[background-color,border-color,box-shadow,color] duration-100 ease-out;
+  }
+
+  .bubble__content:is(button, a):hover {
+    background-color: var(--bubble-bg-hover);
+  }
+
+  .bubble__content :is(button, a):focus-visible,
+  .bubble__content:is(button, a):focus-visible {
+    border-color: var(--bubble-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--bubble-ring) 45%, transparent);
+    outline: none;
+  }
+
+  .bubble--secondary {
+    --bubble-bg: var(--secondary);
+    --bubble-bg-hover: color-mix(in oklch, var(--secondary), var(--foreground) 5%);
+    --bubble-fg: var(--secondary-foreground);
+  }
+
+  .bubble--muted {
+    --bubble-bg: var(--muted);
+    --bubble-bg-hover: color-mix(in oklch, var(--muted), var(--foreground) 5%);
+    --bubble-fg: var(--foreground);
+  }
+
+  .bubble--tinted {
+    --bubble-bg: color-mix(in oklch, var(--primary) 8%, var(--background));
+    --bubble-bg-hover: color-mix(in oklch, var(--primary) 12%, var(--background));
+    --bubble-fg: var(--foreground);
+  }
+
+  .bubble--outline {
+    --bubble-bg: var(--background);
+    --bubble-bg-hover: var(--muted);
+    --bubble-fg: var(--foreground);
+    --bubble-border: var(--border);
+  }
+
+  .bubble--ghost {
+    --bubble-bg: transparent;
+    --bubble-bg-hover: var(--muted);
+    --bubble-fg: var(--foreground);
+    --bubble-max-width: 100%;
+    --bubble-content-radius: 0;
+    --bubble-content-padding: 0;
+  }
+
+  .bubble--destructive {
+    --bubble-bg: color-mix(in oklch, var(--destructive) 10%, var(--background));
+    --bubble-bg-hover: color-mix(in oklch, var(--destructive) 20%, var(--background));
+    --bubble-fg: var(--destructive);
+    --bubble-ring: var(--destructive);
+  }
+
+  .bubble-group {
+    @apply flex min-w-0 flex-col gap-2;
+  }
+
+  .bubble__reactions {
+    --bubble-reactions-bg: var(--muted);
+    --bubble-reactions-fg: var(--foreground);
+    --bubble-reactions-ring: var(--card);
+
+    @apply absolute z-10 flex w-fit shrink-0 items-center justify-center gap-1 rounded-full px-1.5 py-0.5 text-sm;
+
+    background-color: var(--bubble-reactions-bg);
+    box-shadow: 0 0 0 3px var(--bubble-reactions-ring);
+    color: var(--bubble-reactions-fg);
+  }
+
+  .bubble__reactions:has(> [data-slot='button']) {
+    @apply p-0;
+  }
+
+  .bubble__reactions--top {
+    @apply top-0 -translate-y-3/4;
+  }
+
+  .bubble__reactions--bottom {
+    @apply bottom-0 translate-y-3/4;
+  }
+
+  .bubble__reactions--start {
+    @apply left-3;
+  }
+
+  .bubble__reactions--end {
+    @apply right-3;
+  }
+}

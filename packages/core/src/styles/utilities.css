@@ -1,0 +1,21 @@
+@layer utilities {
+  .focus-ring:focus-visible {
+    outline: 3px solid color-mix(in oklch, var(--ring) 45%, transparent);
+    outline-offset: 2px;
+  }
+
+  .is-invalid,
+  [aria-invalid='true'],
+  [data-invalid] {
+    --ring: var(--destructive);
+  }
+
+  .is-pending,
+  [data-pending='true'] {
+    cursor: progress;
+  }
+
+  :is(:disabled, [data-disabled]) {
+    cursor: not-allowed;
+  }
+}

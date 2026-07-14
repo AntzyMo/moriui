@@ -1,0 +1,91 @@
+@layer components {
+  .tooltip__trigger {
+    @apply select-none;
+  }
+
+  .tooltip__content {
+    --tooltip-content-bg: var(--popover);
+    --tooltip-content-fg: var(--popover-foreground);
+    --tooltip-content-ring: color-mix(in oklch, var(--foreground) 10%, transparent);
+
+    @apply z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs outline-none;
+
+    animation-duration: 100ms;
+    background-color: var(--tooltip-content-bg);
+    box-shadow: 0 0 0 1px var(--tooltip-content-ring), 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+    color: var(--tooltip-content-fg);
+    max-height: var(--reka-tooltip-content-available-height);
+    max-width: min(var(--reka-tooltip-content-available-width), 20rem);
+    transform-origin: var(--reka-tooltip-content-transform-origin);
+  }
+
+  .tooltip__content:has([data-slot='kbd']) {
+    padding-right: 0.375rem;
+  }
+
+  .tooltip__content [data-slot='kbd'] {
+    border-radius: calc(var(--radius) * 0.6);
+    isolation: isolate;
+    position: relative;
+    z-index: 50;
+  }
+
+  .tooltip__content:is([data-state='delayed-open'], [data-state='instant-open']) {
+    animation-name: tooltip-content-in;
+  }
+
+  .tooltip__content[data-state='closed'] {
+    animation-name: tooltip-content-out;
+  }
+
+  .tooltip__content[data-side='top'] {
+    --tooltip-slide: 0 0.5rem;
+  }
+
+  .tooltip__content[data-side='bottom'] {
+    --tooltip-slide: 0 -0.5rem;
+  }
+
+  .tooltip__content[data-side='left'] {
+    --tooltip-slide: 0.5rem 0;
+  }
+
+  .tooltip__content[data-side='right'] {
+    --tooltip-slide: -0.5rem 0;
+  }
+
+  .tooltip__arrow {
+    fill: var(--tooltip-content-bg);
+    stroke: var(--tooltip-content-ring);
+  }
+
+  @keyframes tooltip-content-in {
+    from {
+      opacity: 0;
+      transform: translate(var(--tooltip-slide, 0 0)) scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+  }
+
+  @keyframes tooltip-content-out {
+    from {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate(var(--tooltip-slide, 0 0)) scale(0.95);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tooltip__content {
+      animation-duration: 0ms;
+    }
+  }
+}

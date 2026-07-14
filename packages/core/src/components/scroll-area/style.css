@@ -1,0 +1,40 @@
+@layer components {
+  .scroll-area {
+    @apply relative;
+  }
+
+  .scroll-area__viewport {
+    @apply size-full rounded-[inherit] outline-none;
+
+    transition: color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .scroll-area__viewport:focus-visible {
+    outline: 1px solid var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+
+  .scroll-area__scrollbar {
+    @apply flex touch-none p-px select-none;
+
+    transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+  }
+
+  .scroll-area__scrollbar[data-orientation='vertical'] {
+    @apply h-full border-l border-l-transparent;
+
+    width: 0.625rem;
+  }
+
+  .scroll-area__scrollbar[data-orientation='horizontal'] {
+    @apply flex-col border-t border-t-transparent;
+
+    height: 0.625rem;
+  }
+
+  .scroll-area__thumb {
+    @apply relative flex-1 rounded-full;
+
+    background-color: var(--border);
+  }
+}

@@ -1,0 +1,100 @@
+@layer components {
+  .toggle {
+    --toggle-bg: transparent;
+    --toggle-bg-hover: var(--muted);
+    --toggle-border: transparent;
+    --toggle-fg: var(--foreground);
+    --toggle-fg-hover: var(--foreground);
+    --toggle-ring: color-mix(in oklch, var(--ring) 50%, transparent);
+
+    @apply inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border text-sm font-medium leading-none outline-none select-none transition-[background-color,border-color,box-shadow,color] duration-100 ease-out;
+
+    background-color: var(--toggle-bg);
+    border-color: var(--toggle-border);
+    color: var(--toggle-fg);
+    font-family: inherit;
+  }
+
+  .toggle:hover:not(:disabled, [data-disabled]) {
+    background-color: var(--toggle-bg-hover);
+    color: var(--toggle-fg-hover);
+  }
+
+  .toggle[data-state='on'] {
+    --toggle-bg: var(--muted);
+    --toggle-bg-hover: var(--muted);
+  }
+
+  .toggle--outline {
+    --toggle-border: var(--input);
+  }
+
+  .toggle:focus-visible {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px var(--toggle-ring);
+  }
+
+  .toggle:is([aria-invalid='true'], [data-invalid]) {
+    --toggle-border: var(--destructive);
+    --toggle-ring: color-mix(in oklch, var(--destructive) 20%, transparent);
+
+    box-shadow: 0 0 0 3px var(--toggle-ring);
+  }
+
+  .toggle:is(:disabled, [data-disabled]) {
+    @apply pointer-events-none cursor-not-allowed;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .toggle--sm {
+    @apply h-7 min-w-7 px-2.5 text-[0.8rem];
+
+    border-radius: min(var(--radius-md), 12px);
+  }
+
+  .toggle--default-size {
+    @apply h-8 min-w-8 px-2.5;
+  }
+
+  .toggle--lg {
+    @apply h-9 min-w-9 px-2.5;
+  }
+
+  .toggle > svg:not([class*='size-']) {
+    @apply size-4 shrink-0 pointer-events-none;
+  }
+
+  .toggle--sm > svg:not([class*='size-']) {
+    @apply size-3.5;
+  }
+
+  .toggle--default-size:has([data-icon='inline-end']),
+  .toggle--lg:has([data-icon='inline-end']) {
+    @apply pr-2;
+  }
+
+  .toggle--default-size:has([data-icon='inline-start']),
+  .toggle--lg:has([data-icon='inline-start']) {
+    @apply pl-2;
+  }
+
+  .toggle--sm:has([data-icon='inline-end']) {
+    @apply pr-1.5;
+  }
+
+  .toggle--sm:has([data-icon='inline-start']) {
+    @apply pl-1.5;
+  }
+
+  :where([data-theme='dark']) .toggle:is([aria-invalid='true'], [data-invalid]),
+  .toggle[data-theme='dark']:is([aria-invalid='true'], [data-invalid]) {
+    --toggle-ring: color-mix(in oklch, var(--destructive) 40%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toggle {
+      transition: none;
+    }
+  }
+}

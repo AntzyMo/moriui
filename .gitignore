@@ -1,0 +1,22 @@
+# 依赖目录
+node_modules/
+
+# 构建产物与缓存
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# 日志
+*.log
+pnpm-debug.log*
+
+# 环境变量
+.env
+.env.*
+!.env.example
+
+# 编辑器与操作系统文件
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,222 @@
+@layer components {
+  .attachment {
+    --attachment-bg: var(--card);
+    --attachment-bg-hover: var(--muted);
+    --attachment-border: var(--border);
+    --attachment-fg: var(--card-foreground);
+    --attachment-description-fg: var(--muted-foreground);
+    --attachment-ring: var(--ring);
+    --attachment-direction: row;
+    --attachment-width: fit-content;
+    --attachment-min-width: 10rem;
+    --attachment-align-items: center;
+    --attachment-gap: 0.5rem;
+    --attachment-padding: 0;
+    --attachment-padding-with-content: 0.5rem 0.625rem;
+    --attachment-padding-media-only: 0.5rem;
+    --attachment-radius: calc(var(--radius) * 1.4);
+    --attachment-font-size: 0.875rem;
+    --attachment-media-size-width: 2.5rem;
+    --attachment-media-width: var(--attachment-media-size-width);
+    --attachment-media-radius: var(--radius);
+    --attachment-media-size-icon-size: 1rem;
+    --attachment-media-icon-size: var(--attachment-media-size-icon-size);
+    --attachment-content-inline-padding: 0;
+    --attachment-actions-position: relative;
+    --attachment-actions-top: auto;
+    --attachment-actions-right: auto;
+
+    @apply relative flex max-w-full min-w-0 shrink-0 flex-wrap border text-left transition-[background-color,border-color,box-shadow,color] duration-100 ease-out;
+
+    align-items: var(--attachment-align-items);
+    background-color: var(--attachment-bg);
+    border-color: var(--attachment-border);
+    border-radius: var(--attachment-radius);
+    color: var(--attachment-fg);
+    flex-direction: var(--attachment-direction);
+    font-size: var(--attachment-font-size);
+    gap: var(--attachment-gap);
+    min-width: var(--attachment-min-width);
+    padding: var(--attachment-padding);
+    width: var(--attachment-width);
+  }
+
+  .attachment:has(> [data-slot='attachment-content']) {
+    --attachment-padding: var(--attachment-padding-with-content);
+  }
+
+  .attachment:has(> [data-slot='attachment-media']):not(:has(> [data-slot='attachment-content'])) {
+    --attachment-padding: var(--attachment-padding-media-only);
+  }
+
+  .attachment:has(> .attachment__trigger):hover {
+    background-color: var(--attachment-bg-hover);
+  }
+
+  .attachment:focus-within {
+    border-color: var(--attachment-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--attachment-ring) 45%, transparent);
+  }
+
+  .attachment[data-state='idle'] {
+    border-style: dashed;
+  }
+
+  .attachment[data-state='error'] {
+    --attachment-bg: color-mix(in oklch, var(--destructive) 5%, var(--card));
+    --attachment-border: color-mix(in oklch, var(--destructive) 30%, transparent);
+    --attachment-fg: var(--destructive);
+    --attachment-description-fg: color-mix(in oklch, var(--destructive) 80%, transparent);
+    --attachment-ring: var(--destructive);
+  }
+
+  .attachment--horizontal {
+    --attachment-direction: row;
+    --attachment-width: fit-content;
+    --attachment-min-width: 10rem;
+    --attachment-align-items: center;
+  }
+
+  .attachment--vertical {
+    --attachment-direction: column;
+    --attachment-width: 6rem;
+    --attachment-min-width: 0;
+    --attachment-align-items: stretch;
+    --attachment-media-width: 100%;
+    --attachment-media-icon-size: 1.5rem;
+    --attachment-content-inline-padding: 0.25rem;
+    --attachment-actions-position: absolute;
+    --attachment-actions-top: 0.75rem;
+    --attachment-actions-right: 0.75rem;
+  }
+
+  .attachment--vertical:has(> [data-slot='attachment-content']) {
+    --attachment-width: 7.5rem;
+  }
+
+  .attachment--default-size {
+    --attachment-gap: 0.5rem;
+    --attachment-padding-with-content: 0.5rem 0.625rem;
+    --attachment-padding-media-only: 0.5rem;
+    --attachment-radius: calc(var(--radius) * 1.4);
+    --attachment-font-size: 0.875rem;
+    --attachment-media-size-width: 2.5rem;
+    --attachment-media-radius: var(--radius);
+    --attachment-media-size-icon-size: 1rem;
+  }
+
+  .attachment--sm {
+    --attachment-gap: 0.5rem;
+    --attachment-padding-with-content: 0.375rem 0.5rem;
+    --attachment-padding-media-only: 0.375rem;
+    --attachment-radius: var(--radius);
+    --attachment-font-size: 0.75rem;
+    --attachment-media-size-width: 2rem;
+    --attachment-media-radius: var(--radius);
+    --attachment-media-size-icon-size: 1rem;
+  }
+
+  .attachment--xs {
+    --attachment-gap: 0.375rem;
+    --attachment-padding-with-content: 0.25rem 0.375rem;
+    --attachment-padding-media-only: 0.25rem;
+    --attachment-radius: var(--radius);
+    --attachment-font-size: 0.75rem;
+    --attachment-media-size-width: 1.75rem;
+    --attachment-media-radius: calc(var(--radius) * 0.8);
+    --attachment-media-size-icon-size: 0.875rem;
+  }
+
+  .attachment__media {
+    @apply relative flex aspect-square shrink-0 items-center justify-center overflow-hidden;
+
+    background-color: var(--muted);
+    border-radius: var(--attachment-media-radius);
+    color: var(--foreground);
+    width: var(--attachment-media-width);
+  }
+
+  .attachment__media > svg {
+    @apply shrink-0 pointer-events-none;
+
+    height: var(--attachment-media-icon-size);
+    width: var(--attachment-media-icon-size);
+  }
+
+  .attachment__media--image > img {
+    @apply size-full object-cover;
+  }
+
+  .attachment:is([data-state='uploading'], [data-state='processing']) .attachment__media--image {
+    opacity: 0.6;
+  }
+
+  .attachment[data-state='error'] .attachment__media {
+    background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
+    color: var(--destructive);
+  }
+
+  .attachment__content {
+    @apply min-w-0 max-w-full flex-1 leading-tight;
+
+    padding-inline: var(--attachment-content-inline-padding);
+  }
+
+  .attachment__title,
+  .attachment__description {
+    @apply block max-w-full min-w-0 truncate;
+  }
+
+  .attachment__title {
+    @apply font-medium;
+  }
+
+  .attachment:is([data-state='uploading'], [data-state='processing']) .attachment__title {
+    background: linear-gradient(90deg, var(--muted-foreground) 25%, var(--foreground) 50%, var(--muted-foreground) 75%);
+    background-clip: text;
+    background-size: 200% 100%;
+    color: transparent;
+    animation: attachment-shimmer 1.5s linear infinite;
+  }
+
+  .attachment__description {
+    @apply mt-0.5 text-xs;
+
+    color: var(--attachment-description-fg);
+  }
+
+  .attachment__actions {
+    @apply z-20 flex shrink-0 items-center gap-1;
+
+    position: var(--attachment-actions-position);
+    right: var(--attachment-actions-right);
+    top: var(--attachment-actions-top);
+  }
+
+  .attachment__action {
+    @apply shrink-0;
+  }
+
+  .attachment__trigger {
+    @apply absolute inset-0 z-10 outline-none;
+  }
+
+  .attachment__trigger:focus-visible {
+    outline: none;
+  }
+
+  .attachment-group {
+    @apply flex min-w-0 snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain py-1;
+
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, transparent, black 0.5rem, black calc(100% - 0.5rem), transparent);
+  }
+
+  .attachment-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .attachment-group > [data-slot='attachment'] {
+    @apply flex-none snap-start;
+  }
+}

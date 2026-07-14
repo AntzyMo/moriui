@@ -1,0 +1,44 @@
+@import 'vue-sonner/style.css';
+
+@layer components {
+  .sonner__toast[data-sonner-toast][data-styled='true'] {
+    @apply text-sm shadow-md;
+
+    font-family: inherit;
+  }
+
+  .sonner__toast[data-sonner-toast][data-styled='true'] [data-description] {
+    color: var(--muted-foreground);
+  }
+
+  .sonner__toast[data-sonner-toast][data-styled='true']:focus-visible,
+  .sonner__toast[data-sonner-toast][data-styled='true'] :is([data-button], [data-close-button]):focus-visible {
+    outline: 3px solid color-mix(in oklch, var(--ring) 45%, transparent);
+    outline-offset: 2px;
+  }
+
+  .sonner__toast[data-sonner-toast][data-styled='true'] [data-button] {
+    @apply rounded-md text-xs font-medium;
+  }
+
+  .sonner__toast[data-sonner-toast][data-styled='true'] [data-action] {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .sonner__toast[data-sonner-toast][data-styled='true'] [data-cancel] {
+    background: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+
+  .sonner__toast[data-sonner-toast][data-styled='true'] [data-close-button] {
+    background: var(--popover);
+    border-color: var(--border);
+    color: var(--popover-foreground);
+  }
+
+  .sonner__toast[data-sonner-toast][data-styled='true'] [data-close-button]:hover {
+    background: var(--muted);
+    border-color: var(--border);
+  }
+}

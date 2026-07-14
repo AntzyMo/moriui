@@ -1,0 +1,59 @@
+@layer components {
+  .alert {
+    --alert-bg: var(--card);
+    --alert-border: var(--border);
+    --alert-fg: var(--card-foreground);
+    --alert-description-fg: var(--muted-foreground);
+
+    @apply relative grid w-full gap-y-0.5 rounded-lg border px-2.5 py-2 text-left text-sm;
+
+    background-color: var(--alert-bg);
+    border-color: var(--alert-border);
+    color: var(--alert-fg);
+  }
+
+  .alert:has(> svg) {
+    @apply grid-cols-[auto_minmax(0,1fr)] gap-x-2;
+  }
+
+  .alert:has(> [data-slot='alert-action']) {
+    @apply pr-18;
+  }
+
+  .alert > svg {
+    @apply row-span-2 size-4 shrink-0 translate-y-0.5 pointer-events-none;
+
+    color: currentcolor;
+  }
+
+  .alert:has(> svg) > :is(.alert__title, .alert__description) {
+    @apply col-start-2;
+  }
+
+  .alert__title {
+    @apply min-h-4 font-medium tracking-tight;
+  }
+
+  .alert__description {
+    @apply grid justify-items-start gap-1 text-sm;
+
+    color: var(--alert-description-fg);
+  }
+
+  .alert__description :is(a) {
+    @apply underline underline-offset-3;
+  }
+
+  .alert__description :is(a):hover {
+    color: var(--alert-fg);
+  }
+
+  .alert__action {
+    @apply absolute top-2 right-2;
+  }
+
+  .alert--destructive {
+    --alert-fg: var(--destructive);
+    --alert-description-fg: color-mix(in oklch, var(--destructive) 90%, transparent);
+  }
+}

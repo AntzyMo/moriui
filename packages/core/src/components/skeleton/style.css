@@ -1,0 +1,9 @@
+@layer components {
+  .skeleton {
+    --skeleton-bg: var(--muted);
+
+    @apply animate-pulse rounded-md motion-reduce:animate-none;
+
+    background-color: var(--skeleton-bg);
+  }
+}

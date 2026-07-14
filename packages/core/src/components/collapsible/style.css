@@ -1,0 +1,46 @@
+@layer components {
+  .collapsible {
+    @apply w-full;
+  }
+
+  .collapsible__trigger {
+    --collapsible-trigger-bg-hover: var(--muted);
+    --collapsible-trigger-fg: var(--foreground);
+
+    @apply relative inline-flex items-center gap-2 rounded-lg border border-transparent px-2 py-1.5 text-sm font-medium outline-none;
+
+    color: var(--collapsible-trigger-fg);
+    transition: background-color 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+  }
+
+  .collapsible__trigger:hover:not(:disabled, [data-disabled]) {
+    background: var(--collapsible-trigger-bg-hover);
+  }
+
+  .collapsible__trigger:focus-visible {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+
+  .collapsible__trigger:is(:disabled, [data-disabled]) {
+    @apply pointer-events-none;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .collapsible__content {
+    @apply overflow-hidden text-sm;
+  }
+
+  .collapsible__content[hidden] {
+    display: none !important;
+  }
+
+  .collapsible__content[data-state='open'] {
+    animation: collapsible-expand 120ms ease-out;
+  }
+
+  .collapsible__content[data-state='closed'] {
+    animation: collapsible-collapse 120ms ease-out;
+  }
+}

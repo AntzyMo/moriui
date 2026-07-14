@@ -1,0 +1,157 @@
+@layer components {
+  .menubar {
+    --menubar-bg: var(--background);
+    --menubar-border: var(--border);
+
+    @apply flex h-8 items-center gap-1 rounded-lg border p-1 text-sm;
+
+    background-color: var(--menubar-bg);
+    border-color: var(--menubar-border);
+  }
+
+  .menubar__trigger {
+    @apply flex h-6 items-center rounded-md px-2 text-sm font-medium outline-none select-none;
+  }
+
+  .menubar__trigger[data-state='open'] {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .menubar__trigger[data-disabled] {
+    @apply cursor-not-allowed;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .menubar__content {
+    --menubar-content-bg: var(--popover);
+    --menubar-content-fg: var(--popover-foreground);
+    --menubar-content-ring: color-mix(in oklch, var(--foreground) 10%, transparent);
+
+    @apply relative z-50 min-w-40 overflow-hidden rounded-lg p-1 text-sm outline-none;
+
+    animation-duration: 100ms;
+    background-color: var(--menubar-content-bg);
+    box-shadow:
+      0 0 0 1px var(--menubar-content-ring),
+      0 4px 6px -1px rgb(0 0 0 / 10%),
+      0 2px 4px -2px rgb(0 0 0 / 10%);
+    color: var(--menubar-content-fg);
+    max-height: var(--reka-menubar-content-available-height);
+    max-width: var(--reka-menubar-content-available-width);
+    transform-origin: var(--reka-menubar-content-transform-origin);
+  }
+
+  .menubar__content[data-state='open'] {
+    animation-name: menubar-content-in;
+  }
+
+  .menubar__content[data-state='closed'] {
+    animation-name: menubar-content-out;
+  }
+
+  .menubar__content[data-side='top'] {
+    --menubar-slide: 0 0.5rem;
+  }
+
+  .menubar__content[data-side='bottom'] {
+    --menubar-slide: 0 -0.5rem;
+  }
+
+  .menubar__content[data-side='left'] {
+    --menubar-slide: 0.5rem 0;
+  }
+
+  .menubar__content[data-side='right'] {
+    --menubar-slide: -0.5rem 0;
+  }
+
+  .menubar__arrow {
+    fill: var(--menubar-content-bg);
+    stroke: var(--border);
+  }
+
+  .menubar__group:not(:first-child) {
+    @apply mt-1 pt-1;
+  }
+
+  .menubar__label {
+    @apply px-1.5 py-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .menubar__separator {
+    @apply -mx-1 my-1 h-px bg-border;
+  }
+
+  .menubar__item {
+    @apply relative flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-sm font-normal outline-none select-none;
+  }
+
+  .menubar__item:is(:focus-visible, [data-highlighted]) {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .menubar__item:is(:disabled, [data-disabled]) {
+    @apply pointer-events-none;
+
+    opacity: var(--disabled-opacity);
+  }
+
+  .menubar__checkbox-item,
+  .menubar__radio-item {
+    @apply pl-7;
+  }
+
+  .menubar__item-indicator {
+    @apply pointer-events-none absolute left-1.5 inline-flex size-4 items-center justify-center;
+  }
+
+  .menubar__item-indicator-mark {
+    @apply size-3;
+  }
+
+  .menubar__shortcut {
+    @apply ml-auto text-xs tracking-widest text-muted-foreground;
+  }
+
+  .menubar__sub-trigger[data-state='open'] {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .menubar__sub-trigger-icon {
+    @apply ml-auto size-4;
+  }
+
+  @keyframes menubar-content-in {
+    from {
+      opacity: 0;
+      transform: translate(var(--menubar-slide, 0 0)) scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+  }
+
+  @keyframes menubar-content-out {
+    from {
+      opacity: 1;
+      transform: translate(0 0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate(var(--menubar-slide, 0 0)) scale(0.95);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menubar__content {
+      animation-duration: 0ms;
+    }
+  }
+}
