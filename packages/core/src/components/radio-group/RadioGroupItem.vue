@@ -20,7 +20,7 @@
 
 <template>
   <RadioGroupItem
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="slots.item({ class: props.class as never })"
     data-slot="radio-group-item"

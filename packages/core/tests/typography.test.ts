@@ -1,7 +1,8 @@
+import { expect, it, vi } from 'vite-plus/test'
+
 import Typography from '../src/components/typography/Typography.vue'
 import { typographyVariants } from '../src/components/typography/variants'
 
-import { expect, it, vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -76,9 +77,14 @@ it('支持 as 与 asChild 多态渲染', () => {
     slots: { default: '查看详情' }
   })
   const AsChildFixture = defineComponent({
-    setup: () => () => h(Typography, { asChild: true }, {
-      default: () => h('a', { href: '#next' }, '继续阅读')
-    })
+    setup: () => () =>
+      h(
+        Typography,
+        { asChild: true },
+        {
+          default: () => h('a', { href: '#next' }, '继续阅读')
+        }
+      )
   })
   const asChild = render(AsChildFixture)
 

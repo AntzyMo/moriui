@@ -17,7 +17,7 @@
 
 <template>
   <CalendarNext
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="calendarVariants().next({ class: props.class as never })"
     data-slot="calendar-next"

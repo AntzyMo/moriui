@@ -32,7 +32,7 @@
 
 <template>
   <CalendarRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model="modelValue"
     :class="calendarVariants().root({ class: props.class as never })"
@@ -49,7 +49,7 @@
             />
           </slot>
         </CalendarPrev>
-        <CalendarHeading #default="headingProps">
+        <CalendarHeading v-slot="headingProps">
           <slot name="heading" v-bind="headingProps">
             {{ headingProps.headingValue }}
           </slot>

@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -55,40 +56,81 @@ it.each([
   expect(attachment.dataset.state).toBe(state)
   expect(attachment.dataset.size).toBe(size)
   expect(attachment.dataset.orientation).toBe(orientation)
-  expect(attachment.classList).toContain(`attachment--${size === 'default' ? 'default-size' : size}`)
+  expect(attachment.classList).toContain(
+    `attachment--${size === 'default' ? 'default-size' : size}`
+  )
   expect(attachment.classList).toContain(`attachment--${orientation}`)
 })
 
 it('渲染稳定的媒体、内容、文本、操作与分组槽位', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(AttachmentGroup, {}, {
-      default: () => h(Attachment, {}, {
-        default: () => [
-          h(AttachmentMedia, { variant: 'image' }, { default: () => h('img', { alt: '工作区', src: '/workspace.png' }) }),
-          h(AttachmentContent, {}, {
-            default: () => [
-              h(AttachmentTitle, {}, { default: () => 'workspace.png' }),
-              h(AttachmentDescription, {}, { default: () => 'PNG · 1.2 MB' })
-            ]
-          }),
-          h(AttachmentActions, {}, {
-            default: () => h(AttachmentAction, { 'aria-label': '移除 workspace.png' }, { default: () => '×' })
-          })
-        ]
-      })
-    })
+    setup: () => () =>
+      h(
+        AttachmentGroup,
+        {},
+        {
+          default: () =>
+            h(
+              Attachment,
+              {},
+              {
+                default: () => [
+                  h(
+                    AttachmentMedia,
+                    { variant: 'image' },
+                    { default: () => h('img', { alt: '工作区', src: '/workspace.png' }) }
+                  ),
+                  h(
+                    AttachmentContent,
+                    {},
+                    {
+                      default: () => [
+                        h(AttachmentTitle, {}, { default: () => 'workspace.png' }),
+                        h(AttachmentDescription, {}, { default: () => 'PNG · 1.2 MB' })
+                      ]
+                    }
+                  ),
+                  h(
+                    AttachmentActions,
+                    {},
+                    {
+                      default: () =>
+                        h(
+                          AttachmentAction,
+                          { 'aria-label': '移除 workspace.png' },
+                          { default: () => '×' }
+                        )
+                    }
+                  )
+                ]
+              }
+            )
+        }
+      )
   })
   const page = render(Fixture)
   const media = page.container.querySelector('[data-slot="attachment-media"]') as HTMLElement
-  const action = page.container.querySelector('[data-slot="attachment-action"]') as HTMLButtonElement
+  const action = page.container.querySelector(
+    '[data-slot="attachment-action"]'
+  ) as HTMLButtonElement
 
-  expect(page.container.querySelector('[data-slot="attachment-group"]')?.classList).toContain('attachment-group')
+  expect(page.container.querySelector('[data-slot="attachment-group"]')?.classList).toContain(
+    'attachment-group'
+  )
   expect(media.dataset.variant).toBe('image')
   expect(media.classList).toContain('attachment__media--image')
-  expect(page.container.querySelector('[data-slot="attachment-content"]')?.classList).toContain('attachment__content')
-  expect(page.container.querySelector('[data-slot="attachment-title"]')?.classList).toContain('attachment__title')
-  expect(page.container.querySelector('[data-slot="attachment-description"]')?.classList).toContain('attachment__description')
-  expect(page.container.querySelector('[data-slot="attachment-actions"]')?.classList).toContain('attachment__actions')
+  expect(page.container.querySelector('[data-slot="attachment-content"]')?.classList).toContain(
+    'attachment__content'
+  )
+  expect(page.container.querySelector('[data-slot="attachment-title"]')?.classList).toContain(
+    'attachment__title'
+  )
+  expect(page.container.querySelector('[data-slot="attachment-description"]')?.classList).toContain(
+    'attachment__description'
+  )
+  expect(page.container.querySelector('[data-slot="attachment-actions"]')?.classList).toContain(
+    'attachment__actions'
+  )
   expect(action.classList).toContain('attachment__action')
   expect(action.classList).toContain('button--ghost')
   expect(action.classList).toContain('button--icon-xs')
@@ -101,7 +143,9 @@ it('附件操作透传 Button 的原生属性与事件', () => {
     attrs: { onClick, type: 'submit' },
     slots: { default: '保存' }
   })
-  const action = page.container.querySelector('[data-slot="attachment-action"]') as HTMLButtonElement
+  const action = page.container.querySelector(
+    '[data-slot="attachment-action"]'
+  ) as HTMLButtonElement
 
   expect(action.type).toBe('submit')
   action.click()
@@ -110,7 +154,9 @@ it('附件操作透传 Button 的原生属性与事件', () => {
 
 it('附件操作在原生按钮模式下保留禁用语义', () => {
   const page = render(AttachmentAction, { props: { disabled: true } })
-  const action = page.container.querySelector('[data-slot="attachment-action"]') as HTMLButtonElement
+  const action = page.container.querySelector(
+    '[data-slot="attachment-action"]'
+  ) as HTMLButtonElement
 
   expect(action.disabled).toBe(true)
   expect(getComputedStyle(action).opacity).toBe('1')
@@ -122,7 +168,9 @@ it('附件操作支持 Button 的多态渲染和禁用状态', () => {
     props: { as: 'a', disabled: true, variant: 'secondary', size: 'icon-sm' },
     slots: { default: '下载' }
   })
-  const action = page.container.querySelector('[data-slot="attachment-action"]') as HTMLAnchorElement
+  const action = page.container.querySelector(
+    '[data-slot="attachment-action"]'
+  ) as HTMLAnchorElement
 
   expect(action.tagName).toBe('A')
   expect(action.getAttribute('href')).toBe('#download')
@@ -133,16 +181,23 @@ it('附件操作支持 Button 的多态渲染和禁用状态', () => {
 
 it('触发层默认渲染原生按钮，并可 asChild 组合链接', () => {
   const defaultPage = render(AttachmentTrigger, { attrs: { 'aria-label': '预览文件' } })
-  const trigger = defaultPage.container.querySelector('[data-slot="attachment-trigger"]') as HTMLButtonElement
+  const trigger = defaultPage.container.querySelector(
+    '[data-slot="attachment-trigger"]'
+  ) as HTMLButtonElement
 
   expect(trigger.tagName).toBe('BUTTON')
   expect(trigger.getAttribute('type')).toBeNull()
   expect(trigger.getAttribute('aria-label')).toBe('预览文件')
 
   const Fixture = defineComponent({
-    setup: () => () => h(AttachmentTrigger, { asChild: true }, {
-      default: () => h('a', { href: '#preview' }, '预览')
-    })
+    setup: () => () =>
+      h(
+        AttachmentTrigger,
+        { asChild: true },
+        {
+          default: () => h('a', { href: '#preview' }, '预览')
+        }
+      )
   })
   const asChildPage = render(Fixture)
   const link = asChildPage.container.querySelector('a') as HTMLAnchorElement
@@ -154,19 +209,32 @@ it('触发层默认渲染原生按钮，并可 asChild 组合链接', () => {
 
 it('触发层位于操作区之下，根容器在焦点内显示焦点边框', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Attachment, {}, {
-      default: () => [
-        h(AttachmentActions, {}, { default: () => h(AttachmentAction, {}, { default: () => '×' }) }),
-        h(AttachmentTrigger, { 'aria-label': '打开附件' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        Attachment,
+        {},
+        {
+          default: () => [
+            h(
+              AttachmentActions,
+              {},
+              { default: () => h(AttachmentAction, {}, { default: () => '×' }) }
+            ),
+            h(AttachmentTrigger, { 'aria-label': '打开附件' })
+          ]
+        }
+      )
   })
   const page = render(Fixture)
   const attachment = page.container.querySelector('[data-slot="attachment"]') as HTMLElement
   const action = page.container.querySelector('[data-slot="attachment-action"]') as HTMLElement
-  const trigger = page.container.querySelector('[data-slot="attachment-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-slot="attachment-trigger"]'
+  ) as HTMLButtonElement
 
-  expect(Number(getComputedStyle(action.parentElement as HTMLElement).zIndex)).toBeGreaterThan(Number(getComputedStyle(trigger).zIndex))
+  expect(Number(getComputedStyle(action.parentElement as HTMLElement).zIndex)).toBeGreaterThan(
+    Number(getComputedStyle(trigger).zIndex)
+  )
   trigger.focus()
   expect(document.activeElement).toBe(trigger)
   expect(trigger.matches(':focus-visible')).toBe(true)
@@ -177,18 +245,33 @@ it('触发层位于操作区之下，根容器在焦点内显示焦点边框', (
 
 it('上传和错误状态使用状态驱动的媒体、标题与语义 Token', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Attachment, { state: 'uploading' }, {
-      default: () => [
-        h(AttachmentMedia, { variant: 'image' }, { default: () => h('img', { alt: '上传中', src: '/uploading.png' }) }),
-        h(AttachmentTitle, {}, { default: () => 'uploading.png' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        Attachment,
+        { state: 'uploading' },
+        {
+          default: () => [
+            h(
+              AttachmentMedia,
+              { variant: 'image' },
+              { default: () => h('img', { alt: '上传中', src: '/uploading.png' }) }
+            ),
+            h(AttachmentTitle, {}, { default: () => 'uploading.png' })
+          ]
+        }
+      )
   })
   const uploadingPage = render(Fixture)
-  const uploadingMedia = uploadingPage.container.querySelector('[data-slot="attachment-media"]') as HTMLElement
-  const uploadingTitle = uploadingPage.container.querySelector('[data-slot="attachment-title"]') as HTMLElement
+  const uploadingMedia = uploadingPage.container.querySelector(
+    '[data-slot="attachment-media"]'
+  ) as HTMLElement
+  const uploadingTitle = uploadingPage.container.querySelector(
+    '[data-slot="attachment-title"]'
+  ) as HTMLElement
   const errorPage = render(Attachment, { props: { state: 'error' } })
-  const errorAttachment = errorPage.container.querySelector('[data-slot="attachment"]') as HTMLElement
+  const errorAttachment = errorPage.container.querySelector(
+    '[data-slot="attachment"]'
+  ) as HTMLElement
 
   expect(getComputedStyle(uploadingMedia).opacity).toBe('0.6')
   expect(getComputedStyle(uploadingTitle).animationName).toBe('attachment-shimmer')
@@ -199,9 +282,14 @@ it('上传和错误状态使用状态驱动的媒体、标题与语义 Token', (
 
 it('分组提供横向滚动与滚动吸附，并在暗色主题中继承 Card 表面', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(AttachmentGroup, {}, {
-      default: () => [h(Attachment), h(Attachment)]
-    })
+    setup: () => () =>
+      h(
+        AttachmentGroup,
+        {},
+        {
+          default: () => [h(Attachment), h(Attachment)]
+        }
+      )
   })
   const page = render(Fixture)
   const host = page.container as HTMLElement

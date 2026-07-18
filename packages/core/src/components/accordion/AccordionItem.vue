@@ -15,7 +15,7 @@
 
 <template>
   <AccordionItem
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="accordionItemVariants({ class: props.class as never })"
     data-slot="accordion-item"

@@ -17,7 +17,7 @@
 
 <template>
   <CalendarPrev
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="calendarVariants().prev({ class: props.class as never })"
     data-slot="calendar-prev"

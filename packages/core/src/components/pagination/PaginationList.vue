@@ -16,7 +16,7 @@
 
 <template>
   <PaginationList
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="slots.list({ class: props.class as never })"
     data-slot="pagination-list"

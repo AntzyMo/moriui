@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -39,9 +40,14 @@ it('默认渲染 Kbd 语义元素并透传属性、事件和调用方类名', ()
 
 it('kbdGroup 使用稳定槽位并以 4px 间距组合按键', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(KbdGroup, { class: 'custom-kbd-group' }, {
-      default: () => [h(Kbd, {}, { default: () => '⌘' }), h(Kbd, {}, { default: () => 'K' })]
-    })
+    setup: () => () =>
+      h(
+        KbdGroup,
+        { class: 'custom-kbd-group' },
+        {
+          default: () => [h(Kbd, {}, { default: () => '⌘' }), h(Kbd, {}, { default: () => 'K' })]
+        }
+      )
   })
   const page = render(Fixture)
   const group = page.container.querySelector('[data-slot="kbd-group"]') as HTMLElement
@@ -79,11 +85,15 @@ it('使用主题和局部 Token，并允许调用方覆盖默认颜色', () => {
   )
   expect(utilityKbd.classList).toContain('bg-blue-50')
   expect(utilityKbd.classList).toContain('text-blue-700')
-  expect(getComputedStyle(utilityKbd).backgroundColor).not.toBe(getComputedStyle(defaultKbd).backgroundColor)
+  expect(getComputedStyle(utilityKbd).backgroundColor).not.toBe(
+    getComputedStyle(defaultKbd).backgroundColor
+  )
   expect(getComputedStyle(utilityKbd).color).not.toBe(getComputedStyle(defaultKbd).color)
   expect(customKbd.style.getPropertyValue('--kbd-bg')).toBe('rgb(1, 2, 3)')
   expect(customKbd.style.getPropertyValue('--kbd-fg')).toBe('rgb(4, 5, 6)')
-  expect(getComputedStyle(customKbd).backgroundColor).not.toBe(getComputedStyle(defaultKbd).backgroundColor)
+  expect(getComputedStyle(customKbd).backgroundColor).not.toBe(
+    getComputedStyle(defaultKbd).backgroundColor
+  )
   expect(getComputedStyle(customKbd).color).not.toBe(getComputedStyle(defaultKbd).color)
 
   host.dataset.theme = 'dark'
@@ -95,17 +105,28 @@ it('使用主题和局部 Token，并允许调用方覆盖默认颜色', () => {
 
 it('inputGroup 附加项中的 Kbd 使用表单组件约定的圆角', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(InputGroup, {}, {
-      default: () => [
-        h(InputGroupInput, { 'aria-label': '搜索' }),
-        h(InputGroupAddon, { align: 'inline-end' }, {
-          default: () => h(Kbd, {}, { default: () => '/' })
-        })
-      ]
-    })
+    setup: () => () =>
+      h(
+        InputGroup,
+        {},
+        {
+          default: () => [
+            h(InputGroupInput, { 'aria-label': '搜索' }),
+            h(
+              InputGroupAddon,
+              { align: 'inline-end' },
+              {
+                default: () => h(Kbd, {}, { default: () => '/' })
+              }
+            )
+          ]
+        }
+      )
   })
   const page = render(Fixture)
-  const kbd = page.container.querySelector('[data-slot="input-group-addon"] [data-slot="kbd"]') as HTMLElement
+  const kbd = page.container.querySelector(
+    '[data-slot="input-group-addon"] [data-slot="kbd"]'
+  ) as HTMLElement
 
   expect(getComputedStyle(kbd).borderRadius).toBe('6px')
 })

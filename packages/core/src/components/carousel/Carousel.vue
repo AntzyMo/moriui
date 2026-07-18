@@ -80,6 +80,12 @@
     autoplayPausedByUser.value = false
     resumeAutoplay()
   }
+  function toggleAutoplay() {
+    if (isAutoplayPlaying.value)
+      stopAutoplay()
+    else
+      playAutoplay()
+  }
 
   function scrollNext() {
     stopAutoplay(); api.value?.scrollNext()
@@ -113,7 +119,7 @@
       resumeAutoplay()
   }
 
-  provide(carouselContextKey, { api, carouselRef, canScrollNext, canScrollPrev, isAutoplayEnabled, isAutoplayPlaying, orientation, selectedIndex, slideCount, scrollNext, scrollPrev, scrollTo, playAutoplay, stopAutoplay })
+  provide(carouselContextKey, { api, carouselRef, canScrollNext, canScrollPrev, isAutoplayEnabled, isAutoplayPlaying, orientation, selectedIndex, slideCount, scrollNext, scrollPrev, scrollTo, playAutoplay, stopAutoplay, toggleAutoplay })
 
   let mediaQuery: MediaQueryList | undefined
   function onMotionChange(event: MediaQueryListEvent) {
@@ -144,7 +150,7 @@
     else resumeAutoplay()
   })
   onBeforeUnmount(() => mediaQuery?.removeEventListener('change', onMotionChange))
-  defineExpose({ api, carouselRef, canScrollNext, canScrollPrev, isAutoplayPlaying, orientation, selectedIndex, slideCount, scrollNext, scrollPrev, scrollTo, playAutoplay, stopAutoplay })
+  defineExpose({ api, carouselRef, canScrollNext, canScrollPrev, isAutoplayPlaying, orientation, selectedIndex, slideCount, scrollNext, scrollPrev, scrollTo, playAutoplay, stopAutoplay, toggleAutoplay })
 </script>
 
 <template>

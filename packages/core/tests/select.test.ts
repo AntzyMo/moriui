@@ -1,4 +1,5 @@
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, expect, it } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -32,12 +33,13 @@ interface FixtureOptions {
 }
 
 function selectItem(value: string, label: string, disabled = false) {
-  return h(SelectItem, { disabled, value }, {
-    default: () => [
-      h(SelectItemIndicator),
-      h(SelectItemText, {}, { default: () => label })
-    ]
-  })
+  return h(
+    SelectItem,
+    { disabled, value },
+    {
+      default: () => [h(SelectItemIndicator), h(SelectItemText, {}, { default: () => label })]
+    }
+  )
 }
 
 function createFixture(options: FixtureOptions = {}) {
@@ -45,54 +47,79 @@ function createFixture(options: FixtureOptions = {}) {
   const open = ref(false)
 
   const Fixture = defineComponent({
-    setup: () => () => h('form', { 'data-testid': 'form' }, [
-      h(Select, {
-        'disabled': options.disabled,
-        'modelValue': value.value,
-        'multiple': options.multiple,
-        'name': 'framework',
-        'open': open.value,
-        'required': true,
-        'onUpdate:modelValue': (nextValue: string | string[] | undefined) => {
-          value.value = nextValue
-        },
-        'onUpdate:open': (nextOpen: boolean) => {
-          open.value = nextOpen
-        }
-      }, {
-        default: () => [
-          h(SelectTrigger, {
-            'aria-invalid': options.invalid ? 'true' : undefined,
-            'aria-label': '选择框架',
-            'class': 'custom-trigger',
-            'data-testid': 'framework-trigger'
-          }, {
-            default: () => h(SelectValue, { placeholder: '选择框架' })
-          }),
-          h(SelectContent, { class: 'custom-content', position: options.position }, {
+    setup: () => () =>
+      h('form', { 'data-testid': 'form' }, [
+        h(
+          Select,
+          {
+            'disabled': options.disabled,
+            'modelValue': value.value,
+            'multiple': options.multiple,
+            'name': 'framework',
+            'open': open.value,
+            'required': true,
+            'onUpdate:modelValue': (nextValue: string | string[] | undefined) => {
+              value.value = nextValue
+            },
+            'onUpdate:open': (nextOpen: boolean) => {
+              open.value = nextOpen
+            }
+          },
+          {
             default: () => [
-              h(SelectScrollUpButton),
-              h(SelectViewport, {}, {
-                default: () => [
-                  h(SelectGroup, {}, {
-                    default: () => [
-                      h(SelectLabel, {}, { default: () => '前端框架' }),
-                      selectItem('vue', 'Vue'),
-                      selectItem('react', 'React')
-                    ]
-                  }),
-                  h(SelectSeparator),
-                  h(SelectGroup, {}, {
-                    default: () => selectItem('svelte', 'Svelte', true)
-                  })
-                ]
-              }),
-              h(SelectScrollDownButton)
+              h(
+                SelectTrigger,
+                {
+                  'aria-invalid': options.invalid ? 'true' : undefined,
+                  'aria-label': '选择框架',
+                  'class': 'custom-trigger',
+                  'data-testid': 'framework-trigger'
+                },
+                {
+                  default: () => h(SelectValue, { placeholder: '选择框架' })
+                }
+              ),
+              h(
+                SelectContent,
+                { class: 'custom-content', position: options.position },
+                {
+                  default: () => [
+                    h(SelectScrollUpButton),
+                    h(
+                      SelectViewport,
+                      {},
+                      {
+                        default: () => [
+                          h(
+                            SelectGroup,
+                            {},
+                            {
+                              default: () => [
+                                h(SelectLabel, {}, { default: () => '前端框架' }),
+                                selectItem('vue', 'Vue'),
+                                selectItem('react', 'React')
+                              ]
+                            }
+                          ),
+                          h(SelectSeparator),
+                          h(
+                            SelectGroup,
+                            {},
+                            {
+                              default: () => selectItem('svelte', 'Svelte', true)
+                            }
+                          )
+                        ]
+                      }
+                    ),
+                    h(SelectScrollDownButton)
+                  ]
+                }
+              )
             ]
-          })
-        ]
-      })
-    ])
+          }
+        )
+      ])
   })
 
   return { Fixture, open, value }
@@ -100,13 +127,17 @@ function createFixture(options: FixtureOptions = {}) {
 
 async function openSelect(Fixture: ReturnType<typeof createFixture>['Fixture']) {
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-testid="framework-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="framework-trigger"]'
+  ) as HTMLButtonElement
 
-  trigger.dispatchEvent(new PointerEvent('pointerdown', {
-    bubbles: true,
-    button: 0,
-    pointerType: 'mouse'
-  }))
+  trigger.dispatchEvent(
+    new PointerEvent('pointerdown', {
+      bubbles: true,
+      button: 0,
+      pointerType: 'mouse'
+    })
+  )
   await nextTick()
   await nextTick()
   await new Promise(resolve => setTimeout(resolve, 50))
@@ -116,26 +147,32 @@ async function openSelect(Fixture: ReturnType<typeof createFixture>['Fixture']) 
 }
 
 async function selectByPointer(item: HTMLElement) {
-  item.dispatchEvent(new PointerEvent('pointerdown', {
-    bubbles: true,
-    button: 0,
-    clientX: 12,
-    clientY: 12,
-    pointerType: 'mouse'
-  }))
-  document.dispatchEvent(new PointerEvent('pointermove', {
-    bubbles: true,
-    clientX: 24,
-    clientY: 24,
-    pointerType: 'mouse'
-  }))
-  item.dispatchEvent(new PointerEvent('pointerup', {
-    bubbles: true,
-    button: 0,
-    clientX: 24,
-    clientY: 24,
-    pointerType: 'mouse'
-  }))
+  item.dispatchEvent(
+    new PointerEvent('pointerdown', {
+      bubbles: true,
+      button: 0,
+      clientX: 12,
+      clientY: 12,
+      pointerType: 'mouse'
+    })
+  )
+  document.dispatchEvent(
+    new PointerEvent('pointermove', {
+      bubbles: true,
+      clientX: 24,
+      clientY: 24,
+      pointerType: 'mouse'
+    })
+  )
+  item.dispatchEvent(
+    new PointerEvent('pointerup', {
+      bubbles: true,
+      button: 0,
+      clientX: 24,
+      clientY: 24,
+      pointerType: 'mouse'
+    })
+  )
   await nextTick()
   await nextTick()
 }
@@ -174,7 +211,9 @@ it('单选支持鼠标选择、状态同步与原生表单控件', async () => {
   expect(fixture.open.value).toBe(false)
   expect(page.container.querySelector('[data-slot="select-value"]')?.textContent).toContain('Vue')
 
-  const nativeSelect = page.container.querySelector('select[name="framework"]') as HTMLSelectElement
+  const nativeSelect = page.container.querySelector(
+    'select[name="framework"]'
+  ) as HTMLSelectElement
   expect(nativeSelect).not.toBeNull()
   expect(nativeSelect.required).toBe(true)
   expect(nativeSelect.value).toBe('vue')
@@ -188,16 +227,20 @@ it('键盘导航跳过禁用项，并使用 Enter 选择、Escape 关闭', async
   selectedItem.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'ArrowDown' }))
   await nextTick()
   await new Promise(resolve => setTimeout(resolve))
-  expect((document.activeElement as HTMLElement).textContent).toContain('React')
+  expect((document.activeElement as HTMLElement).textContent).toContain('React');
 
-  ;(document.activeElement as HTMLElement).dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }))
+  (document.activeElement as HTMLElement).dispatchEvent(
+    new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' })
+  )
   await nextTick()
   await nextTick()
   await new Promise(resolve => setTimeout(resolve))
   expect(fixture.value.value).toBe('react')
-  expect(fixture.open.value).toBe(false)
+  expect(fixture.open.value).toBe(false);
 
-  ;(document.activeElement as HTMLElement).dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }))
+  (document.activeElement as HTMLElement).dispatchEvent(
+    new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' })
+  )
   await nextTick()
   expect(fixture.open.value).toBe(false)
   expect(content.querySelectorAll('[data-slot="select-item"]')).toHaveLength(3)
@@ -219,7 +262,9 @@ it('多选保留浮层并将已选项同步为数组', async () => {
 it('禁用、校验错误、主题及 typeahead 使用既定状态样式', async () => {
   const disabled = createFixture({ disabled: true })
   const disabledPage = render(disabled.Fixture)
-  const disabledTrigger = disabledPage.container.querySelector('[data-testid="framework-trigger"]') as HTMLButtonElement
+  const disabledTrigger = disabledPage.container.querySelector(
+    '[data-testid="framework-trigger"]'
+  ) as HTMLButtonElement
 
   expect(disabledTrigger.disabled).toBe(true)
   disabledTrigger.click()
@@ -229,13 +274,19 @@ it('禁用、校验错误、主题及 typeahead 使用既定状态样式', async
   cleanup()
   const invalid = createFixture({ invalid: true })
   const { content, trigger } = await openSelect(invalid.Fixture)
-  expect(getComputedStyle(trigger).getPropertyValue('--select-trigger-border').trim()).toBe('oklch(0.577 0.245 27.325)')
+  expect(getComputedStyle(trigger).getPropertyValue('--select-trigger-border').trim()).toBe(
+    'oklch(0.577 0.245 27.325)'
+  );
 
-  ;(document.activeElement as HTMLElement).dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'r' }))
+  (document.activeElement as HTMLElement).dispatchEvent(
+    new KeyboardEvent('keydown', { bubbles: true, key: 'r' })
+  )
   await nextTick()
   await new Promise(resolve => setTimeout(resolve))
   expect((document.activeElement as HTMLElement).textContent).toContain('React')
 
   document.documentElement.dataset.theme = 'dark'
-  expect(getComputedStyle(content).getPropertyValue('--select-content-bg').trim()).toBe('oklch(0.205 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--select-content-bg').trim()).toBe(
+    'oklch(0.205 0 0)'
+  )
 })

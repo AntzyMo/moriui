@@ -1,4 +1,5 @@
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, expect, it } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -33,97 +34,195 @@ function createFixture() {
   const selected = ref(false)
 
   const Fixture = defineComponent({
-    setup: () => () => h(Menubar, {
-      'modelValue': activeMenu.value,
-      'loop': true,
-      'class': 'custom-menubar',
-      'onUpdate:modelValue': (nextValue: string) => {
-        activeMenu.value = nextValue
-      }
-    }, {
-      default: () => [
-        h(MenubarMenu, { value: 'file' }, {
+    setup: () => () =>
+      h(
+        Menubar,
+        {
+          'modelValue': activeMenu.value,
+          'loop': true,
+          'class': 'custom-menubar',
+          'onUpdate:modelValue': (nextValue: string) => {
+            activeMenu.value = nextValue
+          }
+        },
+        {
           default: () => [
-            h(MenubarTrigger, { 'class': 'custom-trigger', 'data-testid': 'file-trigger' }, { default: () => '文件' }),
-            h(MenubarContent, { class: 'custom-content' }, {
-              default: () => [
-                h(MenubarArrow),
-                h(MenubarGroup, {}, {
-                  default: () => [
-                    h(MenubarLabel, {}, { default: () => '操作' }),
-                    h(MenubarItem, {
-                      'data-testid': 'copy-item',
-                      'onSelect': () => {
-                        selected.value = true
-                      }
-                    }, {
-                      default: () => ['复制', h(MenubarShortcut, {}, { default: () => '⌘C' })]
-                    }),
-                    h(MenubarItem, { disabled: true }, { default: () => '不可用操作' })
-                  ]
-                }),
-                h(MenubarSeparator),
-                h(MenubarCheckboxItem, {
-                  'modelValue': checked.value,
-                  'onUpdate:modelValue': (nextChecked: boolean) => {
-                    checked.value = nextChecked
-                  },
-                  'onSelect': (event: Event) => event.preventDefault(),
-                  'data-testid': 'checkbox-item'
-                }, {
-                  default: () => '显示状态栏',
-                  indicator: () => h('span', { 'data-testid': 'custom-indicator' }, '✓')
-                }),
-                h(MenubarRadioGroup, {
-                  'modelValue': profile.value,
-                  'onUpdate:modelValue': (nextProfile: string) => {
-                    profile.value = nextProfile
-                  }
-                }, {
-                  default: () => [
-                    h(MenubarRadioItem, { value: '工作', onSelect: (event: Event) => event.preventDefault() }, { default: () => '工作' }),
-                    h(MenubarRadioItem, { value: '个人' }, { default: () => '个人' })
-                  ]
-                }),
-                h(MenubarSeparator),
-                h(MenubarSub, {}, {
-                  default: () => [
-                    h(MenubarSubTrigger, { 'data-testid': 'sub-trigger' }, { default: () => '更多工具' }),
-                    h(MenubarSubContent, {}, {
-                      default: () => h(MenubarItem, { 'data-testid': 'sub-item' }, { default: () => '开发者工具' })
-                    })
-                  ]
-                })
-              ]
-            })
+            h(
+              MenubarMenu,
+              { value: 'file' },
+              {
+                default: () => [
+                  h(
+                    MenubarTrigger,
+                    { 'class': 'custom-trigger', 'data-testid': 'file-trigger' },
+                    { default: () => '文件' }
+                  ),
+                  h(
+                    MenubarContent,
+                    { class: 'custom-content' },
+                    {
+                      default: () => [
+                        h(MenubarArrow),
+                        h(
+                          MenubarGroup,
+                          {},
+                          {
+                            default: () => [
+                              h(MenubarLabel, {}, { default: () => '操作' }),
+                              h(
+                                MenubarItem,
+                                {
+                                  'data-testid': 'copy-item',
+                                  'onSelect': () => {
+                                    selected.value = true
+                                  }
+                                },
+                                {
+                                  default: () => [
+                                    '复制',
+                                    h(MenubarShortcut, {}, { default: () => '⌘C' })
+                                  ]
+                                }
+                              ),
+                              h(MenubarItem, { disabled: true }, { default: () => '不可用操作' })
+                            ]
+                          }
+                        ),
+                        h(MenubarSeparator),
+                        h(
+                          MenubarCheckboxItem,
+                          {
+                            'modelValue': checked.value,
+                            'onUpdate:modelValue': (nextChecked: boolean) => {
+                              checked.value = nextChecked
+                            },
+                            'onSelect': (event: Event) => event.preventDefault(),
+                            'data-testid': 'checkbox-item'
+                          },
+                          {
+                            default: () => '显示状态栏',
+                            indicator: () => h('span', { 'data-testid': 'custom-indicator' }, '✓')
+                          }
+                        ),
+                        h(
+                          MenubarRadioGroup,
+                          {
+                            'modelValue': profile.value,
+                            'onUpdate:modelValue': (nextProfile: string) => {
+                              profile.value = nextProfile
+                            }
+                          },
+                          {
+                            default: () => [
+                              h(
+                                MenubarRadioItem,
+                                {
+                                  value: '工作',
+                                  onSelect: (event: Event) => event.preventDefault()
+                                },
+                                { default: () => '工作' }
+                              ),
+                              h(MenubarRadioItem, { value: '个人' }, { default: () => '个人' })
+                            ]
+                          }
+                        ),
+                        h(MenubarSeparator),
+                        h(
+                          MenubarSub,
+                          {},
+                          {
+                            default: () => [
+                              h(
+                                MenubarSubTrigger,
+                                { 'data-testid': 'sub-trigger' },
+                                { default: () => '更多工具' }
+                              ),
+                              h(
+                                MenubarSubContent,
+                                {},
+                                {
+                                  default: () =>
+                                    h(
+                                      MenubarItem,
+                                      { 'data-testid': 'sub-item' },
+                                      { default: () => '开发者工具' }
+                                    )
+                                }
+                              )
+                            ]
+                          }
+                        )
+                      ]
+                    }
+                  )
+                ]
+              }
+            ),
+            h(
+              MenubarMenu,
+              { value: 'edit' },
+              {
+                default: () => [
+                  h(MenubarTrigger, { 'data-testid': 'edit-trigger' }, { default: () => '编辑' }),
+                  h(
+                    MenubarContent,
+                    {},
+                    {
+                      default: () =>
+                        h(MenubarItem, { 'data-testid': 'undo-item' }, { default: () => '撤销' })
+                    }
+                  )
+                ]
+              }
+            ),
+            h(
+              MenubarMenu,
+              { value: 'profile' },
+              {
+                default: () => [
+                  h(
+                    MenubarTrigger,
+                    { 'data-testid': 'profile-trigger' },
+                    { default: () => '个人资料' }
+                  ),
+                  h(
+                    MenubarContent,
+                    {},
+                    {
+                      default: () =>
+                        h(
+                          MenubarItem,
+                          { 'data-testid': 'profile-item' },
+                          { default: () => '账户设置' }
+                        )
+                    }
+                  )
+                ]
+              }
+            ),
+            h(
+              MenubarMenu,
+              { value: 'disabled' },
+              {
+                default: () => [
+                  h(
+                    MenubarTrigger,
+                    { 'disabled': true, 'data-testid': 'disabled-trigger' },
+                    { default: () => '已禁用' }
+                  ),
+                  h(
+                    MenubarContent,
+                    {},
+                    {
+                      default: () => h(MenubarItem, {}, { default: () => '不可用菜单' })
+                    }
+                  )
+                ]
+              }
+            )
           ]
-        }),
-        h(MenubarMenu, { value: 'edit' }, {
-          default: () => [
-            h(MenubarTrigger, { 'data-testid': 'edit-trigger' }, { default: () => '编辑' }),
-            h(MenubarContent, {}, {
-              default: () => h(MenubarItem, { 'data-testid': 'undo-item' }, { default: () => '撤销' })
-            })
-          ]
-        }),
-        h(MenubarMenu, { value: 'profile' }, {
-          default: () => [
-            h(MenubarTrigger, { 'data-testid': 'profile-trigger' }, { default: () => '个人资料' }),
-            h(MenubarContent, {}, {
-              default: () => h(MenubarItem, { 'data-testid': 'profile-item' }, { default: () => '账户设置' })
-            })
-          ]
-        }),
-        h(MenubarMenu, { value: 'disabled' }, {
-          default: () => [
-            h(MenubarTrigger, { 'disabled': true, 'data-testid': 'disabled-trigger' }, { default: () => '已禁用' }),
-            h(MenubarContent, {}, {
-              default: () => h(MenubarItem, {}, { default: () => '不可用菜单' })
-            })
-          ]
-        })
-      ]
-    })
+        }
+      )
   })
 
   return { Fixture, activeMenu, checked, profile, selected }
@@ -158,20 +257,45 @@ it('外部 v-model 可控制当前打开的顶级菜单', async () => {
 
 it('触发器可 asChild 合并行为至唯一子元素', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Menubar, {}, {
-      default: () => h(MenubarMenu, { value: 'file' }, {
-        default: () => [
-          h(MenubarTrigger, { asChild: true }, {
-            default: () => h('button', { 'class': 'custom-button', 'data-testid': 'as-child-trigger' }, '文件')
-          }),
-          h(MenubarContent, {}, { default: () => h(MenubarItem, {}, { default: () => '操作' }) })
-        ]
-      })
-    })
+    setup: () => () =>
+      h(
+        Menubar,
+        {},
+        {
+          default: () =>
+            h(
+              MenubarMenu,
+              { value: 'file' },
+              {
+                default: () => [
+                  h(
+                    MenubarTrigger,
+                    { asChild: true },
+                    {
+                      default: () =>
+                        h(
+                          'button',
+                          { 'class': 'custom-button', 'data-testid': 'as-child-trigger' },
+                          '文件'
+                        )
+                    }
+                  ),
+                  h(
+                    MenubarContent,
+                    {},
+                    { default: () => h(MenubarItem, {}, { default: () => '操作' }) }
+                  )
+                ]
+              }
+            )
+        }
+      )
   })
 
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-testid="as-child-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="as-child-trigger"]'
+  ) as HTMLButtonElement
 
   expect(trigger.classList).toContain('menubar__trigger')
   expect(trigger.classList).toContain('custom-button')
@@ -229,12 +353,16 @@ it('左右方向键切换顶级菜单，并在 loop 下跳过禁用项回到首�
   expect(fixture.activeMenu.value).toBe('edit')
   expect(document.body.querySelector('[data-testid="undo-item"]')).not.toBeNull()
 
-  const editContent = document.body.querySelector('[data-testid="undo-item"]')?.closest('[data-slot="menubar-content"]') as HTMLElement
+  const editContent = document.body
+    .querySelector('[data-testid="undo-item"]')
+    ?.closest('[data-slot="menubar-content"]') as HTMLElement
   editContent.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'ArrowRight' }))
   await nextTick()
   expect(fixture.activeMenu.value).toBe('profile')
 
-  const profileContent = document.body.querySelector('[data-testid="profile-item"]')?.closest('[data-slot="menubar-content"]') as HTMLElement
+  const profileContent = document.body
+    .querySelector('[data-testid="profile-item"]')
+    ?.closest('[data-slot="menubar-content"]') as HTMLElement
   profileContent.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'ArrowRight' }))
   await nextTick()
   expect(fixture.activeMenu.value).toBe('file')
@@ -250,7 +378,9 @@ it('菜单项选择后清除触发器选中背景，Escape 仍关闭并恢复焦
   await nextTick()
   expect(document.activeElement).toBe(item)
   item.setAttribute('data-highlighted', '')
-  expect(getComputedStyle(item).backgroundColor).toBe(getComputedStyle(item).getPropertyValue('--accent').trim())
+  expect(getComputedStyle(item).backgroundColor).toBe(
+    getComputedStyle(item).getPropertyValue('--accent').trim()
+  )
 
   item.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }))
   await nextTick()
@@ -258,7 +388,9 @@ it('菜单项选择后清除触发器选中背景，Escape 仍关闭并恢复焦
   expect(fixture.selected.value).toBe(true)
   expect(fixture.activeMenu.value).toBe('')
   expect(trigger.getAttribute('data-state')).toBe('closed')
-  expect(getComputedStyle(trigger).backgroundColor).not.toBe(getComputedStyle(trigger).getPropertyValue('--accent').trim())
+  expect(getComputedStyle(trigger).backgroundColor).not.toBe(
+    getComputedStyle(trigger).getPropertyValue('--accent').trim()
+  )
   expect(getComputedStyle(trigger).boxShadow).toBe('none')
 
   trigger.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }))
@@ -275,10 +407,18 @@ it('菜单项选择后清除触发器选中背景，Escape 仍关闭并恢复焦
 it('菜单打开时指针可反向切换顶级菜单，关闭或禁用状态不会触发切换', async () => {
   const fixture = createFixture()
   const page = render(fixture.Fixture)
-  const fileTrigger = page.container.querySelector('[data-testid="file-trigger"]') as HTMLButtonElement
-  const editTrigger = page.container.querySelector('[data-testid="edit-trigger"]') as HTMLButtonElement
-  const profileTrigger = page.container.querySelector('[data-testid="profile-trigger"]') as HTMLButtonElement
-  const disabledTrigger = page.container.querySelector('[data-testid="disabled-trigger"]') as HTMLButtonElement
+  const fileTrigger = page.container.querySelector(
+    '[data-testid="file-trigger"]'
+  ) as HTMLButtonElement
+  const editTrigger = page.container.querySelector(
+    '[data-testid="edit-trigger"]'
+  ) as HTMLButtonElement
+  const profileTrigger = page.container.querySelector(
+    '[data-testid="profile-trigger"]'
+  ) as HTMLButtonElement
+  const disabledTrigger = page.container.querySelector(
+    '[data-testid="disabled-trigger"]'
+  ) as HTMLButtonElement
 
   profileTrigger.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }))
   await nextTick()
@@ -308,7 +448,9 @@ it('菜单打开时指针可反向切换顶级菜单，关闭或禁用状态不�
 it('禁用、Checkbox、Radio 与自定义指示器遵循 Reka 状态契约', async () => {
   const fixture = createFixture()
   const { content } = await openMenubar(fixture.Fixture)
-  const disabled = Array.from(content.querySelectorAll('[data-slot="menubar-item"]')).find(item => item.textContent === '不可用操作') as HTMLElement
+  const disabled = Array.from(content.querySelectorAll('[data-slot="menubar-item"]')).find(
+    item => item.textContent === '不可用操作'
+  ) as HTMLElement
   const checkbox = content.querySelector('[data-testid="checkbox-item"]') as HTMLElement
 
   expect(disabled.hasAttribute('data-disabled')).toBe(true)
@@ -335,11 +477,15 @@ it('子菜单内容自动 Teleport，并在深色主题下消费 Popover Token',
   await nextTick()
   await nextTick()
 
-  const subContent = document.body.querySelector('[data-slot="menubar-sub-content"]') as HTMLElement
+  const subContent = document.body.querySelector(
+    '[data-slot="menubar-sub-content"]'
+  ) as HTMLElement
   expect(subContent).not.toBeNull()
   expect(document.body.contains(subContent)).toBe(true)
   expect(subContent.querySelector('[data-testid="sub-item"]')?.textContent).toBe('开发者工具')
 
   document.documentElement.dataset.theme = 'dark'
-  expect(getComputedStyle(content).getPropertyValue('--menubar-content-bg').trim()).toBe('oklch(0.205 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--menubar-content-bg').trim()).toBe(
+    'oklch(0.205 0 0)'
+  )
 })

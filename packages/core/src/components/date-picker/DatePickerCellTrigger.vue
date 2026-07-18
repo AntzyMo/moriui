@@ -12,7 +12,7 @@
 
 <template>
   <DatePickerCellTrigger
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="datePickerVariants().cellTrigger({ class: props.class as never })"
     data-slot="date-picker-cell-trigger"

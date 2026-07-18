@@ -20,3 +20,9 @@ pnpm-debug.log*
 .DS_Store
 .idea/
 .vscode/
+
+# 设计讨论的本地可视化草图
+.superpowers/
+
+# 本地隔离工作区
+.worktrees/

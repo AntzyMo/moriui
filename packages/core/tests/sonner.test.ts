@@ -1,5 +1,6 @@
+import { afterEach, expect, it, vi } from 'vite-plus/test'
+
 import { toast } from 'vue-sonner'
-import { afterEach, expect, it, vi } from 'vitest'
 import { defineComponent, h, nextTick } from 'vue'
 import { cleanup, render } from 'vitest-browser-vue'
 
@@ -50,15 +51,22 @@ it('渲染默认图标，并允许调用方覆盖具名图标插槽', async () =
 
   toast.dismiss()
   const Fixture = defineComponent({
-    setup: () => () => h(Sonner, {}, {
-      'success-icon': () => h('span', { 'data-testid': 'custom-success-icon' }, '✓')
-    })
+    setup: () => () =>
+      h(
+        Sonner,
+        {},
+        {
+          'success-icon': () => h('span', { 'data-testid': 'custom-success-icon' }, '✓')
+        }
+      )
   })
   const customPage = render(Fixture)
   toast.success('保存成功')
   await waitForToast()
 
-  expect(customPage.container.querySelector('[data-testid="custom-success-icon"]')?.textContent).toBe('✓')
+  expect(
+    customPage.container.querySelector('[data-testid="custom-success-icon"]')?.textContent
+  ).toBe('✓')
 })
 
 it('toast 渲染描述、操作，并支持程序化关闭', async () => {
@@ -120,7 +128,10 @@ it('未传 theme 时跟随 HTML data-theme，显式 theme 优先', async () => {
   document.documentElement.dataset.theme = 'light'
   await Promise.resolve()
   await nextTick()
-  expect((explicitPage.container.querySelector('[data-sonner-toaster]') as HTMLElement).dataset.sonnerTheme).toBe('dark')
+  expect(
+    (explicitPage.container.querySelector('[data-sonner-toaster]') as HTMLElement).dataset
+      .sonnerTheme
+  ).toBe('dark')
 })
 
 it('提供 Nova 焦点样式、Alt+T 快捷键和减少动效规则', async () => {
@@ -131,14 +142,17 @@ it('提供 Nova 焦点样式、Alt+T 快捷键和减少动效规则', async () =
   const toaster = page.container.querySelector('[data-sonner-toaster]') as HTMLElement
 
   expect(getComputedStyle(item).borderRadius).toBe('10px')
-  document.dispatchEvent(new KeyboardEvent('keydown', { altKey: true, bubbles: true, code: 'KeyT', key: 't' }))
+  document.dispatchEvent(
+    new KeyboardEvent('keydown', { altKey: true, bubbles: true, code: 'KeyT', key: 't' })
+  )
   await nextTick()
   expect(document.activeElement).toBe(toaster)
 
   const hasReducedMotionRule = Array.from(document.styleSheets).some(sheet => {
     try {
-      return Array.from(sheet.cssRules).some(rule =>
-        rule instanceof CSSMediaRule && rule.conditionText.includes('prefers-reduced-motion')
+      return Array.from(sheet.cssRules).some(
+        rule =>
+          rule instanceof CSSMediaRule && rule.conditionText.includes('prefers-reduced-motion')
       )
     } catch {
       return false

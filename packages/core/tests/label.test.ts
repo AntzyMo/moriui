@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -38,10 +39,11 @@ it('默认渲染原生标签并透传关联属性、事件和调用方类名', (
 
 it('通过 for 关联对应控件', () => {
   const Fixture = defineComponent({
-    setup: () => () => h('div', [
-      h(Label, { for: 'project-name' }, { default: () => '项目名称' }),
-      h('input', { id: 'project-name' })
-    ])
+    setup: () => () =>
+      h('div', [
+        h(Label, { for: 'project-name' }, { default: () => '项目名称' }),
+        h('input', { id: 'project-name' })
+      ])
   })
   const page = render(Fixture)
   const label = page.container.querySelector('label') as HTMLLabelElement
@@ -65,9 +67,14 @@ it('支持 as 与 asChild 多态渲染，并保留稳定槽位和样式', () => 
   expect(span.classList).toContain('label')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(Label, { asChild: true }, {
-      default: () => h('a', { href: '#project' }, '查看项目')
-    })
+    setup: () => () =>
+      h(
+        Label,
+        { asChild: true },
+        {
+          default: () => h('a', { href: '#project' }, '查看项目')
+        }
+      )
   })
   const asChild = render(AsChildFixture)
   const link = asChild.container.querySelector('a') as HTMLAnchorElement
@@ -79,15 +86,24 @@ it('支持 as 与 asChild 多态渲染，并保留稳定槽位和样式', () => 
 
 it('禁用的自身、父级或所包裹控件会使用禁用视觉状态', () => {
   const Fixture = defineComponent({
-    setup: () => () => h('div', [
-      h(Label, { 'data-testid': 'wrapped-disabled' }, {
-        default: () => [h('input', { disabled: true }), '不可用项目']
-      }),
-      h('div', { 'data-disabled': '' }, [
-        h(Label, { 'data-testid': 'parent-disabled' }, { default: () => '父级禁用项目' })
-      ]),
-      h(Label, { 'data-disabled': '', 'data-testid': 'self-disabled' }, { default: () => '自身禁用项目' })
-    ])
+    setup: () => () =>
+      h('div', [
+        h(
+          Label,
+          { 'data-testid': 'wrapped-disabled' },
+          {
+            default: () => [h('input', { disabled: true }), '不可用项目']
+          }
+        ),
+        h('div', { 'data-disabled': '' }, [
+          h(Label, { 'data-testid': 'parent-disabled' }, { default: () => '父级禁用项目' })
+        ]),
+        h(
+          Label,
+          { 'data-disabled': '', 'data-testid': 'self-disabled' },
+          { default: () => '自身禁用项目' }
+        )
+      ])
   })
   const page = render(Fixture)
 

@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -39,12 +40,13 @@ it('渲染原生输入框并透传属性、事件和调用方类名', () => {
 it('支持受控字符串 v-model 与外部值更新', async () => {
   const value = ref('初始值')
   const Fixture = defineComponent({
-    setup: () => () => h(Input, {
-      'modelValue': value.value,
-      'onUpdate:modelValue': (nextValue: string) => {
-        value.value = nextValue
-      }
-    })
+    setup: () => () =>
+      h(Input, {
+        'modelValue': value.value,
+        'onUpdate:modelValue': (nextValue: string) => {
+          value.value = nextValue
+        }
+      })
   })
   const page = render(Fixture)
   const input = page.container.querySelector('input') as HTMLInputElement

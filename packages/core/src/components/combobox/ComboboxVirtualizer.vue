@@ -18,7 +18,7 @@
 <template>
   <component
     :is="Primitive"
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="slots.virtualizer({ class: props.class as never })"
     data-slot="combobox-virtualizer"

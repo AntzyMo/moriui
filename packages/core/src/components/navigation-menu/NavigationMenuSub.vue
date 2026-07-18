@@ -21,7 +21,7 @@
 
 <template>
   <NavigationMenuSub
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model="modelValue"
     :class="slots.sub({ class: props.class as never })"

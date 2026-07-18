@@ -30,14 +30,14 @@
 
 <template>
   <DatePicker v-model="value" :default-placeholder="placeholder" locale="en-US">
-    <DatePickerField #default="{ segments }">
+    <DatePickerField v-slot="{ segments }">
       <DatePickerInput v-for="segment in segments" :key="segment.part" :part="segment.part">
         {{ segment.value }}
       </DatePickerInput>
       <DatePickerTrigger aria-label="打开日期选择器" />
     </DatePickerField>
     <DatePickerContent>
-      <DatePickerCalendar #default="{ grid, weekDays }">
+      <DatePickerCalendar v-slot="{ grid, weekDays }">
         <DatePickerHeader><DatePickerPrev aria-label="上个月" /><DatePickerHeading /><DatePickerNext aria-label="下个月" /></DatePickerHeader>
         <DatePickerGrid v-for="month in grid" :key="month.value.toString()">
           <DatePickerGridHead>

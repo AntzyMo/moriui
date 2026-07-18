@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -63,16 +64,29 @@ it('变体映射为根、图标和内容提供稳定类', () => {
 
 it('组合图标与内容槽，并隐藏装饰性图标', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Marker, {}, {
-      default: () => [
-        h(MarkerIcon, { class: 'custom-marker-icon' }, {
-          default: () => h('svg', { viewBox: '0 0 24 24' })
-        }),
-        h(MarkerContent, { class: 'custom-marker-content' }, {
-          default: () => '已探索 4 个文件'
-        })
-      ]
-    })
+    setup: () => () =>
+      h(
+        Marker,
+        {},
+        {
+          default: () => [
+            h(
+              MarkerIcon,
+              { class: 'custom-marker-icon' },
+              {
+                default: () => h('svg', { viewBox: '0 0 24 24' })
+              }
+            ),
+            h(
+              MarkerContent,
+              { class: 'custom-marker-content' },
+              {
+                default: () => '已探索 4 个文件'
+              }
+            )
+          ]
+        }
+      )
   })
   const page = render(Fixture)
   const icon = page.container.querySelector('[data-slot="marker-icon"]') as HTMLElement
@@ -90,11 +104,21 @@ it('组合图标与内容槽，并隐藏装饰性图标', () => {
 
 it('内容槽为链接提供默认下划线样式', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Marker, {}, {
-      default: () => h(MarkerContent, {}, {
-        default: () => h('a', { href: '#activity' }, '查看活动')
-      })
-    })
+    setup: () => () =>
+      h(
+        Marker,
+        {},
+        {
+          default: () =>
+            h(
+              MarkerContent,
+              {},
+              {
+                default: () => h('a', { href: '#activity' }, '查看活动')
+              }
+            )
+        }
+      )
   })
   const page = render(Fixture)
   const link = page.container.querySelector('a') as HTMLAnchorElement
@@ -109,9 +133,14 @@ it('支持 as 与 asChild 多态渲染', () => {
     slots: { default: '查看详情' }
   })
   const AsChildFixture = defineComponent({
-    setup: () => () => h(Marker, { asChild: true }, {
-      default: () => h('a', { href: '#next' }, '继续')
-    })
+    setup: () => () =>
+      h(
+        Marker,
+        { asChild: true },
+        {
+          default: () => h('a', { href: '#next' }, '继续')
+        }
+      )
   })
   const asChild = render(AsChildFixture)
 
@@ -122,20 +151,32 @@ it('支持 as 与 asChild 多态渲染', () => {
 
 it('边界和分隔线变体使用组件局部 Token，并随主题继承颜色', () => {
   const BorderFixture = defineComponent({
-    setup: () => () => h(Marker, { variant: 'border' }, {
-      default: () => h(MarkerContent, {}, { default: () => '边界行' })
-    })
+    setup: () => () =>
+      h(
+        Marker,
+        { variant: 'border' },
+        {
+          default: () => h(MarkerContent, {}, { default: () => '边界行' })
+        }
+      )
   })
   const SeparatorFixture = defineComponent({
-    setup: () => () => h(Marker, { variant: 'separator' }, {
-      default: () => h(MarkerContent, {}, { default: () => '今天' })
-    })
+    setup: () => () =>
+      h(
+        Marker,
+        { variant: 'separator' },
+        {
+          default: () => h(MarkerContent, {}, { default: () => '今天' })
+        }
+      )
   })
   const borderPage = render(BorderFixture)
   const separatorPage = render(SeparatorFixture)
   const border = borderPage.container.querySelector('[data-slot="marker"]') as HTMLElement
   const separator = separatorPage.container.querySelector('[data-slot="marker"]') as HTMLElement
-  const separatorContent = separatorPage.container.querySelector('[data-slot="marker-content"]') as HTMLElement
+  const separatorContent = separatorPage.container.querySelector(
+    '[data-slot="marker-content"]'
+  ) as HTMLElement
   const host = borderPage.container as HTMLElement
 
   expect(getComputedStyle(border).borderBottomWidth).toBe('1px')

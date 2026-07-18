@@ -12,7 +12,7 @@
 
 <template>
   <DatePickerInput
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="datePickerVariants().input({ class: props.class as never })"
     data-slot="date-picker-input"

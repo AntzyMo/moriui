@@ -36,7 +36,7 @@
         共 {{ table.getFilteredRowModel().rows.length }} 条
       </p>
       <Pagination v-model:page="page" :items-per-page="table.getState().pagination.pageSize" :total="table.getFilteredRowModel().rows.length">
-        <PaginationList #default="{ items }">
+        <PaginationList v-slot="{ items }">
           <PaginationPrev />
           <template v-for="(item, index) in items" :key="`${item.type}-${index}`">
             <PaginationItem v-if="item.type === 'page'" :value="item.value" />

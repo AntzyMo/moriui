@@ -1,4 +1,5 @@
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, expect, it } from 'vite-plus/test'
+
 import { defineComponent, h, nextTick } from 'vue'
 import { cleanup, render } from 'vitest-browser-vue'
 
@@ -19,20 +20,29 @@ function createContent() {
 
 it('默认组合纵向 Viewport、滚动条与 Thumb，并透传 Reka 属性和调用方类名', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h(ScrollArea, {
-      'aria-label': '发布记录',
-      'class': 'custom-scroll-area',
-      'dir': 'rtl',
-      'style': { height: '10rem', width: '16rem' },
-      'type': 'always'
-    }, { default: createContent })
+    setup: () => () =>
+      h(
+        ScrollArea,
+        {
+          'aria-label': '发布记录',
+          'class': 'custom-scroll-area',
+          'dir': 'rtl',
+          'style': { height: '10rem', width: '16rem' },
+          'type': 'always'
+        },
+        { default: createContent }
+      )
   })
   const page = render(Fixture)
   await nextTick()
 
   const root = page.container.querySelector('[data-slot="scroll-area"]') as HTMLElement
-  const viewport = page.container.querySelector('[data-slot="scroll-area-viewport"]') as HTMLElement
-  const scrollbar = page.container.querySelector('[data-slot="scroll-area-scrollbar"]') as HTMLElement
+  const viewport = page.container.querySelector(
+    '[data-slot="scroll-area-viewport"]'
+  ) as HTMLElement
+  const scrollbar = page.container.querySelector(
+    '[data-slot="scroll-area-scrollbar"]'
+  ) as HTMLElement
   const thumb = page.container.querySelector('[data-slot="scroll-area-thumb"]') as HTMLElement
 
   expect(root.classList).toContain('scroll-area')
@@ -65,24 +75,35 @@ it('orientation 控制横向与双轴滚动条，并在双轴模式组合 Corner
     value: ImmediateResizeObserver
   })
   const Fixture = defineComponent({
-    setup: () => () => h('div', [
-      h(ScrollArea, {
-        orientation: 'horizontal',
-        style: { height: '10rem', width: '16rem' },
-        type: 'always'
-      }, { default: createContent }),
-      h(ScrollArea, {
-        orientation: 'both',
-        style: { height: '10rem', width: '16rem' },
-        type: 'always'
-      }, { default: createContent })
-    ])
+    setup: () => () =>
+      h('div', [
+        h(
+          ScrollArea,
+          {
+            orientation: 'horizontal',
+            style: { height: '10rem', width: '16rem' },
+            type: 'always'
+          },
+          { default: createContent }
+        ),
+        h(
+          ScrollArea,
+          {
+            orientation: 'both',
+            style: { height: '10rem', width: '16rem' },
+            type: 'always'
+          },
+          { default: createContent }
+        )
+      ])
   })
   try {
     const page = render(Fixture)
     await nextTick()
 
-    const [horizontal, both] = Array.from(page.container.querySelectorAll('[data-slot="scroll-area"]')) as HTMLElement[]
+    const [horizontal, both] = Array.from(
+      page.container.querySelectorAll('[data-slot="scroll-area"]')
+    ) as HTMLElement[]
     expect(horizontal.dataset.orientation).toBe('horizontal')
     expect(horizontal.querySelector('[data-orientation="vertical"]')).toBeNull()
     expect(horizontal.querySelector('[data-orientation="horizontal"]')).not.toBeNull()
@@ -103,15 +124,25 @@ it('orientation 控制横向与双轴滚动条，并在双轴模式组合 Corner
 
 it('具名 scrollbar 插槽支持替换默认滚动条与 Thumb', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h(ScrollArea, {
-      style: { height: '10rem', width: '16rem' },
-      type: 'always'
-    }, {
-      default: createContent,
-      scrollbar: () => h(ScrollAreaScrollbar, { orientation: 'vertical' }, {
-        default: () => h(ScrollAreaThumb, { class: 'custom-scroll-area-thumb' })
-      })
-    })
+    setup: () => () =>
+      h(
+        ScrollArea,
+        {
+          style: { height: '10rem', width: '16rem' },
+          type: 'always'
+        },
+        {
+          default: createContent,
+          scrollbar: () =>
+            h(
+              ScrollAreaScrollbar,
+              { orientation: 'vertical' },
+              {
+                default: () => h(ScrollAreaThumb, { class: 'custom-scroll-area-thumb' })
+              }
+            )
+        }
+      )
   })
   const page = render(Fixture)
   await nextTick()
@@ -124,12 +155,17 @@ it('具名 scrollbar 插槽支持替换默认滚动条与 Thumb', async () => {
 
 it('hover 模式继续由 Reka 管理可见性，并在深色主题下消费 Nova Token', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h('div', { 'data-theme': 'dark' }, [
-      h(ScrollArea, {
-        'data-testid': 'hover-scroll-area',
-        'style': { height: '10rem', width: '16rem' }
-      }, { default: createContent })
-    ])
+    setup: () => () =>
+      h('div', { 'data-theme': 'dark' }, [
+        h(
+          ScrollArea,
+          {
+            'data-testid': 'hover-scroll-area',
+            'style': { height: '10rem', width: '16rem' }
+          },
+          { default: createContent }
+        )
+      ])
   })
   const page = render(Fixture)
   const root = page.container.querySelector('[data-testid="hover-scroll-area"]') as HTMLElement

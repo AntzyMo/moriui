@@ -12,7 +12,7 @@
 
 <template>
   <DatePickerHeading
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="datePickerVariants().heading({ class: props.class as never })"
     data-slot="date-picker-heading"

@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -41,12 +42,19 @@ it('支持 as 与 asChild 多态渲染，并保留插槽内容', () => {
   expect(span.textContent).toBe('加载中')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(Skeleton, { asChild: true }, {
-      default: () => h('article', { 'data-testid': 'article-skeleton' }, '文章加载中')
-    })
+    setup: () => () =>
+      h(
+        Skeleton,
+        { asChild: true },
+        {
+          default: () => h('article', { 'data-testid': 'article-skeleton' }, '文章加载中')
+        }
+      )
   })
   const asChild = render(AsChildFixture)
-  const article = asChild.container.querySelector('[data-testid="article-skeleton"]') as HTMLElement
+  const article = asChild.container.querySelector(
+    '[data-testid="article-skeleton"]'
+  ) as HTMLElement
 
   expect(article.dataset.slot).toBe('skeleton')
   expect(article.classList).toContain('skeleton')
@@ -68,7 +76,9 @@ it('使用主题 muted Token，且允许调用方覆盖局部 Token', () => {
     getComputedStyle(host).getPropertyValue('--muted').trim()
   )
   expect(tokenSkeleton.style.getPropertyValue('--skeleton-bg')).toBe('rgb(1, 2, 3)')
-  expect(getComputedStyle(tokenSkeleton).backgroundColor).not.toBe(getComputedStyle(skeleton).backgroundColor)
+  expect(getComputedStyle(tokenSkeleton).backgroundColor).not.toBe(
+    getComputedStyle(skeleton).backgroundColor
+  )
 
   host.dataset.theme = 'dark'
   expect(getComputedStyle(skeleton).backgroundColor).toBe(
@@ -81,8 +91,9 @@ it('应用脉冲动效，并在减少动效环境下提供静态规则', () => {
   const skeleton = page.container.querySelector('[data-slot="skeleton"]') as HTMLElement
   const hasReducedMotionRule = Array.from(document.styleSheets).some(sheet => {
     try {
-      return Array.from(sheet.cssRules).some(rule =>
-        rule instanceof CSSMediaRule && rule.conditionText.includes('prefers-reduced-motion')
+      return Array.from(sheet.cssRules).some(
+        rule =>
+          rule instanceof CSSMediaRule && rule.conditionText.includes('prefers-reduced-motion')
       )
     } catch {
       return false

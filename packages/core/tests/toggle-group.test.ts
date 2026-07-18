@@ -1,11 +1,12 @@
+import { expect, it } from 'vite-plus/test'
+import { userEvent } from 'vite-plus/test/browser'
+
+import { render } from 'vitest-browser-vue'
+import { defineComponent, h, nextTick, shallowRef } from 'vue'
+
 import ToggleGroup from '../src/components/toggle-group/ToggleGroup.vue'
 import { toggleGroupVariants } from '../src/components/toggle-group/variants'
 import ToggleGroupItem from '../src/components/toggle-group/ToggleGroupItem.vue'
-
-import { expect, it } from 'vitest'
-import { userEvent } from 'vitest/browser'
-import { render } from 'vitest-browser-vue'
-import { defineComponent, h, nextTick, shallowRef } from 'vue'
 
 import './style.css'
 
@@ -42,39 +43,57 @@ it('支持 single 与 multiple 受控状态，并保留 Item 的作用域插槽'
   const selected = shallowRef('center')
   const formats = shallowRef<string[]>(['bold'])
   const Fixture = defineComponent({
-    setup: () => () => h('div', [
-      h(ToggleGroup, {
-        'modelValue': selected.value,
-        'type': 'single',
-        'onUpdate:modelValue': (nextValue: string) => {
-          selected.value = nextValue
-        }
-      }, {
-        default: () => [
-          h(ToggleGroupItem, { value: 'left' }, { default: () => '左' }),
-          h(ToggleGroupItem, { value: 'center' }, {
-            default: ({ pressed }: { pressed: boolean }) => h('span', { 'data-testid': 'selected-item' }, String(pressed))
-          })
-        ]
-      }),
-      h(ToggleGroup, {
-        'modelValue': formats.value,
-        'type': 'multiple',
-        'onUpdate:modelValue': (nextValue: string[]) => {
-          formats.value = nextValue
-        }
-      }, {
-        default: () => [
-          h(ToggleGroupItem, { value: 'bold' }, { default: () => '粗体' }),
-          h(ToggleGroupItem, { value: 'italic' }, { default: () => '斜体' })
-        ]
-      })
-    ])
+    setup: () => () =>
+      h('div', [
+        h(
+          ToggleGroup,
+          {
+            'modelValue': selected.value,
+            'type': 'single',
+            'onUpdate:modelValue': (nextValue: string) => {
+              selected.value = nextValue
+            }
+          },
+          {
+            default: () => [
+              h(ToggleGroupItem, { value: 'left' }, { default: () => '左' }),
+              h(
+                ToggleGroupItem,
+                { value: 'center' },
+                {
+                  default: ({ pressed }: { pressed: boolean }) =>
+                    h('span', { 'data-testid': 'selected-item' }, String(pressed))
+                }
+              )
+            ]
+          }
+        ),
+        h(
+          ToggleGroup,
+          {
+            'modelValue': formats.value,
+            'type': 'multiple',
+            'onUpdate:modelValue': (nextValue: string[]) => {
+              formats.value = nextValue
+            }
+          },
+          {
+            default: () => [
+              h(ToggleGroupItem, { value: 'bold' }, { default: () => '粗体' }),
+              h(ToggleGroupItem, { value: 'italic' }, { default: () => '斜体' })
+            ]
+          }
+        )
+      ])
   })
   const page = render(Fixture)
   const groups = Array.from(page.container.querySelectorAll('[data-slot="toggle-group"]'))
-  const singleItems = Array.from(groups[0].querySelectorAll('[data-slot="toggle-group-item"]')) as HTMLButtonElement[]
-  const multipleItems = Array.from(groups[1].querySelectorAll('[data-slot="toggle-group-item"]')) as HTMLButtonElement[]
+  const singleItems = Array.from(
+    groups[0].querySelectorAll('[data-slot="toggle-group-item"]')
+  ) as HTMLButtonElement[]
+  const multipleItems = Array.from(
+    groups[1].querySelectorAll('[data-slot="toggle-group-item"]')
+  ) as HTMLButtonElement[]
 
   expect(singleItems[1].getAttribute('data-state')).toBe('on')
   expect(page.container.querySelector('[data-testid="selected-item"]')?.textContent).toBe('true')
@@ -92,22 +111,33 @@ it('支持 single 与 multiple 受控状态，并保留 Item 的作用域插槽'
 
 it('支持 roving focus、禁用与 Item 变体覆盖', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h('div', [
-      h(ToggleGroup, { type: 'single', variant: 'outline', size: 'sm' }, {
-        default: () => [
-          h(ToggleGroupItem, { value: 'left' }, { default: () => '左' }),
-          h(ToggleGroupItem, { value: 'center', size: 'lg' }, { default: () => '中' }),
-          h(ToggleGroupItem, { value: 'right' }, { default: () => '右' })
-        ]
-      }),
-      h(ToggleGroup, { disabled: true, type: 'multiple' }, {
-        default: () => h(ToggleGroupItem, { value: 'bold' }, { default: () => '粗体' })
-      })
-    ])
+    setup: () => () =>
+      h('div', [
+        h(
+          ToggleGroup,
+          { type: 'single', variant: 'outline', size: 'sm' },
+          {
+            default: () => [
+              h(ToggleGroupItem, { value: 'left' }, { default: () => '左' }),
+              h(ToggleGroupItem, { value: 'center', size: 'lg' }, { default: () => '中' }),
+              h(ToggleGroupItem, { value: 'right' }, { default: () => '右' })
+            ]
+          }
+        ),
+        h(
+          ToggleGroup,
+          { disabled: true, type: 'multiple' },
+          {
+            default: () => h(ToggleGroupItem, { value: 'bold' }, { default: () => '粗体' })
+          }
+        )
+      ])
   })
   const page = render(Fixture)
   const groups = Array.from(page.container.querySelectorAll('[data-slot="toggle-group"]'))
-  const items = Array.from(groups[0].querySelectorAll('[data-slot="toggle-group-item"]')) as HTMLButtonElement[]
+  const items = Array.from(
+    groups[0].querySelectorAll('[data-slot="toggle-group-item"]')
+  ) as HTMLButtonElement[]
   const disabled = groups[1].querySelector('[data-slot="toggle-group-item"]') as HTMLButtonElement
 
   expect(items[0].classList).toContain('toggle-group__item--outline')
@@ -125,18 +155,29 @@ it('支持 roving focus、禁用与 Item 变体覆盖', async () => {
 
 it('仅在零间距时合并相邻项的边框和圆角，并保留 Group 表单语义', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h('form', [
-      h(ToggleGroup, { defaultValue: ['bold'], name: 'formats', spacing: 0, type: 'multiple' }, {
-        default: () => [
-          h(ToggleGroupItem, { value: 'bold', variant: 'outline' }, { default: () => '粗体' }),
-          h(ToggleGroupItem, { value: 'italic', variant: 'outline' }, { default: () => '斜体' })
-        ]
-      })
-    ])
+    setup: () => () =>
+      h('form', [
+        h(
+          ToggleGroup,
+          { defaultValue: ['bold'], name: 'formats', spacing: 0, type: 'multiple' },
+          {
+            default: () => [
+              h(ToggleGroupItem, { value: 'bold', variant: 'outline' }, { default: () => '粗体' }),
+              h(
+                ToggleGroupItem,
+                { value: 'italic', variant: 'outline' },
+                { default: () => '斜体' }
+              )
+            ]
+          }
+        )
+      ])
   })
   const page = render(Fixture)
   const form = page.container.querySelector('form') as HTMLFormElement
-  const items = Array.from(page.container.querySelectorAll('[data-slot="toggle-group-item"]')) as HTMLButtonElement[]
+  const items = Array.from(
+    page.container.querySelectorAll('[data-slot="toggle-group-item"]')
+  ) as HTMLButtonElement[]
 
   await nextTick()
 

@@ -15,7 +15,7 @@
 
 <template>
   <CalendarHeading
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="calendarVariants().heading({ class: props.class as never })"
     data-slot="calendar-heading"

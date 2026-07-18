@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, shallowRef } from 'vue'
 
@@ -12,14 +13,20 @@ import './style.css'
 
 function sliderContent(values: number[]) {
   return [
-    h(SliderTrack, { class: 'custom-track' }, {
-      default: () => h(SliderRange, { class: 'custom-range' })
-    }),
-    ...values.map(value => h(SliderThumb, {
-      'key': value,
-      'aria-label': `值 ${value}`,
-      'class': 'custom-thumb'
-    }))
+    h(
+      SliderTrack,
+      { class: 'custom-track' },
+      {
+        default: () => h(SliderRange, { class: 'custom-range' })
+      }
+    ),
+    ...values.map(value =>
+      h(SliderThumb, {
+        'key': value,
+        'aria-label': `值 ${value}`,
+        'class': 'custom-thumb'
+      })
+    )
   ]
 }
 
@@ -72,17 +79,22 @@ it('支持指针点击、受控 v-model、键盘调节和提交事件', async ()
   const value = shallowRef([20])
   const onValueCommit = vi.fn()
   const Fixture = defineComponent({
-    setup: () => () => h(Slider, {
-      'modelValue': value.value,
-      'min': 0,
-      'max': 100,
-      'onUpdate:modelValue': (nextValue: number[] | undefined) => {
-        value.value = nextValue ?? []
-      },
-      onValueCommit
-    }, {
-      default: () => sliderContent(value.value)
-    })
+    setup: () => () =>
+      h(
+        Slider,
+        {
+          'modelValue': value.value,
+          'min': 0,
+          'max': 100,
+          'onUpdate:modelValue': (nextValue: number[] | undefined) => {
+            value.value = nextValue ?? []
+          },
+          onValueCommit
+        },
+        {
+          default: () => sliderContent(value.value)
+        }
+      )
   })
   const page = render(Fixture)
   const slider = page.container.querySelector('[data-slider-impl]') as HTMLElement
@@ -100,17 +112,21 @@ it('支持指针点击、受控 v-model、键盘调节和提交事件', async ()
     }
   })
 
-  slider.dispatchEvent(new PointerEvent('pointerdown', {
-    bubbles: true,
-    clientX: 50,
-    pointerId: 1
-  }))
+  slider.dispatchEvent(
+    new PointerEvent('pointerdown', {
+      bubbles: true,
+      clientX: 50,
+      pointerId: 1
+    })
+  )
   await nextTick()
-  slider.dispatchEvent(new PointerEvent('pointerup', {
-    bubbles: true,
-    clientX: 50,
-    pointerId: 1
-  }))
+  slider.dispatchEvent(
+    new PointerEvent('pointerup', {
+      bubbles: true,
+      clientX: 50,
+      pointerId: 1
+    })
+  )
   await nextTick()
   expect(value.value).toEqual([50])
   expect(onValueCommit).toHaveBeenCalledWith([50])
@@ -136,29 +152,42 @@ it('支持多拇指间距、垂直方向、RTL/inverted 和禁用状态', async 
   const constrained = shallowRef([30, 70])
   const disabled = shallowRef([50])
   const Fixture = defineComponent({
-    setup: () => () => h('div', { 'data-theme': 'dark' }, [
-      h(Slider, {
-        'modelValue': constrained.value,
-        'minStepsBetweenThumbs': 50,
-        'onUpdate:modelValue': (nextValue: number[] | undefined) => {
-          constrained.value = nextValue ?? []
-        }
-      }, { default: () => sliderContent(constrained.value) }),
-      h(Slider, {
-        defaultValue: [40],
-        orientation: 'vertical',
-        dir: 'rtl',
-        inverted: true,
-        class: 'h-40'
-      }, { default: () => sliderContent([40]) }),
-      h(Slider, {
-        'modelValue': disabled.value,
-        'disabled': true,
-        'onUpdate:modelValue': (nextValue: number[] | undefined) => {
-          disabled.value = nextValue ?? []
-        }
-      }, { default: () => sliderContent(disabled.value) })
-    ])
+    setup: () => () =>
+      h('div', { 'data-theme': 'dark' }, [
+        h(
+          Slider,
+          {
+            'modelValue': constrained.value,
+            'minStepsBetweenThumbs': 50,
+            'onUpdate:modelValue': (nextValue: number[] | undefined) => {
+              constrained.value = nextValue ?? []
+            }
+          },
+          { default: () => sliderContent(constrained.value) }
+        ),
+        h(
+          Slider,
+          {
+            defaultValue: [40],
+            orientation: 'vertical',
+            dir: 'rtl',
+            inverted: true,
+            class: 'h-40'
+          },
+          { default: () => sliderContent([40]) }
+        ),
+        h(
+          Slider,
+          {
+            'modelValue': disabled.value,
+            'disabled': true,
+            'onUpdate:modelValue': (nextValue: number[] | undefined) => {
+              disabled.value = nextValue ?? []
+            }
+          },
+          { default: () => sliderContent(disabled.value) }
+        )
+      ])
   })
   const page = render(Fixture)
   const roots = page.container.querySelectorAll('[data-slot="slider"]')
@@ -168,13 +197,17 @@ it('支持多拇指间距、垂直方向、RTL/inverted 和禁用状态', async 
   const disabledRoot = roots[2] as HTMLElement
   const disabledThumb = thumbs[3] as HTMLElement
 
-  constrainedThumb.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'ArrowRight' }))
+  constrainedThumb.dispatchEvent(
+    new KeyboardEvent('keydown', { bubbles: true, key: 'ArrowRight' })
+  )
   await nextTick()
   expect(constrained.value).toEqual([30, 70])
 
   expect(vertical.dataset.orientation).toBe('vertical')
   expect(vertical.classList).toContain('h-40')
-  expect(getComputedStyle(vertical.querySelector('[data-slot="slider-track"]') as HTMLElement).width).toBe('4px')
+  expect(
+    getComputedStyle(vertical.querySelector('[data-slot="slider-track"]') as HTMLElement).width
+  ).toBe('4px')
   expect(disabledRoot.hasAttribute('data-disabled')).toBe(true)
   expect(disabledThumb.hasAttribute('data-disabled')).toBe(true)
 

@@ -26,7 +26,7 @@
 
 <template>
   <RekaToggleGroupItem
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="slots.item({ variant, size, class: props.class as never })"
     :data-size="size"

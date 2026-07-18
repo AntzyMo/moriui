@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -41,32 +42,51 @@ it('默认渲染空状态容器，并透传属性、事件和调用方类名', (
 
 it('渲染完整组合槽位及其稳定类名', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Empty, {}, {
-      default: () => [
-        h(EmptyHeader, {}, {
+    setup: () => () =>
+      h(
+        Empty,
+        {},
+        {
           default: () => [
-            h(EmptyMedia, { variant: 'icon' }, {
-              default: () => h('svg', { 'viewBox': '0 0 24 24', 'aria-hidden': 'true' })
-            }),
-            h(EmptyTitle, {}, { default: () => '暂无项目' }),
-            h(EmptyDescription, {}, {
-              default: () => [
-                '创建你的第一个项目，或',
-                h('a', { href: '#import' }, '导入已有项目')
-              ]
-            })
+            h(
+              EmptyHeader,
+              {},
+              {
+                default: () => [
+                  h(
+                    EmptyMedia,
+                    { variant: 'icon' },
+                    {
+                      default: () => h('svg', { 'viewBox': '0 0 24 24', 'aria-hidden': 'true' })
+                    }
+                  ),
+                  h(EmptyTitle, {}, { default: () => '暂无项目' }),
+                  h(
+                    EmptyDescription,
+                    {},
+                    {
+                      default: () => [
+                        '创建你的第一个项目，或',
+                        h('a', { href: '#import' }, '导入已有项目')
+                      ]
+                    }
+                  )
+                ]
+              }
+            ),
+            h(EmptyContent, {}, { default: () => h('button', { type: 'button' }, '创建项目') })
           ]
-        }),
-        h(EmptyContent, {}, { default: () => h('button', { type: 'button' }, '创建项目') })
-      ]
-    })
+        }
+      )
   })
   const page = render(Fixture)
   const empty = page.container.querySelector('[data-slot="empty"]') as HTMLElement
   const header = page.container.querySelector('[data-slot="empty-header"]') as HTMLElement
   const media = page.container.querySelector('[data-slot="empty-icon"]') as HTMLElement
   const title = page.container.querySelector('[data-slot="empty-title"]') as HTMLElement
-  const description = page.container.querySelector('[data-slot="empty-description"]') as HTMLElement
+  const description = page.container.querySelector(
+    '[data-slot="empty-description"]'
+  ) as HTMLElement
   const content = page.container.querySelector('[data-slot="empty-content"]') as HTMLElement
 
   expect(header.classList).toContain('empty__header')
@@ -105,18 +125,30 @@ it.each(['default', 'icon'] as const)('应用 %s 媒体变体及数据属性', v
 
 it('描述链接、局部 Token 与主题切换按 Nova 语义生效', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Empty, {
-      style: '--empty-fg: rgb(1, 2, 3); --empty-description-fg: rgb(4, 5, 6);'
-    }, {
-      default: () => h(EmptyDescription, {}, {
-        default: () => h('a', { href: '#help' }, '查看帮助')
-      })
-    })
+    setup: () => () =>
+      h(
+        Empty,
+        {
+          style: '--empty-fg: rgb(1, 2, 3); --empty-description-fg: rgb(4, 5, 6);'
+        },
+        {
+          default: () =>
+            h(
+              EmptyDescription,
+              {},
+              {
+                default: () => h('a', { href: '#help' }, '查看帮助')
+              }
+            )
+        }
+      )
   })
   const page = render(Fixture)
   const host = page.container as HTMLElement
   const empty = page.container.querySelector('[data-slot="empty"]') as HTMLElement
-  const description = page.container.querySelector('[data-slot="empty-description"]') as HTMLElement
+  const description = page.container.querySelector(
+    '[data-slot="empty-description"]'
+  ) as HTMLElement
   const link = description.querySelector('a') as HTMLAnchorElement
 
   expect(getComputedStyle(empty).color).toBe('rgb(1, 2, 3)')

@@ -36,7 +36,7 @@
 
 <template>
   <ToggleGroupRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model="modelValue"
     :class="slots.root({ orientation, class: props.class as never })"

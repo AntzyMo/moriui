@@ -1,6 +1,6 @@
+import { afterEach, expect, it, vi } from 'vite-plus/test'
 import type { SheetSide } from '../src/components/sheet/variants'
 
-import { afterEach, expect, it, vi } from 'vitest'
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -22,45 +22,63 @@ afterEach(() => {
   delete document.documentElement.dataset.theme
 })
 
-function createFixture(options: {
-  controlled?: boolean
-  showCloseButton?: boolean
-  side?: SheetSide
-} = {}) {
+function createFixture(
+  options: {
+    controlled?: boolean
+    showCloseButton?: boolean
+    side?: SheetSide
+  } = {}
+) {
   const open = ref(false)
   const onUpdateOpen = vi.fn((value: boolean) => {
     open.value = value
   })
 
   const Fixture = defineComponent({
-    setup: () => () => h(Sheet, options.controlled
-      ? { 'open': open.value, 'onUpdate:open': onUpdateOpen }
-      : {}, {
-      default: () => [
-        h(SheetTrigger, { class: 'custom-trigger' }, { default: () => '打开面板' }),
-        h(SheetContent, {
-          class: 'custom-content',
-          side: options.side,
-          showCloseButton: options.showCloseButton
-        }, {
-          default: () => [
-            h(SheetHeader, { class: 'custom-header' }, {
+    setup: () => () =>
+      h(Sheet, options.controlled ? { 'open': open.value, 'onUpdate:open': onUpdateOpen } : {}, {
+        default: () => [
+          h(SheetTrigger, { class: 'custom-trigger' }, { default: () => '打开面板' }),
+          h(
+            SheetContent,
+            {
+              class: 'custom-content',
+              side: options.side,
+              showCloseButton: options.showCloseButton
+            },
+            {
               default: () => [
-                h(SheetTitle, {}, { default: () => '编辑项目' }),
-                h(SheetDescription, {}, { default: () => '更新项目的基本信息。' })
+                h(
+                  SheetHeader,
+                  { class: 'custom-header' },
+                  {
+                    default: () => [
+                      h(SheetTitle, {}, { default: () => '编辑项目' }),
+                      h(SheetDescription, {}, { default: () => '更新项目的基本信息。' })
+                    ]
+                  }
+                ),
+                h(
+                  SheetFooter,
+                  { class: 'custom-footer' },
+                  {
+                    default: () => [
+                      h(
+                        SheetClose,
+                        { asChild: true },
+                        {
+                          default: () =>
+                            h(Button, { variant: 'outline' }, { default: () => '取消' })
+                        }
+                      )
+                    ]
+                  }
+                )
               ]
-            }),
-            h(SheetFooter, { class: 'custom-footer' }, {
-              default: () => [
-                h(SheetClose, { asChild: true }, {
-                  default: () => h(Button, { variant: 'outline' }, { default: () => '取消' })
-                })
-              ]
-            })
-          ]
-        })
-      ]
-    })
+            }
+          )
+        ]
+      })
   })
 
   return { Fixture, onUpdateOpen, open }
@@ -75,27 +93,40 @@ async function openSheet(Fixture: ReturnType<typeof createFixture>['Fixture']) {
   return { page, trigger }
 }
 
-it.each<SheetSide>(['top', 'right', 'bottom', 'left'])('渲染 %s 方向、稳定槽位和调用方类名', async side => {
-  const { Fixture } = createFixture({ side })
-  const { trigger } = await openSheet(Fixture)
-  const content = document.body.querySelector('[data-slot="sheet-content"][data-state="open"]') as HTMLElement
+it.each<SheetSide>(['top', 'right', 'bottom', 'left'])(
+  '渲染 %s 方向、稳定槽位和调用方类名',
+  async side => {
+    const { Fixture } = createFixture({ side })
+    const { trigger } = await openSheet(Fixture)
+    const content = document.body.querySelector(
+      '[data-slot="sheet-content"][data-state="open"]'
+    ) as HTMLElement
 
-  expect(trigger.classList).toContain('sheet__trigger')
-  expect(trigger.classList).toContain('custom-trigger')
-  expect(content.classList).toContain('sheet__content')
-  expect(content.classList).toContain('custom-content')
-  expect(content.dataset.side).toBe(side)
-  expect(document.body.querySelector('[data-slot="sheet-overlay"]')?.classList).toContain('sheet__overlay')
-  expect(content.querySelector('[data-slot="sheet-header"]')?.classList).toContain('custom-header')
-  expect(content.querySelector('[data-slot="sheet-footer"]')?.classList).toContain('custom-footer')
-  expect(content.querySelector('[data-slot="sheet-close"]')?.classList).toContain('sheet__close')
-  expect(content.querySelector('.sheet__close-button')).not.toBeNull()
-})
+    expect(trigger.classList).toContain('sheet__trigger')
+    expect(trigger.classList).toContain('custom-trigger')
+    expect(content.classList).toContain('sheet__content')
+    expect(content.classList).toContain('custom-content')
+    expect(content.dataset.side).toBe(side)
+    expect(document.body.querySelector('[data-slot="sheet-overlay"]')?.classList).toContain(
+      'sheet__overlay'
+    )
+    expect(content.querySelector('[data-slot="sheet-header"]')?.classList).toContain(
+      'custom-header'
+    )
+    expect(content.querySelector('[data-slot="sheet-footer"]')?.classList).toContain(
+      'custom-footer'
+    )
+    expect(content.querySelector('[data-slot="sheet-close"]')?.classList).toContain('sheet__close')
+    expect(content.querySelector('.sheet__close-button')).not.toBeNull()
+  }
+)
 
 it('默认从右侧打开，并使用 Base Nova 的贴边面板尺寸', async () => {
   const { Fixture } = createFixture()
   await openSheet(Fixture)
-  const content = document.body.querySelector('[data-slot="sheet-content"][data-state="open"]') as HTMLElement
+  const content = document.body.querySelector(
+    '[data-slot="sheet-content"][data-state="open"]'
+  ) as HTMLElement
   const header = content.querySelector('[data-slot="sheet-header"]') as HTMLElement
   const footer = content.querySelector('[data-slot="sheet-footer"]') as HTMLElement
   const close = content.querySelector('.sheet__close-button') as HTMLElement
@@ -114,7 +145,13 @@ it('默认从右侧打开，并使用 Base Nova 的贴边面板尺寸', async ()
   expect(getComputedStyle(footer).position).toBe('static')
 })
 
-it.each<[SheetSide, 'top' | 'right' | 'bottom' | 'left', 'borderTopWidth' | 'borderRightWidth' | 'borderBottomWidth' | 'borderLeftWidth']>([
+it.each<
+  [
+    SheetSide,
+    'top' | 'right' | 'bottom' | 'left',
+    'borderTopWidth' | 'borderRightWidth' | 'borderBottomWidth' | 'borderLeftWidth'
+  ]
+>([
   ['top', 'top', 'borderBottomWidth'],
   ['right', 'right', 'borderLeftWidth'],
   ['bottom', 'bottom', 'borderTopWidth'],
@@ -122,7 +159,9 @@ it.each<[SheetSide, 'top' | 'right' | 'bottom' | 'left', 'borderTopWidth' | 'bor
 ])('将 %s 面板锚定在正确视口边缘', async (side, edge, border) => {
   const { Fixture } = createFixture({ side })
   await openSheet(Fixture)
-  const content = document.body.querySelector('[data-slot="sheet-content"][data-state="open"]') as HTMLElement
+  const content = document.body.querySelector(
+    '[data-slot="sheet-content"][data-state="open"]'
+  ) as HTMLElement
   const styles = getComputedStyle(content)
 
   expect(styles[edge]).toBe('0px')
@@ -137,7 +176,9 @@ it('通过受控 open 模型同步开闭状态', async () => {
   expect(onUpdateOpen).toHaveBeenCalledWith(true)
   expect(open.value).toBe(true)
 
-  const close = document.body.querySelector('[data-slot="sheet-content"] [data-slot="sheet-close"]') as HTMLButtonElement
+  const close = document.body.querySelector(
+    '[data-slot="sheet-content"] [data-slot="sheet-close"]'
+  ) as HTMLButtonElement
   close.click()
   await nextTick()
   expect(onUpdateOpen).toHaveBeenLastCalledWith(false)
@@ -147,7 +188,9 @@ it('通过受控 open 模型同步开闭状态', async () => {
 it('提供 dialog 语义、标题描述关联、Teleport 与默认关闭按钮', async () => {
   const { Fixture } = createFixture()
   await openSheet(Fixture)
-  const content = document.body.querySelector('[data-slot="sheet-content"][data-state="open"]') as HTMLElement
+  const content = document.body.querySelector(
+    '[data-slot="sheet-content"][data-state="open"]'
+  ) as HTMLElement
   const title = content.querySelector('[data-slot="sheet-title"]') as HTMLElement
   const description = content.querySelector('[data-slot="sheet-description"]') as HTMLElement
   const close = Array.from(content.querySelectorAll('[data-slot="sheet-close"]')).find(element =>
@@ -165,7 +208,9 @@ it('提供 dialog 语义、标题描述关联、Teleport 与默认关闭按钮',
 it('支持隐藏默认关闭按钮、Esc、遮罩点击与焦点归还', async () => {
   const { Fixture } = createFixture({ showCloseButton: false })
   const { trigger } = await openSheet(Fixture)
-  const content = document.body.querySelector('[data-slot="sheet-content"][data-state="open"]') as HTMLElement
+  const content = document.body.querySelector(
+    '[data-slot="sheet-content"][data-state="open"]'
+  ) as HTMLElement
 
   expect(content.querySelector('.sheet__close-button')).toBeNull()
   expect(content.querySelector('[data-slot="sheet-close"]')?.textContent).toContain('取消')
@@ -178,7 +223,9 @@ it('支持隐藏默认关闭按钮、Esc、遮罩点击与焦点归还', async (
 
   trigger.click()
   await nextTick()
-  const overlay = document.body.querySelector('[data-slot="sheet-overlay"][data-state="open"]') as HTMLElement
+  const overlay = document.body.querySelector(
+    '[data-slot="sheet-overlay"][data-state="open"]'
+  ) as HTMLElement
   overlay.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }))
   await nextTick()
   await new Promise(resolve => setTimeout(resolve, 250))
@@ -188,11 +235,16 @@ it('支持隐藏默认关闭按钮、Esc、遮罩点击与焦点归还', async (
 it('消费主题、短动效与减少动效契约', async () => {
   const { Fixture } = createFixture()
   await openSheet(Fixture)
-  const content = document.body.querySelector('[data-slot="sheet-content"][data-state="open"]') as HTMLElement
-  const overlay = document.body.querySelector('[data-slot="sheet-overlay"][data-state="open"]') as HTMLElement
+  const content = document.body.querySelector(
+    '[data-slot="sheet-content"][data-state="open"]'
+  ) as HTMLElement
+  const overlay = document.body.querySelector(
+    '[data-slot="sheet-overlay"][data-state="open"]'
+  ) as HTMLElement
   const hasReducedMotionRule = Array.from(document.styleSheets).some(sheet =>
-    Array.from(sheet.cssRules).some(rule =>
-      rule instanceof CSSMediaRule && rule.conditionText.includes('prefers-reduced-motion')
+    Array.from(sheet.cssRules).some(
+      rule =>
+        rule instanceof CSSMediaRule && rule.conditionText.includes('prefers-reduced-motion')
     )
   )
 

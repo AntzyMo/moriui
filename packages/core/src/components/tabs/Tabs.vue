@@ -17,7 +17,7 @@
 
 <template>
   <TabsRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model="modelValue"
     :class="slots.root({ class: props.class as never })"

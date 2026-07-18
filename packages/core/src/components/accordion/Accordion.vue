@@ -17,7 +17,7 @@
 
 <template>
   <AccordionRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-model="modelValue"
     v-bind="forwarded"
     :class="accordionVariants({ class: props.class as never })"

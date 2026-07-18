@@ -1,4 +1,5 @@
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, expect, it } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -23,49 +24,101 @@ function createFixture() {
   const activeItem = ref('')
 
   const Fixture = defineComponent({
-    setup: () => () => h(NavigationMenu, {
-      'modelValue': activeItem.value,
-      'delayDuration': 0,
-      'class': 'custom-navigation-menu',
-      'onUpdate:modelValue': (value: string) => {
-        activeItem.value = value
-      }
-    }, {
-      default: () => h(NavigationMenuList, { class: 'custom-list' }, {
-        default: () => [
-          h(NavigationMenuItem, { value: 'products' }, {
-            default: () => [
-              h(NavigationMenuTrigger, { 'class': 'custom-trigger', 'data-testid': 'products-trigger' }, { default: () => '产品' }),
-              h(NavigationMenuContent, { class: 'custom-content' }, {
+    setup: () => () =>
+      h(
+        NavigationMenu,
+        {
+          'modelValue': activeItem.value,
+          'delayDuration': 0,
+          'class': 'custom-navigation-menu',
+          'onUpdate:modelValue': (value: string) => {
+            activeItem.value = value
+          }
+        },
+        {
+          default: () =>
+            h(
+              NavigationMenuList,
+              { class: 'custom-list' },
+              {
                 default: () => [
-                  h(NavigationMenuLink, { 'href': '#components', 'data-testid': 'components-link' }, { default: () => '组件库' }),
-                  h('button', { 'data-testid': 'content-button' }, '查看组件')
+                  h(
+                    NavigationMenuItem,
+                    { value: 'products' },
+                    {
+                      default: () => [
+                        h(
+                          NavigationMenuTrigger,
+                          { 'class': 'custom-trigger', 'data-testid': 'products-trigger' },
+                          { default: () => '产品' }
+                        ),
+                        h(
+                          NavigationMenuContent,
+                          { class: 'custom-content' },
+                          {
+                            default: () => [
+                              h(
+                                NavigationMenuLink,
+                                { 'href': '#components', 'data-testid': 'components-link' },
+                                { default: () => '组件库' }
+                              ),
+                              h('button', { 'data-testid': 'content-button' }, '查看组件')
+                            ]
+                          }
+                        )
+                      ]
+                    }
+                  ),
+                  h(
+                    NavigationMenuItem,
+                    {},
+                    {
+                      default: () =>
+                        h(
+                          NavigationMenuLink,
+                          { 'active': true, 'href': '#overview', 'data-testid': 'overview-link' },
+                          { default: () => '概览' }
+                        )
+                    }
+                  ),
+                  h(
+                    NavigationMenuItem,
+                    {},
+                    {
+                      default: () =>
+                        h(
+                          NavigationMenuLink,
+                          {
+                            'href': '#documentation',
+                            'data-testid': 'documentation-link',
+                            'onPointerenter': () => {
+                              activeItem.value = ''
+                            }
+                          },
+                          { default: () => '文档' }
+                        )
+                    }
+                  ),
+                  h(
+                    NavigationMenuItem,
+                    { value: 'disabled' },
+                    {
+                      default: () => [
+                        h(
+                          NavigationMenuTrigger,
+                          { 'disabled': true, 'data-testid': 'disabled-trigger' },
+                          { default: () => '已禁用' }
+                        ),
+                        h(NavigationMenuContent, {}, { default: () => '不可用内容' })
+                      ]
+                    }
+                  ),
+                  h(NavigationMenuIndicator)
                 ]
-              })
-            ]
-          }),
-          h(NavigationMenuItem, {}, {
-            default: () => h(NavigationMenuLink, { 'active': true, 'href': '#overview', 'data-testid': 'overview-link' }, { default: () => '概览' })
-          }),
-          h(NavigationMenuItem, {}, {
-            default: () => h(NavigationMenuLink, {
-              'href': '#documentation',
-              'data-testid': 'documentation-link',
-              'onPointerenter': () => {
-                activeItem.value = ''
               }
-            }, { default: () => '文档' })
-          }),
-          h(NavigationMenuItem, { value: 'disabled' }, {
-            default: () => [
-              h(NavigationMenuTrigger, { 'disabled': true, 'data-testid': 'disabled-trigger' }, { default: () => '已禁用' }),
-              h(NavigationMenuContent, {}, { default: () => '不可用内容' })
-            ]
-          }),
-          h(NavigationMenuIndicator)
-        ]
-      })
-    })
+            )
+        }
+      )
   })
 
   return { Fixture, activeItem }
@@ -75,30 +128,64 @@ function createSwitchingFixture() {
   const activeItem = ref('')
 
   const Fixture = defineComponent({
-    setup: () => () => h(NavigationMenu, {
-      'modelValue': activeItem.value,
-      'delayDuration': 0,
-      'onUpdate:modelValue': (value: string) => {
-        activeItem.value = value
-      }
-    }, {
-      default: () => h(NavigationMenuList, {}, {
-        default: () => [
-          h(NavigationMenuItem, { value: 'first' }, {
-            default: () => [
-              h(NavigationMenuTrigger, { 'data-testid': 'first-trigger' }, { default: () => '第一个' }),
-              h(NavigationMenuContent, { class: 'w-64 p-3' }, { default: () => h('span', '第一个面板') })
-            ]
-          }),
-          h(NavigationMenuItem, { value: 'second' }, {
-            default: () => [
-              h(NavigationMenuTrigger, { 'data-testid': 'second-trigger' }, { default: () => '第二个' }),
-              h(NavigationMenuContent, { class: 'w-80 p-3' }, { default: () => h('span', '第二个面板') })
-            ]
-          })
-        ]
-      })
-    })
+    setup: () => () =>
+      h(
+        NavigationMenu,
+        {
+          'modelValue': activeItem.value,
+          'delayDuration': 0,
+          'onUpdate:modelValue': (value: string) => {
+            activeItem.value = value
+          }
+        },
+        {
+          default: () =>
+            h(
+              NavigationMenuList,
+              {},
+              {
+                default: () => [
+                  h(
+                    NavigationMenuItem,
+                    { value: 'first' },
+                    {
+                      default: () => [
+                        h(
+                          NavigationMenuTrigger,
+                          { 'data-testid': 'first-trigger' },
+                          { default: () => '第一个' }
+                        ),
+                        h(
+                          NavigationMenuContent,
+                          { class: 'w-64 p-3' },
+                          { default: () => h('span', '第一个面板') }
+                        )
+                      ]
+                    }
+                  ),
+                  h(
+                    NavigationMenuItem,
+                    { value: 'second' },
+                    {
+                      default: () => [
+                        h(
+                          NavigationMenuTrigger,
+                          { 'data-testid': 'second-trigger' },
+                          { default: () => '第二个' }
+                        ),
+                        h(
+                          NavigationMenuContent,
+                          { class: 'w-80 p-3' },
+                          { default: () => h('span', '第二个面板') }
+                        )
+                      ]
+                    }
+                  )
+                ]
+              }
+            )
+        }
+      )
   })
 
   return { Fixture, activeItem }
@@ -106,14 +193,18 @@ function createSwitchingFixture() {
 
 async function openNavigationMenu(Fixture: ReturnType<typeof createFixture>['Fixture']) {
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-testid="products-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="products-trigger"]'
+  ) as HTMLButtonElement
 
   trigger.click()
   await nextTick()
   await nextTick()
   await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
 
-  const viewport = page.container.querySelector('[data-slot="navigation-menu-viewport"]') as HTMLElement
+  const viewport = page.container.querySelector(
+    '[data-slot="navigation-menu-viewport"]'
+  ) as HTMLElement
   const content = viewport.querySelector('[data-slot="navigation-menu-content"]') as HTMLElement
   return { content, page, trigger, viewport }
 }
@@ -139,7 +230,9 @@ it('默认 Viewport 承载内容，并保留稳定槽位、调用方类名和 No
   const { content, page, trigger, viewport } = await openNavigationMenu(fixture.Fixture)
   const root = page.container.querySelector('[data-slot="navigation-menu"]') as HTMLElement
   const list = page.container.querySelector('[data-slot="navigation-menu-list"]') as HTMLElement
-  const indicator = page.container.querySelector('[data-slot="navigation-menu-indicator"]') as HTMLElement
+  const indicator = page.container.querySelector(
+    '[data-slot="navigation-menu-indicator"]'
+  ) as HTMLElement
 
   expect(fixture.activeItem.value).toBe('products')
   expect(root.classList).toContain('navigation-menu')
@@ -167,7 +260,9 @@ it('默认 Viewport 承载内容，并保留稳定槽位、调用方类名和 No
 it('鼠标悬停触发器后会显示具有实际尺寸的内容', async () => {
   const fixture = createFixture()
   const page = render(fixture.Fixture)
-  const trigger = page.container.querySelector('[data-testid="products-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="products-trigger"]'
+  ) as HTMLButtonElement
 
   trigger.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true, pointerType: 'mouse' }))
   trigger.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, pointerType: 'mouse' }))
@@ -175,7 +270,9 @@ it('鼠标悬停触发器后会显示具有实际尺寸的内容', async () => {
   await nextTick()
   await nextTick()
 
-  const viewport = page.container.querySelector('[data-slot="navigation-menu-viewport"]') as HTMLElement
+  const viewport = page.container.querySelector(
+    '[data-slot="navigation-menu-viewport"]'
+  ) as HTMLElement
   const content = viewport.querySelector('[data-slot="navigation-menu-content"]') as HTMLElement
   expect(fixture.activeItem.value).toBe('products')
   expect(viewport.offsetHeight).toBeGreaterThan(0)
@@ -185,9 +282,13 @@ it('鼠标悬停触发器后会显示具有实际尺寸的内容', async () => {
 it('移入直达链接会立即关闭已打开的菜单，避免延迟关闭造成视觉闪动', async () => {
   const fixture = createFixture()
   const { page } = await openNavigationMenu(fixture.Fixture)
-  const documentationLink = page.container.querySelector('[data-testid="documentation-link"]') as HTMLAnchorElement
+  const documentationLink = page.container.querySelector(
+    '[data-testid="documentation-link"]'
+  ) as HTMLAnchorElement
 
-  documentationLink.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true, pointerType: 'mouse' }))
+  documentationLink.dispatchEvent(
+    new PointerEvent('pointerenter', { bubbles: true, pointerType: 'mouse' })
+  )
   await nextTick()
 
   expect(fixture.activeItem.value).toBe('')
@@ -196,20 +297,28 @@ it('移入直达链接会立即关闭已打开的菜单，避免延迟关闭造�
 it('窄屏切换选项时隐藏旧内容，避免堆叠成第二个下拉面板', async () => {
   const fixture = createSwitchingFixture()
   const page = render(fixture.Fixture)
-  const firstTrigger = page.container.querySelector('[data-testid="first-trigger"]') as HTMLButtonElement
-  const secondTrigger = page.container.querySelector('[data-testid="second-trigger"]') as HTMLButtonElement
+  const firstTrigger = page.container.querySelector(
+    '[data-testid="first-trigger"]'
+  ) as HTMLButtonElement
+  const secondTrigger = page.container.querySelector(
+    '[data-testid="second-trigger"]'
+  ) as HTMLButtonElement
 
   firstTrigger.click()
   await nextTick()
   await nextTick()
 
-  const viewport = page.container.querySelector('[data-slot="navigation-menu-viewport"]') as HTMLElement
+  const viewport = page.container.querySelector(
+    '[data-slot="navigation-menu-viewport"]'
+  ) as HTMLElement
 
   secondTrigger.click()
   await nextTick()
   await nextTick()
 
-  const panels = Array.from(viewport.querySelectorAll('[data-slot="navigation-menu-content"]')) as HTMLElement[]
+  const panels = Array.from(
+    viewport.querySelectorAll('[data-slot="navigation-menu-content"]')
+  ) as HTMLElement[]
   const openPanel = panels.find(panel => panel.dataset.state === 'open') as HTMLElement
   const closedPanel = panels.find(panel => panel.dataset.state === 'closed') as HTMLElement
 
@@ -222,24 +331,51 @@ it('窄屏切换选项时隐藏旧内容，避免堆叠成第二个下拉面板'
 
 it('未受控时保留 Reka 的 defaultValue', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h(NavigationMenu, { defaultValue: 'default-open', viewport: false }, {
-      default: () => h(NavigationMenuList, {}, {
-        default: () => h(NavigationMenuItem, { value: 'default-open' }, {
-          default: () => [
-            h(NavigationMenuTrigger, { 'data-testid': 'default-trigger' }, { default: () => '默认打开' }),
-            h(NavigationMenuContent, { class: 'w-56 p-2' }, { default: () => '默认内容' })
-          ]
-        })
-      })
-    })
+    setup: () => () =>
+      h(
+        NavigationMenu,
+        { defaultValue: 'default-open', viewport: false },
+        {
+          default: () =>
+            h(
+              NavigationMenuList,
+              {},
+              {
+                default: () =>
+                  h(
+                    NavigationMenuItem,
+                    { value: 'default-open' },
+                    {
+                      default: () => [
+                        h(
+                          NavigationMenuTrigger,
+                          { 'data-testid': 'default-trigger' },
+                          { default: () => '默认打开' }
+                        ),
+                        h(
+                          NavigationMenuContent,
+                          { class: 'w-56 p-2' },
+                          { default: () => '默认内容' }
+                        )
+                      ]
+                    }
+                  )
+              }
+            )
+        }
+      )
   })
 
   const page = render(Fixture)
   await nextTick()
   await nextTick()
 
-  const trigger = page.container.querySelector('[data-testid="default-trigger"]') as HTMLButtonElement
-  const content = page.container.querySelector('[data-slot="navigation-menu-content"]') as HTMLElement
+  const trigger = page.container.querySelector(
+    '[data-testid="default-trigger"]'
+  ) as HTMLButtonElement
+  const content = page.container.querySelector(
+    '[data-slot="navigation-menu-content"]'
+  ) as HTMLElement
 
   expect(trigger.dataset.state).toBe('open')
   expect(content.dataset.state).toBe('open')
@@ -248,29 +384,60 @@ it('未受控时保留 Reka 的 defaultValue', async () => {
 it('触发器支持 asChild，并使用点击、键盘和 Escape 保持 Reka 交互契约', async () => {
   const activeItem = ref('')
   const Fixture = defineComponent({
-    setup: () => () => h(NavigationMenu, {
-      'modelValue': activeItem.value,
-      'onUpdate:modelValue': (value: string) => {
-        activeItem.value = value
-      }
-    }, {
-      default: () => h(NavigationMenuList, {}, {
-        default: () => h(NavigationMenuItem, { value: 'docs' }, {
-          default: () => [
-            h(NavigationMenuTrigger, { asChild: true }, {
-              default: () => h('button', { 'class': 'custom-button', 'data-testid': 'as-child-trigger' }, '文档')
-            }),
-            h(NavigationMenuContent, {}, {
-              default: () => h('button', { 'data-testid': 'docs-content-button' }, '开始阅读')
-            })
-          ]
-        })
-      })
-    })
+    setup: () => () =>
+      h(
+        NavigationMenu,
+        {
+          'modelValue': activeItem.value,
+          'onUpdate:modelValue': (value: string) => {
+            activeItem.value = value
+          }
+        },
+        {
+          default: () =>
+            h(
+              NavigationMenuList,
+              {},
+              {
+                default: () =>
+                  h(
+                    NavigationMenuItem,
+                    { value: 'docs' },
+                    {
+                      default: () => [
+                        h(
+                          NavigationMenuTrigger,
+                          { asChild: true },
+                          {
+                            default: () =>
+                              h(
+                                'button',
+                                { 'class': 'custom-button', 'data-testid': 'as-child-trigger' },
+                                '文档'
+                              )
+                          }
+                        ),
+                        h(
+                          NavigationMenuContent,
+                          {},
+                          {
+                            default: () =>
+                              h('button', { 'data-testid': 'docs-content-button' }, '开始阅读')
+                          }
+                        )
+                      ]
+                    }
+                  )
+              }
+            )
+        }
+      )
   })
 
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-testid="as-child-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="as-child-trigger"]'
+  ) as HTMLButtonElement
   expect(trigger.classList).toContain('navigation-menu__trigger')
   expect(trigger.classList).toContain('custom-button')
 
@@ -279,7 +446,9 @@ it('触发器支持 asChild，并使用点击、键盘和 Escape 保持 Reka 交
   await nextTick()
   expect(activeItem.value).toBe('docs')
 
-  const content = page.container.querySelector('[data-slot="navigation-menu-content"]') as HTMLElement
+  const content = page.container.querySelector(
+    '[data-slot="navigation-menu-content"]'
+  ) as HTMLElement
   trigger.focus()
   trigger.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'ArrowDown' }))
   await nextTick()
@@ -294,7 +463,9 @@ it('触发器支持 asChild，并使用点击、键盘和 Escape 保持 Reka 交
 it('禁用触发器不可打开，active Link 与深色主题消费对应的 Reka 和 Nova 状态', async () => {
   const fixture = createFixture()
   const page = render(fixture.Fixture)
-  const disabled = page.container.querySelector('[data-testid="disabled-trigger"]') as HTMLButtonElement
+  const disabled = page.container.querySelector(
+    '[data-testid="disabled-trigger"]'
+  ) as HTMLButtonElement
   const activeLink = page.container.querySelector('[data-testid="overview-link"]') as HTMLElement
 
   disabled.click()
@@ -307,46 +478,90 @@ it('禁用触发器不可打开，active Link 与深色主题消费对应的 Rek
   const lightBackground = getComputedStyle(activeLink).getPropertyValue('--accent').trim()
   document.documentElement.dataset.theme = 'dark'
   await nextTick()
-  expect(getComputedStyle(activeLink).getPropertyValue('--accent').trim()).not.toBe(lightBackground)
+  expect(getComputedStyle(activeLink).getPropertyValue('--accent').trim()).not.toBe(
+    lightBackground
+  )
 })
 
 it('可关闭自动 Viewport 并显式组合 Viewport，同时保留 Sub 的受控状态与方向', async () => {
   const activeItem = ref('')
   const subItem = ref('')
   const Fixture = defineComponent({
-    setup: () => () => h(NavigationMenu, {
-      'modelValue': activeItem.value,
-      'viewport': false,
-      'onUpdate:modelValue': (value: string) => {
-        activeItem.value = value
-      }
-    }, {
-      default: () => [
-        h(NavigationMenuList, {}, {
-          default: () => h(NavigationMenuItem, { value: 'manual' }, {
-            default: () => [
-              h(NavigationMenuTrigger, { 'data-testid': 'manual-trigger' }, { default: () => '手动' }),
-              h(NavigationMenuContent, {}, {
-                default: () => h(NavigationMenuSub, {
-                  'modelValue': subItem.value,
-                  'orientation': 'vertical',
-                  'onUpdate:modelValue': (value: string) => {
-                    subItem.value = value
-                  }
-                }, {
-                  default: () => h(NavigationMenuList, {}, {
-                    default: () => h(NavigationMenuItem, {}, {
-                      default: () => h(NavigationMenuLink, { 'href': '#sub', 'data-testid': 'sub-link' }, { default: () => '子项' })
-                    })
-                  })
-                })
-              })
-            ]
-          })
-        }),
-        h(NavigationMenuViewport, { 'data-testid': 'manual-viewport' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        NavigationMenu,
+        {
+          'modelValue': activeItem.value,
+          'viewport': false,
+          'onUpdate:modelValue': (value: string) => {
+            activeItem.value = value
+          }
+        },
+        {
+          default: () => [
+            h(
+              NavigationMenuList,
+              {},
+              {
+                default: () =>
+                  h(
+                    NavigationMenuItem,
+                    { value: 'manual' },
+                    {
+                      default: () => [
+                        h(
+                          NavigationMenuTrigger,
+                          { 'data-testid': 'manual-trigger' },
+                          { default: () => '手动' }
+                        ),
+                        h(
+                          NavigationMenuContent,
+                          {},
+                          {
+                            default: () =>
+                              h(
+                                NavigationMenuSub,
+                                {
+                                  'modelValue': subItem.value,
+                                  'orientation': 'vertical',
+                                  'onUpdate:modelValue': (value: string) => {
+                                    subItem.value = value
+                                  }
+                                },
+                                {
+                                  default: () =>
+                                    h(
+                                      NavigationMenuList,
+                                      {},
+                                      {
+                                        default: () =>
+                                          h(
+                                            NavigationMenuItem,
+                                            {},
+                                            {
+                                              default: () =>
+                                                h(
+                                                  NavigationMenuLink,
+                                                  { 'href': '#sub', 'data-testid': 'sub-link' },
+                                                  { default: () => '子项' }
+                                                )
+                                            }
+                                          )
+                                      }
+                                    )
+                                }
+                              )
+                          }
+                        )
+                      ]
+                    }
+                  )
+              }
+            ),
+            h(NavigationMenuViewport, { 'data-testid': 'manual-viewport' })
+          ]
+        }
+      )
   })
 
   const page = render(Fixture)
@@ -354,7 +569,9 @@ it('可关闭自动 Viewport 并显式组合 Viewport，同时保留 Sub 的受�
   expect(root.dataset.viewport).toBe('false')
   expect(page.container.querySelector('[data-slot="navigation-menu-viewport"]')).toBeNull()
 
-  const trigger = page.container.querySelector('[data-testid="manual-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="manual-trigger"]'
+  ) as HTMLButtonElement
   trigger.click()
   await nextTick()
   await nextTick()

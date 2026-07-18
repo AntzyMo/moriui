@@ -19,7 +19,7 @@
 <template>
   <SplitterPanel
     :ref="forwardRef"
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="slots.panel({ class: props.class as never })"
     data-slot="resizable-panel"

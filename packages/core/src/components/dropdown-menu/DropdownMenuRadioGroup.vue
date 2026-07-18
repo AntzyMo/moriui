@@ -11,7 +11,7 @@
 
 <template>
   <DropdownMenuRadioGroup
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model="modelValue"
     data-slot="dropdown-menu-radio-group"

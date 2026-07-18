@@ -10,7 +10,7 @@
 
 <template>
   <MenubarSub
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     data-slot="menubar-sub"
   >

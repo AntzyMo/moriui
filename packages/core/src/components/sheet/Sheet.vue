@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <DialogRoot #default="slotProps" v-bind="forwarded">
+  <DialogRoot v-slot="slotProps" v-bind="forwarded">
     <slot v-bind="slotProps" />
   </DialogRoot>
 </template>

@@ -8,7 +8,7 @@
 
 <template>
   <AspectRatio
-    #default="slotProps"
+    v-slot="slotProps"
     data-slot="aspect-ratio"
     v-bind="props"
   >

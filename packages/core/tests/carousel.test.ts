@@ -1,6 +1,6 @@
+import { expect, it } from 'vite-plus/test'
 import type { CarouselApi } from '../src/components/carousel/types'
 
-import { expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -22,26 +22,42 @@ async function settle() {
 function createFixture(props: Record<string, unknown> = {}) {
   const api = ref<CarouselApi>()
   const Fixture = defineComponent({
-    setup: () => () => h(Carousel, {
-      'aria-label': '发布状态轮播',
-      'onInitApi': (value: CarouselApi) => {
-        api.value = value
-      },
-      'style': 'width: 360px;',
-      ...props
-    }, {
-      default: () => [
-        h(CarouselContent, {}, {
-          default: () => ['一', '二', '三'].map(label => h(CarouselItem, { key: label }, {
-            default: () => h('div', { style: 'height: 120px;' }, label)
-          }))
-        }),
-        h(CarouselPrevious),
-        h(CarouselNext),
-        h(CarouselIndicators),
-        h(CarouselAutoplay)
-      ]
-    })
+    setup: () => () =>
+      h(
+        Carousel,
+        {
+          'aria-label': '发布状态轮播',
+          'onInitApi': (value: CarouselApi) => {
+            api.value = value
+          },
+          'style': 'width: 360px;',
+          ...props
+        },
+        {
+          default: () => [
+            h(
+              CarouselContent,
+              {},
+              {
+                default: () =>
+                  ['一', '二', '三'].map(label =>
+                    h(
+                      CarouselItem,
+                      { key: label },
+                      {
+                        default: () => h('div', { style: 'height: 120px;' }, label)
+                      }
+                    )
+                  )
+              }
+            ),
+            h(CarouselPrevious),
+            h(CarouselNext),
+            h(CarouselIndicators),
+            h(CarouselAutoplay)
+          ]
+        }
+      )
   })
   return { api, page: render(Fixture) }
 }
@@ -64,11 +80,17 @@ it('渲染组合槽位、无障碍语义和 Embla API', async () => {
 })
 
 it('支持垂直方向、方向键导航和前后按钮边界状态', async () => {
-  const { api, page } = createFixture({ opts: { duration: 1 }, orientation: 'vertical', style: 'height: 360px; width: 360px;' })
+  const { api, page } = createFixture({
+    opts: { duration: 1 },
+    orientation: 'vertical',
+    style: 'height: 360px; width: 360px;'
+  })
   await settle()
 
   const carousel = page.container.querySelector('[data-slot="carousel"]') as HTMLElement
-  const previous = page.container.querySelector('[data-slot="carousel-previous"]') as HTMLButtonElement
+  const previous = page.container.querySelector(
+    '[data-slot="carousel-previous"]'
+  ) as HTMLButtonElement
   const next = page.container.querySelector('[data-slot="carousel-next"]') as HTMLButtonElement
   expect(carousel.dataset.orientation).toBe('vertical')
   expect(previous.disabled).toBe(true)
@@ -82,17 +104,25 @@ it('支持垂直方向、方向键导航和前后按钮边界状态', async () =
   expect(api.value?.selectedScrollSnap()).toBe(2)
 })
 
-it('自动播放默认关闭，启用后可由控制按钮暂停', async () => {
+it('自动播放默认关闭，启用后控制按钮可在播放和暂停间切换', async () => {
   const disabled = createFixture()
   await settle()
-  expect(disabled.page.container.querySelector('[data-slot="carousel"]')?.getAttribute('data-autoplay')).toBe('disabled')
+  expect(
+    disabled.page.container.querySelector('[data-slot="carousel"]')?.getAttribute('data-autoplay')
+  ).toBe('disabled')
 
   const enabled = createFixture({ autoplay: { delay: 100 }, opts: { loop: true } })
   await settle()
-  const control = enabled.page.container.querySelector('[data-slot="carousel-autoplay"]') as HTMLButtonElement
+  const control = enabled.page.container.querySelector(
+    '[data-slot="carousel-autoplay"]'
+  ) as HTMLButtonElement
   expect(enabled.api.value?.plugins().autoplay?.isPlaying()).toBe(true)
   control.click()
   await nextTick()
   expect(enabled.api.value?.plugins().autoplay?.isPlaying()).toBe(false)
   expect(control.dataset.state).toBe('paused')
+  control.click()
+  await nextTick()
+  expect(enabled.api.value?.plugins().autoplay?.isPlaying()).toBe(true)
+  expect(control.dataset.state).toBe('playing')
 })

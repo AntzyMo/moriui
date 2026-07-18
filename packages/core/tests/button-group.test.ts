@@ -1,4 +1,5 @@
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -44,7 +45,8 @@ it('支持纵向布局与多态渲染', () => {
   expect(asLink.container.querySelector('a')?.getAttribute('href')).toBe('#actions')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(ButtonGroup, { asChild: true }, { default: () => h('section', { id: 'actions' }) })
+    setup: () => () =>
+      h(ButtonGroup, { asChild: true }, { default: () => h('section', { id: 'actions' }) })
   })
   const asChild = render(AsChildFixture)
   expect(asChild.container.querySelector('section')?.dataset.slot).toBe('button-group')
@@ -67,26 +69,38 @@ it('分隔线按分组方向推导，并允许显式覆盖', () => {
     setup: () => () => h(ButtonGroup, {}, { default: () => h(ButtonGroupSeparator) })
   })
   const horizontal = render(HorizontalFixture)
-  expect(horizontal.container.querySelector('[data-slot="button-group-separator"]')?.dataset.orientation).toBe('vertical')
+  expect(
+    horizontal.container.querySelector('[data-slot="button-group-separator"]')?.dataset.orientation
+  ).toBe('vertical')
 
   const VerticalFixture = defineComponent({
-    setup: () => () => h(ButtonGroup, { orientation: 'vertical' }, { default: () => h(ButtonGroupSeparator) })
+    setup: () => () =>
+      h(ButtonGroup, { orientation: 'vertical' }, { default: () => h(ButtonGroupSeparator) })
   })
   const vertical = render(VerticalFixture)
-  expect(vertical.container.querySelector('[data-slot="button-group-separator"]')?.dataset.orientation).toBe('horizontal')
+  expect(
+    vertical.container.querySelector('[data-slot="button-group-separator"]')?.dataset.orientation
+  ).toBe('horizontal')
 
   const explicit = render(ButtonGroupSeparator, { props: { orientation: 'horizontal' } })
-  expect(explicit.container.querySelector('[data-slot="button-group-separator"]')?.dataset.orientation).toBe('horizontal')
+  expect(
+    explicit.container.querySelector('[data-slot="button-group-separator"]')?.dataset.orientation
+  ).toBe('horizontal')
 })
 
 it('合并相邻控件的边框和圆角，并提高焦点元素层级', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(ButtonGroup, {}, {
-      default: () => [
-        h(Button, { variant: 'outline' }, { default: () => '保存' }),
-        h(Button, { variant: 'outline' }, { default: () => '预览' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        ButtonGroup,
+        {},
+        {
+          default: () => [
+            h(Button, { variant: 'outline' }, { default: () => '保存' }),
+            h(Button, { variant: 'outline' }, { default: () => '预览' })
+          ]
+        }
+      )
   })
   const page = render(Fixture)
   const buttons = page.container.querySelectorAll('button')

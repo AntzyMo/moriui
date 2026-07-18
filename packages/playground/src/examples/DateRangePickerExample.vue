@@ -36,7 +36,7 @@
       :number-of-months="2"
       locale="zh-CN"
     >
-      <DateRangePickerField #default="{ segments }">
+      <DateRangePickerField v-slot="{ segments }">
         <DateRangePickerInput
           v-for="segment in segments.start"
           :key="`start-${segment.part}`"
@@ -57,7 +57,7 @@
         <DateRangePickerTrigger aria-label="打开日期范围选择器" />
       </DateRangePickerField>
       <DateRangePickerContent>
-        <DateRangePickerCalendar #default="{ grid, weekDays }">
+        <DateRangePickerCalendar v-slot="{ grid, weekDays }">
           <DateRangePickerHeader>
             <DateRangePickerPrev aria-label="上个月" />
             <DateRangePickerHeading />

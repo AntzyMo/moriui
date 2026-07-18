@@ -1,4 +1,5 @@
-import { afterEach, expect, it, vi } from 'vitest'
+import { afterEach, expect, it, vi } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -15,19 +16,26 @@ afterEach(() => {
 
 function createFixture(rootProps: Record<string, unknown> = {}) {
   return defineComponent({
-    setup: () => () => h(Collapsible, rootProps, {
-      default: () => [
-        h(CollapsibleTrigger, { class: 'custom-trigger' }, { default: () => '切换内容' }),
-        h(CollapsibleContent, { class: 'custom-content', role: 'region' }, { default: () => '可折叠内容' })
-      ]
-    })
+    setup: () => () =>
+      h(Collapsible, rootProps, {
+        default: () => [
+          h(CollapsibleTrigger, { class: 'custom-trigger' }, { default: () => '切换内容' }),
+          h(
+            CollapsibleContent,
+            { class: 'custom-content', role: 'region' },
+            { default: () => '可折叠内容' }
+          )
+        ]
+      })
   })
 }
 
 it('渲染稳定槽位、Nova 类名并透传 Reka 属性', () => {
   const page = render(createFixture({ as: 'section', class: 'custom-root', defaultOpen: true }))
   const root = page.container.querySelector('[data-slot="collapsible"]') as HTMLElement
-  const trigger = page.container.querySelector('[data-slot="collapsible-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-slot="collapsible-trigger"]'
+  ) as HTMLButtonElement
   const content = page.container.querySelector('[data-slot="collapsible-content"]') as HTMLElement
 
   expect(root.tagName).toBe('SECTION')
@@ -44,7 +52,9 @@ it('渲染稳定槽位、Nova 类名并透传 Reka 属性', () => {
 
 it('默认关闭，点击后同步 Trigger 的 ARIA 状态与 Content 开闭状态', async () => {
   const page = render(createFixture())
-  const trigger = page.container.querySelector('[data-slot="collapsible-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-slot="collapsible-trigger"]'
+  ) as HTMLButtonElement
   const content = page.container.querySelector('[data-slot="collapsible-content"]') as HTMLElement
 
   expect(trigger.getAttribute('aria-expanded')).toBe('false')
@@ -55,7 +65,9 @@ it('默认关闭，点击后同步 Trigger 的 ARIA 状态与 Content 开闭状�
   await nextTick()
   await nextTick()
 
-  const openedContent = page.container.querySelector('[data-slot="collapsible-content"]') as HTMLElement
+  const openedContent = page.container.querySelector(
+    '[data-slot="collapsible-content"]'
+  ) as HTMLElement
 
   expect(trigger.getAttribute('aria-expanded')).toBe('true')
   expect(openedContent.dataset.state).toBe('open')
@@ -67,18 +79,25 @@ it('受控 v-model:open 向父级报告并应用新的开闭值', async () => {
     open.value = value
   })
   const Fixture = defineComponent({
-    setup: () => () => h(Collapsible, {
-      'open': open.value,
-      'onUpdate:open': onUpdateOpen
-    }, {
-      default: () => [
-        h(CollapsibleTrigger, {}, { default: () => '切换内容' }),
-        h(CollapsibleContent, {}, { default: () => '可折叠内容' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        Collapsible,
+        {
+          'open': open.value,
+          'onUpdate:open': onUpdateOpen
+        },
+        {
+          default: () => [
+            h(CollapsibleTrigger, {}, { default: () => '切换内容' }),
+            h(CollapsibleContent, {}, { default: () => '可折叠内容' })
+          ]
+        }
+      )
   })
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-slot="collapsible-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-slot="collapsible-trigger"]'
+  ) as HTMLButtonElement
 
   trigger.click()
   await nextTick()
@@ -90,7 +109,9 @@ it('受控 v-model:open 向父级报告并应用新的开闭值', async () => {
 
 it('禁用状态阻止开闭，并保留低强调的 Reka 状态属性', async () => {
   const page = render(createFixture({ disabled: true }))
-  const trigger = page.container.querySelector('[data-slot="collapsible-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-slot="collapsible-trigger"]'
+  ) as HTMLButtonElement
   const content = page.container.querySelector('[data-slot="collapsible-content"]') as HTMLElement
 
   expect(trigger.disabled).toBe(true)
@@ -104,22 +125,31 @@ it('禁用状态阻止开闭，并保留低强调的 Reka 状态属性', async (
 
 it('支持保留关闭内容与强制挂载内容', async () => {
   const retained = render(createFixture({ unmountOnHide: false }))
-  const retainedContent = retained.container.querySelector('[data-slot="collapsible-content"]') as HTMLElement
+  const retainedContent = retained.container.querySelector(
+    '[data-slot="collapsible-content"]'
+  ) as HTMLElement
 
   expect(retainedContent).not.toBeNull()
   expect(retainedContent.getAttribute('hidden')).toBe('until-found')
 
   cleanup()
   const ForceMount = defineComponent({
-    setup: () => () => h(Collapsible, {}, {
-      default: () => [
-        h(CollapsibleTrigger, {}, { default: () => '切换内容' }),
-        h(CollapsibleContent, { forceMount: true }, { default: () => '可折叠内容' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        Collapsible,
+        {},
+        {
+          default: () => [
+            h(CollapsibleTrigger, {}, { default: () => '切换内容' }),
+            h(CollapsibleContent, { forceMount: true }, { default: () => '可折叠内容' })
+          ]
+        }
+      )
   })
   const forced = render(ForceMount)
-  const forcedContent = forced.container.querySelector('[data-slot="collapsible-content"]') as HTMLElement
+  const forcedContent = forced.container.querySelector(
+    '[data-slot="collapsible-content"]'
+  ) as HTMLElement
 
   expect(forcedContent).not.toBeNull()
   expect(forcedContent.dataset.state).toBe('closed')
@@ -128,7 +158,9 @@ it('支持保留关闭内容与强制挂载内容', async () => {
 
 it('消费短动效、Reka 高度变量与亮暗主题契约', async () => {
   const page = render(createFixture())
-  const trigger = page.container.querySelector('[data-slot="collapsible-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-slot="collapsible-trigger"]'
+  ) as HTMLButtonElement
   const content = page.container.querySelector('[data-slot="collapsible-content"]') as HTMLElement
 
   trigger.click()
@@ -139,5 +171,7 @@ it('消费短动效、Reka 高度变量与亮暗主题契约', async () => {
   expect(content.style.getPropertyValue('--reka-collapsible-content-height')).not.toBe('')
   expect(getComputedStyle(content).getPropertyValue('--background').trim()).toBe('oklch(1 0 0)')
   document.documentElement.dataset.theme = 'dark'
-  expect(getComputedStyle(content).getPropertyValue('--background').trim()).toBe('oklch(0.145 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--background').trim()).toBe(
+    'oklch(0.145 0 0)'
+  )
 })

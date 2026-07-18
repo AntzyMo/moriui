@@ -33,14 +33,14 @@
     <h2>Date Picker</h2>
     <div class="playground__row">
       <DatePicker v-model="date" :default-placeholder="placeholder" locale="zh-CN">
-        <DatePickerField #default="{ segments }">
+        <DatePickerField v-slot="{ segments }">
           <DatePickerInput v-for="segment in segments" :key="segment.part" :part="segment.part">
             {{ segment.value }}
           </DatePickerInput>
           <DatePickerTrigger aria-label="打开日期选择器" />
         </DatePickerField>
         <DatePickerContent>
-          <DatePickerCalendar #default="{ grid, weekDays }">
+          <DatePickerCalendar v-slot="{ grid, weekDays }">
             <DatePickerHeader>
               <DatePickerPrev aria-label="上个月" />
               <DatePickerHeading />
@@ -72,14 +72,14 @@
         granularity="minute"
         locale="zh-CN"
       >
-        <DatePickerField #default="{ segments }">
+        <DatePickerField v-slot="{ segments }">
           <DatePickerInput v-for="segment in segments" :key="segment.part" :part="segment.part">
             {{ segment.value }}
           </DatePickerInput>
           <DatePickerTrigger aria-label="打开日期时间选择器" />
         </DatePickerField>
         <DatePickerContent>
-          <DatePickerCalendar #default="{ grid, weekDays }">
+          <DatePickerCalendar v-slot="{ grid, weekDays }">
             <DatePickerHeader>
               <DatePickerPrev aria-label="上个月" />
               <DatePickerHeading />

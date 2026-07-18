@@ -17,7 +17,7 @@
 
 <template>
   <SplitterGroup
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="slots.group({ class: props.class as never })"
     data-slot="resizable-panel-group"

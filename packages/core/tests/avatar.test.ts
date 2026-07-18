@@ -1,6 +1,7 @@
+import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick } from 'vue'
-import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import Avatar from '../src/components/avatar/Avatar.vue'
 import AvatarBadge from '../src/components/avatar/AvatarBadge.vue'
@@ -92,7 +93,8 @@ it('支持 as 与 asChild 多态渲染', () => {
   expect(asButton.container.querySelector('button')?.dataset.slot).toBe('avatar')
 
   const Fixture = defineComponent({
-    setup: () => () => h(Avatar, { asChild: true }, { default: () => h('a', { href: '#profile' }, '查看资料') })
+    setup: () => () =>
+      h(Avatar, { asChild: true }, { default: () => h('a', { href: '#profile' }, '查看资料') })
   })
   const asChild = render(Fixture)
   const link = asChild.container.querySelector('a')
@@ -106,16 +108,21 @@ describe('图片与回退状态', () => {
     window.Image = MockImage as never
     const onLoadingStatusChange = vi.fn()
     const Fixture = defineComponent({
-      setup: () => () => h(Avatar, {}, {
-        default: () => [
-          h(AvatarImage, {
-            alt: '王小明头像',
-            src: '/avatar.png',
-            onLoadingStatusChange
-          }),
-          h(AvatarFallback, {}, { default: () => 'WX' })
-        ]
-      })
+      setup: () => () =>
+        h(
+          Avatar,
+          {},
+          {
+            default: () => [
+              h(AvatarImage, {
+                alt: '王小明头像',
+                src: '/avatar.png',
+                onLoadingStatusChange
+              }),
+              h(AvatarFallback, {}, { default: () => 'WX' })
+            ]
+          }
+        )
     })
     const page = render(Fixture)
 
@@ -148,11 +155,21 @@ describe('图片与回退状态', () => {
 
 it('角标随 Avatar 尺寸同步，并保留调用方样式', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Avatar, { size: 'sm' }, {
-      default: () => h(AvatarBadge, { class: 'custom-avatar-badge' }, {
-        default: () => h('svg', { viewBox: '0 0 24 24' })
-      })
-    })
+    setup: () => () =>
+      h(
+        Avatar,
+        { size: 'sm' },
+        {
+          default: () =>
+            h(
+              AvatarBadge,
+              { class: 'custom-avatar-badge' },
+              {
+                default: () => h('svg', { viewBox: '0 0 24 24' })
+              }
+            )
+        }
+      )
   })
   const page = render(Fixture)
   const badge = page.container.querySelector('[data-slot="avatar-badge"]') as HTMLElement
@@ -165,14 +182,19 @@ it('角标随 Avatar 尺寸同步，并保留调用方样式', () => {
 
 it('群组重叠 Avatar，并让计数项跟随最大尺寸', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(AvatarGroup, {}, {
-      default: () => [
-        h(Avatar, { size: 'sm' }),
-        h(Avatar, { size: 'default' }),
-        h(Avatar, { size: 'lg' }),
-        h(AvatarGroupCount, {}, { default: () => [h('svg', { viewBox: '0 0 24 24' }), '+3'] })
-      ]
-    })
+    setup: () => () =>
+      h(
+        AvatarGroup,
+        {},
+        {
+          default: () => [
+            h(Avatar, { size: 'sm' }),
+            h(Avatar, { size: 'default' }),
+            h(Avatar, { size: 'lg' }),
+            h(AvatarGroupCount, {}, { default: () => [h('svg', { viewBox: '0 0 24 24' }), '+3'] })
+          ]
+        }
+      )
   })
   const page = render(Fixture)
   const avatars = page.container.querySelectorAll('[data-slot="avatar"]')
@@ -199,7 +221,8 @@ it('messageAvatar 默认渲染 div，并支持 asChild', () => {
   expect(getComputedStyle(messageAvatar).alignSelf).toBe('flex-end')
 
   const Fixture = defineComponent({
-    setup: () => () => h(MessageAvatar, { asChild: true }, { default: () => h('a', { href: '#message' }, '消息') })
+    setup: () => () =>
+      h(MessageAvatar, { asChild: true }, { default: () => h('a', { href: '#message' }, '消息') })
   })
   const asChild = render(Fixture)
   expect(asChild.container.querySelector('a')?.dataset.slot).toBe('message-avatar')

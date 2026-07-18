@@ -22,7 +22,7 @@
     data-slot="select"
   >
     <SelectRoot
-      #default="slotProps"
+      v-slot="slotProps"
       v-bind="forwarded"
       v-model="modelValue"
       v-model:open="open"

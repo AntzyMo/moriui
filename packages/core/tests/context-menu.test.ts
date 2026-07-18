@@ -1,4 +1,5 @@
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, expect, it } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -31,68 +32,121 @@ function createFixture() {
   const theme = ref('system')
 
   const Fixture = defineComponent({
-    setup: () => () => h(ContextMenu, {
-      'open': open.value,
-      'onUpdate:open': (nextOpen: boolean) => {
-        open.value = nextOpen
-      }
-    }, {
-      default: () => [
-        h(ContextMenuTrigger, { 'class': 'custom-trigger', 'data-testid': 'trigger' }, {
-          default: () => '右键打开'
-        }),
-        h(ContextMenuContent, { class: 'custom-content' }, {
+    setup: () => () =>
+      h(
+        ContextMenu,
+        {
+          'open': open.value,
+          'onUpdate:open': (nextOpen: boolean) => {
+            open.value = nextOpen
+          }
+        },
+        {
           default: () => [
-            h(ContextMenuGroup, {}, {
-              default: () => [
-                h(ContextMenuLabel, {}, { default: () => '操作' }),
-                h(ContextMenuItem, {
-                  'data-testid': 'copy-item',
-                  'onSelect': () => {
-                    copySelected.value = true
-                  }
-                }, {
-                  default: () => ['复制', h(ContextMenuShortcut, {}, { default: () => '⌘C' })]
-                }),
-                h(ContextMenuItem, { disabled: true }, { default: () => '不可用操作' })
-              ]
-            }),
-            h(ContextMenuSeparator),
-            h(ContextMenuCheckboxItem, {
-              'modelValue': checked.value,
-              'onUpdate:modelValue': (nextChecked: boolean) => {
-                checked.value = nextChecked
-              },
-              'onSelect': (event: Event) => event.preventDefault(),
-              'data-testid': 'checkbox-item'
-            }, {
-              default: () => '显示状态栏',
-              indicator: () => h('span', { 'data-testid': 'custom-indicator' }, '✓')
-            }),
-            h(ContextMenuRadioGroup, {
-              'modelValue': theme.value,
-              'onUpdate:modelValue': (nextTheme: string) => {
-                theme.value = nextTheme
+            h(
+              ContextMenuTrigger,
+              { 'class': 'custom-trigger', 'data-testid': 'trigger' },
+              {
+                default: () => '右键打开'
               }
-            }, {
-              default: () => [
-                h(ContextMenuRadioItem, { value: 'light', onSelect: (event: Event) => event.preventDefault() }, { default: () => '浅色' }),
-                h(ContextMenuRadioItem, { value: 'system' }, { default: () => '系统' })
-              ]
-            }),
-            h(ContextMenuSeparator),
-            h(ContextMenuSub, {}, {
-              default: () => [
-                h(ContextMenuSubTrigger, { 'data-testid': 'sub-trigger' }, { default: () => '更多工具' }),
-                h(ContextMenuSubContent, {}, {
-                  default: () => h(ContextMenuItem, { 'data-testid': 'sub-item' }, { default: () => '开发者工具' })
-                })
-              ]
-            })
+            ),
+            h(
+              ContextMenuContent,
+              { class: 'custom-content' },
+              {
+                default: () => [
+                  h(
+                    ContextMenuGroup,
+                    {},
+                    {
+                      default: () => [
+                        h(ContextMenuLabel, {}, { default: () => '操作' }),
+                        h(
+                          ContextMenuItem,
+                          {
+                            'data-testid': 'copy-item',
+                            'onSelect': () => {
+                              copySelected.value = true
+                            }
+                          },
+                          {
+                            default: () => [
+                              '复制',
+                              h(ContextMenuShortcut, {}, { default: () => '⌘C' })
+                            ]
+                          }
+                        ),
+                        h(ContextMenuItem, { disabled: true }, { default: () => '不可用操作' })
+                      ]
+                    }
+                  ),
+                  h(ContextMenuSeparator),
+                  h(
+                    ContextMenuCheckboxItem,
+                    {
+                      'modelValue': checked.value,
+                      'onUpdate:modelValue': (nextChecked: boolean) => {
+                        checked.value = nextChecked
+                      },
+                      'onSelect': (event: Event) => event.preventDefault(),
+                      'data-testid': 'checkbox-item'
+                    },
+                    {
+                      default: () => '显示状态栏',
+                      indicator: () => h('span', { 'data-testid': 'custom-indicator' }, '✓')
+                    }
+                  ),
+                  h(
+                    ContextMenuRadioGroup,
+                    {
+                      'modelValue': theme.value,
+                      'onUpdate:modelValue': (nextTheme: string) => {
+                        theme.value = nextTheme
+                      }
+                    },
+                    {
+                      default: () => [
+                        h(
+                          ContextMenuRadioItem,
+                          { value: 'light', onSelect: (event: Event) => event.preventDefault() },
+                          { default: () => '浅色' }
+                        ),
+                        h(ContextMenuRadioItem, { value: 'system' }, { default: () => '系统' })
+                      ]
+                    }
+                  ),
+                  h(ContextMenuSeparator),
+                  h(
+                    ContextMenuSub,
+                    {},
+                    {
+                      default: () => [
+                        h(
+                          ContextMenuSubTrigger,
+                          { 'data-testid': 'sub-trigger' },
+                          { default: () => '更多工具' }
+                        ),
+                        h(
+                          ContextMenuSubContent,
+                          {},
+                          {
+                            default: () =>
+                              h(
+                                ContextMenuItem,
+                                { 'data-testid': 'sub-item' },
+                                { default: () => '开发者工具' }
+                              )
+                          }
+                        )
+                      ]
+                    }
+                  )
+                ]
+              }
+            )
           ]
-        })
-      ]
-    })
+        }
+      )
   })
 
   return { Fixture, checked, copySelected, open, theme }
@@ -102,12 +156,14 @@ async function openContextMenu(Fixture: ReturnType<typeof createFixture>['Fixtur
   const page = render(Fixture)
   const trigger = page.container.querySelector('[data-testid="trigger"]') as HTMLElement
 
-  trigger.dispatchEvent(new MouseEvent('contextmenu', {
-    bubbles: true,
-    button: 2,
-    clientX: 120,
-    clientY: 80
-  }))
+  trigger.dispatchEvent(
+    new MouseEvent('contextmenu', {
+      bubbles: true,
+      button: 2,
+      clientX: 120,
+      clientY: 80
+    })
+  )
   await nextTick()
   await nextTick()
 
@@ -149,8 +205,12 @@ it('右键触发、同步 v-model、自动 Teleport，并保留稳定槽位与�
   expect(getComputedStyle(content).minWidth).toBe('160px')
   expect(getComputedStyle(content).borderRadius).toBe('10px')
   expect(getComputedStyle(content).boxShadow).not.toBe('none')
-  expect(getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingTop).toBe('4px')
-  expect(getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingLeft).toBe('6px')
+  expect(
+    getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingTop
+  ).toBe('4px')
+  expect(
+    getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingLeft
+  ).toBe('6px')
 })
 
 it('普通菜单项可用键盘导航、Enter 选择，并由 Escape 关闭', async () => {
@@ -162,7 +222,9 @@ it('普通菜单项可用键盘导航、Enter 选择，并由 Escape 关闭', as
   await nextTick()
   expect(document.activeElement).toBe(item)
   item.setAttribute('data-highlighted', '')
-  expect(getComputedStyle(item).backgroundColor).toBe(getComputedStyle(item).getPropertyValue('--accent').trim())
+  expect(getComputedStyle(item).backgroundColor).toBe(
+    getComputedStyle(item).getPropertyValue('--accent').trim()
+  )
 
   item.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }))
   await nextTick()
@@ -176,7 +238,9 @@ it('普通菜单项可用键盘导航、Enter 选择，并由 Escape 关闭', as
 it('禁用、Checkbox、Radio 与自定义指示器遵循 Reka 状态契约', async () => {
   const fixture = createFixture()
   const { content } = await openContextMenu(fixture.Fixture)
-  const disabled = Array.from(content.querySelectorAll('[data-slot="context-menu-item"]')).find(item => item.textContent === '不可用操作') as HTMLElement
+  const disabled = Array.from(content.querySelectorAll('[data-slot="context-menu-item"]')).find(
+    item => item.textContent === '不可用操作'
+  ) as HTMLElement
   const checkbox = content.querySelector('[data-testid="checkbox-item"]') as HTMLElement
 
   expect(disabled.hasAttribute('data-disabled')).toBe(true)
@@ -203,11 +267,15 @@ it('子菜单内容自动 Teleport，并在深色主题下消费 Popover Token',
   await nextTick()
   await nextTick()
 
-  const subContent = document.body.querySelector('[data-slot="context-menu-sub-content"]') as HTMLElement
+  const subContent = document.body.querySelector(
+    '[data-slot="context-menu-sub-content"]'
+  ) as HTMLElement
   expect(subContent).not.toBeNull()
   expect(document.body.contains(subContent)).toBe(true)
   expect(subContent.querySelector('[data-testid="sub-item"]')?.textContent).toBe('开发者工具')
 
   document.documentElement.dataset.theme = 'dark'
-  expect(getComputedStyle(content).getPropertyValue('--context-menu-content-bg').trim()).toBe('oklch(0.205 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--context-menu-content-bg').trim()).toBe(
+    'oklch(0.205 0 0)'
+  )
 })

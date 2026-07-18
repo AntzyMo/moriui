@@ -1,0 +1,33 @@
+{
+  "name": "docs",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt generate",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "nuxi typecheck",
+    "test": "vp test run"
+  },
+  "dependencies": {
+    "@lucide/vue": "catalog:",
+    "@nuxt/a11y": "catalog:",
+    "@nuxt/content": "catalog:",
+    "@nuxt/hints": "catalog:",
+    "@nuxt/image": "catalog:",
+    "@vueuse/core": "catalog:",
+    "better-sqlite3": "catalog:",
+    "moriui": "workspace:*",
+    "nuxt": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

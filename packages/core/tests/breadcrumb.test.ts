@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -15,19 +16,40 @@ import './style.css'
 it('渲染完整的路径语义结构，并保留根节点属性、事件和调用方类名', () => {
   const onClick = vi.fn()
   const Fixture = defineComponent({
-    setup: () => () => h(Breadcrumb, {
-      'class': 'custom-breadcrumb',
-      'data-testid': 'project-path',
-      onClick
-    }, {
-      default: () => h(BreadcrumbList, {}, {
-        default: () => [
-          h(BreadcrumbItem, {}, { default: () => h(BreadcrumbLink, { href: '#home' }, { default: () => '首页' }) }),
-          h(BreadcrumbSeparator),
-          h(BreadcrumbItem, {}, { default: () => h(BreadcrumbPage, {}, { default: () => '组件' }) })
-        ]
-      })
-    })
+    setup: () => () =>
+      h(
+        Breadcrumb,
+        {
+          'class': 'custom-breadcrumb',
+          'data-testid': 'project-path',
+          onClick
+        },
+        {
+          default: () =>
+            h(
+              BreadcrumbList,
+              {},
+              {
+                default: () => [
+                  h(
+                    BreadcrumbItem,
+                    {},
+                    {
+                      default: () =>
+                        h(BreadcrumbLink, { href: '#home' }, { default: () => '首页' })
+                    }
+                  ),
+                  h(BreadcrumbSeparator),
+                  h(
+                    BreadcrumbItem,
+                    {},
+                    { default: () => h(BreadcrumbPage, {}, { default: () => '组件' }) }
+                  )
+                ]
+              }
+            )
+        }
+      )
   })
   const page = render(Fixture)
   const breadcrumb = page.container.querySelector('[data-slot="breadcrumb"]') as HTMLElement
@@ -75,9 +97,14 @@ it('breadcrumbLink 支持原生属性透传、as 与 asChild 多态渲染', () =
   expect(asButton.container.querySelector('button')?.getAttribute('type')).toBe('button')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(BreadcrumbLink, { asChild: true }, {
-      default: () => h('a', { href: '#next' }, '下一页')
-    })
+    setup: () => () =>
+      h(
+        BreadcrumbLink,
+        { asChild: true },
+        {
+          default: () => h('a', { href: '#next' }, '下一页')
+        }
+      )
   })
   const asChild = render(AsChildFixture)
   const childLink = asChild.container.querySelector('a') as HTMLAnchorElement
@@ -89,9 +116,13 @@ it('breadcrumbLink 支持原生属性透传、as 与 asChild 多态渲染', () =
 
 it('分隔符与省略提示提供可替换的默认内容和隐藏语义', () => {
   const defaultSeparator = render(BreadcrumbSeparator)
-  const separator = defaultSeparator.container.querySelector('[data-slot="breadcrumb-separator"]') as HTMLElement
+  const separator = defaultSeparator.container.querySelector(
+    '[data-slot="breadcrumb-separator"]'
+  ) as HTMLElement
   const defaultEllipsis = render(BreadcrumbEllipsis)
-  const ellipsis = defaultEllipsis.container.querySelector('[data-slot="breadcrumb-ellipsis"]') as HTMLElement
+  const ellipsis = defaultEllipsis.container.querySelector(
+    '[data-slot="breadcrumb-ellipsis"]'
+  ) as HTMLElement
 
   expect(separator.tagName).toBe('LI')
   expect(separator.getAttribute('role')).toBe('presentation')
@@ -103,8 +134,16 @@ it('分隔符与省略提示提供可替换的默认内容和隐藏语义', () =
 
   const CustomFixture = defineComponent({
     setup: () => () => [
-      h(BreadcrumbSeparator, {}, { default: () => h('span', { 'data-testid': 'custom-separator' }, '/') }),
-      h(BreadcrumbEllipsis, {}, { default: () => h('span', { 'data-testid': 'custom-ellipsis' }, '…') })
+      h(
+        BreadcrumbSeparator,
+        {},
+        { default: () => h('span', { 'data-testid': 'custom-separator' }, '/') }
+      ),
+      h(
+        BreadcrumbEllipsis,
+        {},
+        { default: () => h('span', { 'data-testid': 'custom-ellipsis' }, '…') }
+      )
     ]
   })
   const custom = render(CustomFixture)
@@ -116,11 +155,22 @@ it('分隔符与省略提示提供可替换的默认内容和隐藏语义', () =
 it('链接可获得浏览器焦点状态，并由语义 Token 适配亮暗主题', () => {
   const page = render(Breadcrumb, {
     slots: {
-      default: () => h(BreadcrumbList, {}, {
-        default: () => h(BreadcrumbItem, {}, {
-          default: () => h(BreadcrumbLink, { href: '#settings' }, { default: () => '设置' })
-        })
-      })
+      default: () =>
+        h(
+          BreadcrumbList,
+          {},
+          {
+            default: () =>
+              h(
+                BreadcrumbItem,
+                {},
+                {
+                  default: () =>
+                    h(BreadcrumbLink, { href: '#settings' }, { default: () => '设置' })
+                }
+              )
+          }
+        )
     }
   })
   const host = page.container as HTMLElement

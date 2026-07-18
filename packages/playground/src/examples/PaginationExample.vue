@@ -22,7 +22,7 @@
         :total="100"
         show-edges
       >
-        <PaginationList #default="{ items }">
+        <PaginationList v-slot="{ items }">
           <PaginationPrev />
           <template v-for="(item, index) in items" :key="`${item.type}-${index}`">
             <PaginationItem v-if="item.type === 'page'" :value="item.value" />

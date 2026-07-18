@@ -10,7 +10,7 @@
 
 <template>
   <AlertDialogRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     data-slot="alert-dialog"
   >

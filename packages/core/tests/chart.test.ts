@@ -1,6 +1,6 @@
+import { expect, it } from 'vite-plus/test'
 import type { ChartConfig } from '../src/components/chart/context'
 
-import { expect, it } from 'vitest'
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -28,7 +28,8 @@ it('渲染 Chart 容器、作用域插槽与调用方属性', () => {
     attrs: { 'aria-label': '访问趋势', 'data-testid': 'traffic-chart' },
     props: { class: 'custom-chart', config: chartConfig, cursor: true },
     slots: {
-      default: ({ id, config }) => h('div', { 'data-testid': 'chart-slot' }, `${id}:${Object.keys(config).join(',')}`)
+      default: ({ id, config }) =>
+        h('div', { 'data-testid': 'chart-slot' }, `${id}:${Object.keys(config).join(',')}`)
     }
   })
   const chart = page.container.querySelector('[data-slot="chart"]') as HTMLElement
@@ -73,7 +74,9 @@ it('渲染 Tooltip 的标签、数据项和指示器', () => {
 
   const tooltip = page.container.querySelector('[data-slot="chart-tooltip"]') as HTMLElement
   const items = page.container.querySelectorAll('[data-slot="chart-tooltip-item"]')
-  const indicator = page.container.querySelector('[data-slot="chart-tooltip-indicator"]') as HTMLElement
+  const indicator = page.container.querySelector(
+    '[data-slot="chart-tooltip-indicator"]'
+  ) as HTMLElement
 
   expect(tooltip.textContent).toContain('一月')
   expect(tooltip.textContent).toContain('桌面端')
@@ -86,9 +89,14 @@ it('渲染 Tooltip 的标签、数据项和指示器', () => {
 
 it('在 ChartContainer 内从上下文渲染 Legend', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(ChartContainer, { config: chartConfig }, {
-      default: () => h(ChartLegendContent, { verticalAlign: 'top' })
-    })
+    setup: () => () =>
+      h(
+        ChartContainer,
+        { config: chartConfig },
+        {
+          default: () => h(ChartLegendContent, { verticalAlign: 'top' })
+        }
+      )
   })
   const page = render(Fixture)
   const legend = page.container.querySelector('[data-slot="chart-legend"]') as HTMLElement
@@ -107,7 +115,8 @@ it('为 Unovis Tooltip 模板提供配置、数据与横轴值，并在服务端
       config: { type: Object, required: true },
       x: { type: String, required: true }
     },
-    setup: props => () => h('span', `${Object.keys(props.config).join(',')}:${props.payload.desktop}:${props.x}`)
+    setup: props => () =>
+      h('span', `${Object.keys(props.config).join(',')}:${props.payload.desktop}:${props.x}`)
   })
   const template = componentToString(chartConfig, Content)
 

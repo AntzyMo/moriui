@@ -1,8 +1,9 @@
+import { expect, it } from 'vite-plus/test'
+import { userEvent } from 'vite-plus/test/browser'
+
 import Toggle from '../src/components/toggle/Toggle.vue'
 import { toggleVariants } from '../src/components/toggle/variants'
 
-import { expect, it } from 'vitest'
-import { userEvent } from 'vitest/browser'
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, shallowRef } from 'vue'
 
@@ -41,12 +42,13 @@ it('渲染稳定槽位、变体、尺寸以及调用方属性', () => {
 it('支持点击、Space、Enter 与受控 v-model 切换', async () => {
   const value = shallowRef(false)
   const Fixture = defineComponent({
-    setup: () => () => h(Toggle, {
-      'modelValue': value.value,
-      'onUpdate:modelValue': (nextValue: boolean) => {
-        value.value = nextValue
-      }
-    })
+    setup: () => () =>
+      h(Toggle, {
+        'modelValue': value.value,
+        'onUpdate:modelValue': (nextValue: boolean) => {
+          value.value = nextValue
+        }
+      })
   })
   const page = render(Fixture)
   const toggle = page.container.querySelector('[data-slot="toggle"]') as HTMLButtonElement
@@ -72,21 +74,31 @@ it('支持点击、Space、Enter 与受控 v-model 切换', async () => {
 it('保留作用域插槽和表单隐藏输入语义', async () => {
   const value = shallowRef(false)
   const Fixture = defineComponent({
-    setup: () => () => h('form', [
-      h(Toggle, {
-        'modelValue': value.value,
-        'name': 'italic',
-        'required': true,
-        'value': 'enabled',
-        'onUpdate:modelValue': (nextValue: boolean) => {
-          value.value = nextValue
-        }
-      }, {
-        default: ({ pressed, state }: { pressed: boolean, state: 'on' | 'off' }) => h('span', {
-          'data-testid': 'toggle-content'
-        }, `${pressed}-${state}`)
-      })
-    ])
+    setup: () => () =>
+      h('form', [
+        h(
+          Toggle,
+          {
+            'modelValue': value.value,
+            'name': 'italic',
+            'required': true,
+            'value': 'enabled',
+            'onUpdate:modelValue': (nextValue: boolean) => {
+              value.value = nextValue
+            }
+          },
+          {
+            default: ({ pressed, state }: { pressed: boolean, state: 'on' | 'off' }) =>
+              h(
+                'span',
+                {
+                  'data-testid': 'toggle-content'
+                },
+                `${pressed}-${state}`
+              )
+          }
+        )
+      ])
   })
   const page = render(Fixture)
   const form = page.container.querySelector('form') as HTMLFormElement
@@ -95,7 +107,9 @@ it('保留作用域插槽和表单隐藏输入语义', async () => {
   toggle.click()
   await nextTick()
 
-  expect(page.container.querySelector('[data-testid="toggle-content"]')?.textContent).toBe('true-on')
+  expect(page.container.querySelector('[data-testid="toggle-content"]')?.textContent).toBe(
+    'true-on'
+  )
   const hiddenInput = form.querySelector('input[type="checkbox"]') as HTMLInputElement
   expect(hiddenInput.required).toBe(true)
   expect(hiddenInput.name).toBe('italic')
@@ -105,19 +119,22 @@ it('保留作用域插槽和表单隐藏输入语义', async () => {
 it('无效和禁用状态使用对应的 Nova Token', async () => {
   const value = shallowRef(false)
   const Fixture = defineComponent({
-    setup: () => () => h('div', { 'data-theme': 'dark' }, [
-      h(Toggle, {
-        'aria-invalid': 'true',
-        'modelValue': value.value,
-        'onUpdate:modelValue': (nextValue: boolean) => {
-          value.value = nextValue
-        }
-      }),
-      h(Toggle, { 'disabled': true, 'aria-label': '不可用' })
-    ])
+    setup: () => () =>
+      h('div', { 'data-theme': 'dark' }, [
+        h(Toggle, {
+          'aria-invalid': 'true',
+          'modelValue': value.value,
+          'onUpdate:modelValue': (nextValue: boolean) => {
+            value.value = nextValue
+          }
+        }),
+        h(Toggle, { 'disabled': true, 'aria-label': '不可用' })
+      ])
   })
   const page = render(Fixture)
-  const [invalid, disabled] = Array.from(page.container.querySelectorAll('[data-slot="toggle"]')) as HTMLButtonElement[]
+  const [invalid, disabled] = Array.from(
+    page.container.querySelectorAll('[data-slot="toggle"]')
+  ) as HTMLButtonElement[]
 
   expect(getComputedStyle(invalid).getPropertyValue('--toggle-border').trim()).toBe(
     getComputedStyle(invalid).getPropertyValue('--destructive').trim()

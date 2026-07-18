@@ -15,7 +15,7 @@
 
 <template>
   <CalendarCellTrigger
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="calendarVariants().cellTrigger({ class: props.class as never })"
     data-slot="calendar-cell-trigger"

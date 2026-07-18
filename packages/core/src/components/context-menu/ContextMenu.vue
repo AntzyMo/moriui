@@ -12,7 +12,7 @@
 
 <template>
   <ContextMenuRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model:open="open"
     data-slot="context-menu"

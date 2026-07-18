@@ -19,7 +19,7 @@
 
 <template>
   <ComboboxRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="slots.root({ class: props.class as never })"
     model-value=""

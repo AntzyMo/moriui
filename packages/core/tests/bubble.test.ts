@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -41,28 +42,50 @@ it('默认渲染 Bubble，并透传属性、事件和调用方类名', () => {
 
 it('四个组件均支持多态渲染', () => {
   const BubbleFixture = defineComponent({
-    setup: () => () => h(Bubble, { asChild: true }, {
-      default: () => h('article', { 'data-testid': 'bubble-as-child' }, '消息')
-    })
+    setup: () => () =>
+      h(
+        Bubble,
+        { asChild: true },
+        {
+          default: () => h('article', { 'data-testid': 'bubble-as-child' }, '消息')
+        }
+      )
   })
   const ContentFixture = defineComponent({
-    setup: () => () => h(BubbleContent, { as: 'a', href: '#message' }, { default: () => '查看消息' })
+    setup: () => () =>
+      h(BubbleContent, { as: 'a', href: '#message' }, { default: () => '查看消息' })
   })
   const GroupFixture = defineComponent({
-    setup: () => () => h(BubbleGroup, { asChild: true }, {
-      default: () => h('section', { 'data-testid': 'group-as-child' })
-    })
+    setup: () => () =>
+      h(
+        BubbleGroup,
+        { asChild: true },
+        {
+          default: () => h('section', { 'data-testid': 'group-as-child' })
+        }
+      )
   })
   const ReactionsFixture = defineComponent({
-    setup: () => () => h(BubbleReactions, { asChild: true }, {
-      default: () => h('output', { 'data-testid': 'reactions-as-child' }, '👍')
-    })
+    setup: () => () =>
+      h(
+        BubbleReactions,
+        { asChild: true },
+        {
+          default: () => h('output', { 'data-testid': 'reactions-as-child' }, '👍')
+        }
+      )
   })
 
   expect(render(BubbleFixture).container.querySelector('article')?.dataset.slot).toBe('bubble')
-  expect(render(ContentFixture).container.querySelector('a')?.getAttribute('href')).toBe('#message')
-  expect(render(GroupFixture).container.querySelector('section')?.dataset.slot).toBe('bubble-group')
-  expect(render(ReactionsFixture).container.querySelector('output')?.dataset.slot).toBe('bubble-reactions')
+  expect(render(ContentFixture).container.querySelector('a')?.getAttribute('href')).toBe(
+    '#message'
+  )
+  expect(render(GroupFixture).container.querySelector('section')?.dataset.slot).toBe(
+    'bubble-group'
+  )
+  expect(render(ReactionsFixture).container.querySelector('output')?.dataset.slot).toBe(
+    'bubble-reactions'
+  )
 })
 
 it.each([
@@ -101,7 +124,9 @@ it('对齐、Ghost 全宽与长文本换行符合消息布局', () => {
     slots: { default: () => h(BubbleContent, {}, { default: () => '没有气泡表面的长文本内容' }) }
   })
   const ghostBubble = ghostPage.container.querySelector('[data-slot="bubble"]') as HTMLElement
-  const ghostContent = ghostPage.container.querySelector('[data-slot="bubble-content"]') as HTMLElement
+  const ghostContent = ghostPage.container.querySelector(
+    '[data-slot="bubble-content"]'
+  ) as HTMLElement
   expect(getComputedStyle(ghostBubble).maxWidth).toBe('100%')
   expect(getComputedStyle(ghostContent).paddingTop).toBe('0px')
   expect(getComputedStyle(ghostContent).overflowWrap).toBe('break-word')
@@ -161,7 +186,9 @@ it.each([
   expect(reactions.dataset.align).toBe(align)
   expect(reactions.classList).toContain(`bubble__reactions--${side}`)
   expect(reactions.classList).toContain(`bubble__reactions--${align}`)
-  expect(bubbleReactionsVariants().reactions({ side, align })).toContain(`bubble__reactions--${side}`)
+  expect(bubbleReactionsVariants().reactions({ side, align })).toContain(
+    `bubble__reactions--${side}`
+  )
   expect(getComputedStyle(reactions).zIndex).toBe('10')
   expect(getComputedStyle(reactions).boxShadow).not.toBe('none')
 })
@@ -172,9 +199,14 @@ it('reaction 可直接承载 Button 并保留交互', () => {
     slots: {
       default: () => [
         h(BubbleContent, {}, { default: () => '按钮反应' }),
-        h(BubbleReactions, {}, {
-          default: () => h(Button, { onClick, size: 'xs', variant: 'ghost' }, { default: () => '赞' })
-        })
+        h(
+          BubbleReactions,
+          {},
+          {
+            default: () =>
+              h(Button, { onClick, size: 'xs', variant: 'ghost' }, { default: () => '赞' })
+          }
+        )
       ]
     }
   })

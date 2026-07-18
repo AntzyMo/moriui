@@ -1,4 +1,5 @@
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, expect, it } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -37,59 +38,98 @@ function createFixture(options: FixtureOptions = {}) {
   const open = ref(false)
 
   const Fixture = defineComponent({
-    setup: () => () => h(Combobox, {
-      'disabled': options.disabled,
-      'ignoreFilter': options.ignoreFilter,
-      'modelValue': value.value,
-      'multiple': options.multiple,
-      'open': open.value,
-      'resetModelValueOnClear': options.resetModelValueOnClear,
-      'onUpdate:modelValue': (nextValue: string | string[] | undefined) => {
-        value.value = nextValue
-      },
-      'onUpdate:open': (nextOpen: boolean) => {
-        open.value = nextOpen
-      }
-    }, {
-      default: slotProps => [
-        h('output', { 'data-testid': 'open-state' }, String(slotProps.open)),
-        h(ComboboxAnchor, { class: 'custom-anchor' }, {
-          default: () => [
-            h(ComboboxInput, {
-              'aria-invalid': options.invalid ? 'true' : undefined,
-              'placeholder': '选择框架',
-              'data-testid': 'framework-input'
-            }),
-            h(ComboboxCancel),
-            h(ComboboxTrigger, { 'aria-label': '打开框架列表' })
-          ]
-        }),
-        h(ComboboxContent, { class: 'custom-content' }, {
-          default: () => h(ComboboxViewport, {}, {
-            default: () => [
-              h(ComboboxEmpty),
-              h(ComboboxGroup, {}, {
+    setup: () => () =>
+      h(
+        Combobox,
+        {
+          'disabled': options.disabled,
+          'ignoreFilter': options.ignoreFilter,
+          'modelValue': value.value,
+          'multiple': options.multiple,
+          'open': open.value,
+          'resetModelValueOnClear': options.resetModelValueOnClear,
+          'onUpdate:modelValue': (nextValue: string | string[] | undefined) => {
+            value.value = nextValue
+          },
+          'onUpdate:open': (nextOpen: boolean) => {
+            open.value = nextOpen
+          }
+        },
+        {
+          default: slotProps => [
+            h('output', { 'data-testid': 'open-state' }, String(slotProps.open)),
+            h(
+              ComboboxAnchor,
+              { class: 'custom-anchor' },
+              {
                 default: () => [
-                  h(ComboboxLabel, {}, { default: () => '框架' }),
-                  h(ComboboxItem, { value: 'vue' }, {
-                    default: () => ['Vue', h(ComboboxItemIndicator)]
+                  h(ComboboxInput, {
+                    'aria-invalid': options.invalid ? 'true' : undefined,
+                    'placeholder': '选择框架',
+                    'data-testid': 'framework-input'
                   }),
-                  h(ComboboxItem, { value: 'react' }, {
-                    default: () => ['React', h(ComboboxItemIndicator)]
-                  })
+                  h(ComboboxCancel),
+                  h(ComboboxTrigger, { 'aria-label': '打开框架列表' })
                 ]
-              }),
-              h(ComboboxSeparator),
-              h(ComboboxGroup, {}, {
-                default: () => h(ComboboxItem, { disabled: true, value: 'svelte' }, {
-                  default: () => 'Svelte'
-                })
-              })
-            ]
-          })
-        })
-      ]
-    })
+              }
+            ),
+            h(
+              ComboboxContent,
+              { class: 'custom-content' },
+              {
+                default: () =>
+                  h(
+                    ComboboxViewport,
+                    {},
+                    {
+                      default: () => [
+                        h(ComboboxEmpty),
+                        h(
+                          ComboboxGroup,
+                          {},
+                          {
+                            default: () => [
+                              h(ComboboxLabel, {}, { default: () => '框架' }),
+                              h(
+                                ComboboxItem,
+                                { value: 'vue' },
+                                {
+                                  default: () => ['Vue', h(ComboboxItemIndicator)]
+                                }
+                              ),
+                              h(
+                                ComboboxItem,
+                                { value: 'react' },
+                                {
+                                  default: () => ['React', h(ComboboxItemIndicator)]
+                                }
+                              )
+                            ]
+                          }
+                        ),
+                        h(ComboboxSeparator),
+                        h(
+                          ComboboxGroup,
+                          {},
+                          {
+                            default: () =>
+                              h(
+                                ComboboxItem,
+                                { disabled: true, value: 'svelte' },
+                                {
+                                  default: () => 'Svelte'
+                                }
+                              )
+                          }
+                        )
+                      ]
+                    }
+                  )
+              }
+            )
+          ]
+        }
+      )
   })
 
   return { Fixture, open, value }
@@ -97,7 +137,9 @@ function createFixture(options: FixtureOptions = {}) {
 
 async function openCombobox(Fixture: ReturnType<typeof createFixture>['Fixture']) {
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-slot="combobox-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-slot="combobox-trigger"]'
+  ) as HTMLButtonElement
 
   trigger.click()
   await nextTick()
@@ -149,21 +191,41 @@ it('点击输入框默认打开浮层，并允许调用方关闭该行为', asyn
 
   cleanup()
   const disabledByCaller = defineComponent({
-    setup: () => () => h(Combobox, { openOnClick: false }, {
-      default: () => [
-        h(ComboboxAnchor, {}, {
-          default: () => h(ComboboxInput, { 'data-testid': 'disabled-open-input' })
-        }),
-        h(ComboboxContent, {}, {
-          default: () => h(ComboboxViewport, {}, {
-            default: () => h(ComboboxItem, { value: 'vue' }, { default: () => 'Vue' })
-          })
-        })
-      ]
-    })
+    setup: () => () =>
+      h(
+        Combobox,
+        { openOnClick: false },
+        {
+          default: () => [
+            h(
+              ComboboxAnchor,
+              {},
+              {
+                default: () => h(ComboboxInput, { 'data-testid': 'disabled-open-input' })
+              }
+            ),
+            h(
+              ComboboxContent,
+              {},
+              {
+                default: () =>
+                  h(
+                    ComboboxViewport,
+                    {},
+                    {
+                      default: () => h(ComboboxItem, { value: 'vue' }, { default: () => 'Vue' })
+                    }
+                  )
+              }
+            )
+          ]
+        }
+      )
   })
   const disabledPage = render(disabledByCaller)
-  const disabledInput = disabledPage.container.querySelector('[data-testid="disabled-open-input"]') as HTMLInputElement
+  const disabledInput = disabledPage.container.querySelector(
+    '[data-testid="disabled-open-input"]'
+  ) as HTMLInputElement
 
   disabledInput.click()
   await nextTick()
@@ -191,7 +253,9 @@ it('输入时筛选项目，空态与 ignoreFilter 外部筛选模式符合 Reka
   cleanup()
   const manual = createFixture({ ignoreFilter: true })
   const manualPage = await openCombobox(manual.Fixture)
-  const manualInput = manualPage.page.container.querySelector('[data-testid="framework-input"]') as HTMLInputElement
+  const manualInput = manualPage.page.container.querySelector(
+    '[data-testid="framework-input"]'
+  ) as HTMLInputElement
   manualInput.value = 'Angular'
   manualInput.dispatchEvent(new Event('input', { bubbles: true }))
   await nextTick()
@@ -208,11 +272,15 @@ it('单选支持键盘导航与 Enter 选择，并在选择后关闭浮层', asy
   await nextTick()
   expect(document.activeElement).toBe(input)
   const highlightedId = input.getAttribute('aria-activedescendant')
-  const highlighted = highlightedId ? content.querySelector(`#${highlightedId}`) as HTMLElement | null : null
+  const highlighted = highlightedId
+    ? (content.querySelector(`#${highlightedId}`) as HTMLElement | null)
+    : null
   expect(highlighted).not.toBeNull()
   highlighted?.setAttribute('data-highlighted', '')
   expect(getComputedStyle(highlighted as HTMLElement).backgroundColor).toBe(
-    getComputedStyle(highlighted as HTMLElement).getPropertyValue('--accent').trim()
+    getComputedStyle(highlighted as HTMLElement)
+      .getPropertyValue('--accent')
+      .trim()
   )
 
   input.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }))
@@ -224,7 +292,9 @@ it('单选支持键盘导航与 Enter 选择，并在选择后关闭浮层', asy
 it('多选保持浮层打开并将选中值同步为数组', async () => {
   const fixture = createFixture({ multiple: true })
   const { content } = await openCombobox(fixture.Fixture)
-  const items = Array.from(content.querySelectorAll('[data-slot="combobox-item"]')) as HTMLElement[]
+  const items = Array.from(
+    content.querySelectorAll('[data-slot="combobox-item"]')
+  ) as HTMLElement[]
 
   items[0].click()
   await nextTick()
@@ -257,7 +327,9 @@ it('清空按钮重置筛选词，并在启用 resetModelValueOnClear 时清除�
 it('禁用、校验错误、主题和 Escape 关闭均使用既定状态样式', async () => {
   const disabled = createFixture({ disabled: true })
   const disabledPage = render(disabled.Fixture)
-  const disabledTrigger = disabledPage.container.querySelector('[data-slot="combobox-trigger"]') as HTMLButtonElement
+  const disabledTrigger = disabledPage.container.querySelector(
+    '[data-slot="combobox-trigger"]'
+  ) as HTMLButtonElement
 
   expect(disabledTrigger.disabled).toBe(true)
   disabledTrigger.click()
@@ -269,10 +341,14 @@ it('禁用、校验错误、主题和 Escape 关闭均使用既定状态样式',
   const { content, page } = await openCombobox(invalid.Fixture)
   const anchor = page.container.querySelector('[data-slot="combobox-anchor"]') as HTMLElement
 
-  expect(getComputedStyle(anchor).getPropertyValue('--combobox-anchor-border').trim()).toBe('oklch(0.577 0.245 27.325)')
+  expect(getComputedStyle(anchor).getPropertyValue('--combobox-anchor-border').trim()).toBe(
+    'oklch(0.577 0.245 27.325)'
+  )
   expect(content.classList).toContain('combobox__content')
   document.documentElement.dataset.theme = 'dark'
-  expect(getComputedStyle(content).getPropertyValue('--combobox-content-bg').trim()).toBe('oklch(0.205 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--combobox-content-bg').trim()).toBe(
+    'oklch(0.205 0 0)'
+  )
 
   content.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }))
   await nextTick()

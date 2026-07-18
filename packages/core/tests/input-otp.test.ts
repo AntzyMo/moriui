@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -10,18 +11,25 @@ import InputOTPSeparator from '../src/components/input-otp/InputOTPSeparator.vue
 import './style.css'
 
 function createSlots(length: number) {
-  return () => h(InputOTPGroup, {}, {
-    default: () => Array.from({ length }, (_, index) => h(InputOTPSlot, { index }))
-  })
+  return () =>
+    h(
+      InputOTPGroup,
+      {},
+      {
+        default: () => Array.from({ length }, (_, index) => h(InputOTPSlot, { index }))
+      }
+    )
 }
 
 function inputText(input: HTMLInputElement, value: string) {
   input.value = value
-  input.dispatchEvent(new InputEvent('input', {
-    bubbles: true,
-    data: value,
-    inputType: 'insertText'
-  }))
+  input.dispatchEvent(
+    new InputEvent('input', {
+      bubbles: true,
+      data: value,
+      inputType: 'insertText'
+    })
+  )
 }
 
 it('渲染稳定槽位、合并调用方类名并透传根属性', () => {
@@ -35,9 +43,13 @@ it('渲染稳定槽位、合并调用方类名并透传根属性', () => {
     },
     slots: {
       default: () => [
-        h(InputOTPGroup, { class: 'custom-group' }, {
-          default: () => [h(InputOTPSlot, { class: 'custom-slot', index: 0 })]
-        }),
+        h(
+          InputOTPGroup,
+          { class: 'custom-group' },
+          {
+            default: () => [h(InputOTPSlot, { class: 'custom-slot', index: 0 })]
+          }
+        ),
         h(InputOTPSeparator, { class: 'custom-separator' })
       ]
     }
@@ -45,7 +57,9 @@ it('渲染稳定槽位、合并调用方类名并透传根属性', () => {
   const root = page.container.querySelector('[data-slot="input-otp"]') as HTMLElement
   const group = page.container.querySelector('[data-slot="input-otp-group"]') as HTMLElement
   const slot = page.container.querySelector('[data-slot="input-otp-slot"]') as HTMLInputElement
-  const separator = page.container.querySelector('[data-slot="input-otp-separator"]') as HTMLElement
+  const separator = page.container.querySelector(
+    '[data-slot="input-otp-separator"]'
+  ) as HTMLElement
 
   expect(root.classList).toContain('input-otp')
   expect(root.classList).toContain('custom-input-otp')
@@ -65,18 +79,25 @@ it('同步字符数组 v-model、自动前进并在填满后触发 complete', as
   const value = ref<string[]>([])
   const complete = vi.fn()
   const Fixture = defineComponent({
-    setup: () => () => h(InputOTP, {
-      'modelValue': value.value,
-      'onComplete': complete,
-      'onUpdate:modelValue': (nextValue: string[]) => {
-        value.value = nextValue
-      }
-    }, {
-      default: createSlots(3)
-    })
+    setup: () => () =>
+      h(
+        InputOTP,
+        {
+          'modelValue': value.value,
+          'onComplete': complete,
+          'onUpdate:modelValue': (nextValue: string[]) => {
+            value.value = nextValue
+          }
+        },
+        {
+          default: createSlots(3)
+        }
+      )
   })
   const page = render(Fixture)
-  const inputs = Array.from(page.container.querySelectorAll('[data-slot="input-otp-slot"]')) as HTMLInputElement[]
+  const inputs = Array.from(
+    page.container.querySelectorAll('[data-slot="input-otp-slot"]')
+  ) as HTMLInputElement[]
 
   inputText(inputs[0], 'A')
   await nextTick()
@@ -90,24 +111,33 @@ it('同步字符数组 v-model、自动前进并在填满后触发 complete', as
 
   expect(value.value).toEqual(['A', 'B', 'C'])
   expect(complete).toHaveBeenLastCalledWith(['A', 'B', 'C'])
-  expect(page.container.querySelector('[data-slot="input-otp"]')?.hasAttribute('data-complete')).toBe(true)
+  expect(
+    page.container.querySelector('[data-slot="input-otp"]')?.hasAttribute('data-complete')
+  ).toBe(true)
 })
 
 it('数字模式过滤非数字、支持粘贴分发，并保留键盘导航和删除', async () => {
   const value = ref<number[]>([])
   const Fixture = defineComponent({
-    setup: () => () => h(InputOTP, {
-      'modelValue': value.value,
-      'onUpdate:modelValue': (nextValue: number[]) => {
-        value.value = nextValue
-      },
-      'type': 'number'
-    }, {
-      default: createSlots(4)
-    })
+    setup: () => () =>
+      h(
+        InputOTP,
+        {
+          'modelValue': value.value,
+          'onUpdate:modelValue': (nextValue: number[]) => {
+            value.value = nextValue
+          },
+          'type': 'number'
+        },
+        {
+          default: createSlots(4)
+        }
+      )
   })
   const page = render(Fixture)
-  const inputs = Array.from(page.container.querySelectorAll('[data-slot="input-otp-slot"]')) as HTMLInputElement[]
+  const inputs = Array.from(
+    page.container.querySelectorAll('[data-slot="input-otp-slot"]')
+  ) as HTMLInputElement[]
 
   inputText(inputs[0], 'x')
   await nextTick()
@@ -131,20 +161,31 @@ it('数字模式过滤非数字、支持粘贴分发，并保留键盘导航和�
 
 it('允许关闭 OTP 模式，并处理无效、禁用与深色主题样式', () => {
   const Fixture = defineComponent({
-    setup: () => () => h('div', { 'data-theme': 'dark' }, [
-      h(InputOTP, {
-        'aria-invalid': 'true',
-        'otp': false
-      }, {
-        default: createSlots(2)
-      }),
-      h(InputOTP, { disabled: true }, {
-        default: createSlots(2)
-      })
-    ])
+    setup: () => () =>
+      h('div', { 'data-theme': 'dark' }, [
+        h(
+          InputOTP,
+          {
+            'aria-invalid': 'true',
+            'otp': false
+          },
+          {
+            default: createSlots(2)
+          }
+        ),
+        h(
+          InputOTP,
+          { disabled: true },
+          {
+            default: createSlots(2)
+          }
+        )
+      ])
   })
   const page = render(Fixture)
-  const roots = Array.from(page.container.querySelectorAll('[data-slot="input-otp"]')) as HTMLElement[]
+  const roots = Array.from(
+    page.container.querySelectorAll('[data-slot="input-otp"]')
+  ) as HTMLElement[]
   const invalidSlot = roots[0].querySelector('[data-slot="input-otp-slot"]') as HTMLInputElement
   const disabledSlot = roots[1].querySelector('[data-slot="input-otp-slot"]') as HTMLInputElement
 

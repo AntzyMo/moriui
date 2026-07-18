@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -34,11 +35,12 @@ it('默认渲染水平语义分隔线，并透传属性、事件和调用方 cla
 
 it('按方向应用垂直布局与对应的无障碍语义', () => {
   const Fixture = defineComponent({
-    setup: () => () => h('div', { class: 'flex h-8 items-center' }, [
-      h('span', '左侧内容'),
-      h(Separator, { orientation: 'vertical' }),
-      h('span', '右侧内容')
-    ])
+    setup: () => () =>
+      h('div', { class: 'flex h-8 items-center' }, [
+        h('span', '左侧内容'),
+        h(Separator, { orientation: 'vertical' }),
+        h('span', '右侧内容')
+      ])
   })
   const page = render(Fixture)
   const separator = page.container.querySelector('[data-slot="separator"]') as HTMLElement
@@ -70,9 +72,14 @@ it('支持 as 与 asChild 多态渲染并保留插槽内容', () => {
   expect(header.getAttribute('aria-label')).toBe('章节分隔线')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(Separator, { asChild: true }, {
-      default: () => h('hr', { 'data-testid': 'native-separator' })
-    })
+    setup: () => () =>
+      h(
+        Separator,
+        { asChild: true },
+        {
+          default: () => h('hr', { 'data-testid': 'native-separator' })
+        }
+      )
   })
   const asChild = render(AsChildFixture)
   const rule = asChild.container.querySelector('[data-testid="native-separator"]') as HTMLElement
@@ -84,18 +91,26 @@ it('支持 as 与 asChild 多态渲染并保留插槽内容', () => {
 
 it('在浅色与深色主题下使用与 bg-border 相同的语义颜色', () => {
   const Fixture = defineComponent({
-    setup: () => () => h('div', [
-      h(Separator),
-      h('div', { 'data-testid': 'border-reference', 'style': { backgroundColor: 'var(--border)' } })
-    ])
+    setup: () => () =>
+      h('div', [
+        h(Separator),
+        h('div', {
+          'data-testid': 'border-reference',
+          'style': { backgroundColor: 'var(--border)' }
+        })
+      ])
   })
   const page = render(Fixture)
   const host = page.container as HTMLElement
   const separator = page.container.querySelector('[data-slot="separator"]') as HTMLElement
   const reference = page.container.querySelector('[data-testid="border-reference"]') as HTMLElement
 
-  expect(getComputedStyle(separator).backgroundColor).toBe(getComputedStyle(reference).backgroundColor)
+  expect(getComputedStyle(separator).backgroundColor).toBe(
+    getComputedStyle(reference).backgroundColor
+  )
 
   host.dataset.theme = 'dark'
-  expect(getComputedStyle(separator).backgroundColor).toBe(getComputedStyle(reference).backgroundColor)
+  expect(getComputedStyle(separator).backgroundColor).toBe(
+    getComputedStyle(reference).backgroundColor
+  )
 })

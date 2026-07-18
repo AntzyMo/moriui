@@ -10,7 +10,7 @@
 
 <template>
   <DrawerRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
   >
     <slot v-bind="slotProps" />

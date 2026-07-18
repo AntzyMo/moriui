@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, shallowRef } from 'vue'
 
@@ -8,43 +9,59 @@ import ResizablePanelGroup from '../src/components/resizable/ResizablePanelGroup
 
 import './style.css'
 
-function createFixture(options: {
-  direction?: 'horizontal' | 'vertical'
-  disabled?: boolean
-  withHandle?: boolean
-} = {}) {
+function createFixture(
+  options: {
+    direction?: 'horizontal' | 'vertical'
+    disabled?: boolean
+    withHandle?: boolean
+  } = {}
+) {
   const layout = vi.fn()
   const panel = shallowRef<InstanceType<typeof ResizablePanel>>()
   const Fixture = defineComponent({
-    setup: () => () => h(ResizablePanelGroup, {
-      'class': 'custom-resizable',
-      'data-testid': 'resizable-group',
-      'direction': options.direction ?? 'horizontal',
-      'onLayout': layout,
-      'style': 'height: 240px; width: 480px;'
-    }, {
-      default: () => [
-        h(ResizablePanel, {
-          ref: panel,
-          class: 'custom-panel',
-          collapsible: true,
-          collapsedSize: 10,
-          defaultSize: 30,
-          minSize: 20
-        }, {
-          default: ({ isCollapsed, resize }) => h('button', {
-            'data-testid': 'panel-action',
-            'onClick': () => resize(40)
-          }, isCollapsed ? '已折叠' : '已展开')
-        }),
-        h(ResizableHandle, {
-          class: 'custom-handle',
-          disabled: options.disabled,
-          withHandle: options.withHandle
-        }),
-        h(ResizablePanel, { defaultSize: 70 }, { default: () => '内容' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        ResizablePanelGroup,
+        {
+          'class': 'custom-resizable',
+          'data-testid': 'resizable-group',
+          'direction': options.direction ?? 'horizontal',
+          'onLayout': layout,
+          'style': 'height: 240px; width: 480px;'
+        },
+        {
+          default: () => [
+            h(
+              ResizablePanel,
+              {
+                ref: panel,
+                class: 'custom-panel',
+                collapsible: true,
+                collapsedSize: 10,
+                defaultSize: 30,
+                minSize: 20
+              },
+              {
+                default: ({ isCollapsed, resize }) =>
+                  h(
+                    'button',
+                    {
+                      'data-testid': 'panel-action',
+                      'onClick': () => resize(40)
+                    },
+                    isCollapsed ? '已折叠' : '已展开'
+                  )
+              }
+            ),
+            h(ResizableHandle, {
+              class: 'custom-handle',
+              disabled: options.disabled,
+              withHandle: options.withHandle
+            }),
+            h(ResizablePanel, { defaultSize: 70 }, { default: () => '内容' })
+          ]
+        }
+      )
   })
 
   return { layout, page: render(Fixture), panel }
@@ -114,24 +131,37 @@ it('保留键盘调整、布局回调和面板实例方法', async () => {
 
   panel.value?.collapse()
   await nextTick()
-  expect(page.container.querySelector('[data-slot="resizable-panel"]')?.getAttribute('data-state')).toBe('collapsed')
+  expect(
+    page.container.querySelector('[data-slot="resizable-panel"]')?.getAttribute('data-state')
+  ).toBe('collapsed')
 
   panel.value?.expand()
   await nextTick()
-  expect(page.container.querySelector('[data-slot="resizable-panel"]')?.getAttribute('data-state')).toBe('expanded')
+  expect(
+    page.container.querySelector('[data-slot="resizable-panel"]')?.getAttribute('data-state')
+  ).toBe('expanded')
 })
 
 it('允许使用默认插槽替换可视握柄', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(ResizablePanelGroup, { direction: 'horizontal' }, {
-      default: () => [
-        h(ResizablePanel, { defaultSize: 50 }),
-        h(ResizableHandle, { withHandle: true }, {
-          default: () => h('span', { 'data-testid': 'custom-grip' }, '拖动')
-        }),
-        h(ResizablePanel, { defaultSize: 50 })
-      ]
-    })
+    setup: () => () =>
+      h(
+        ResizablePanelGroup,
+        { direction: 'horizontal' },
+        {
+          default: () => [
+            h(ResizablePanel, { defaultSize: 50 }),
+            h(
+              ResizableHandle,
+              { withHandle: true },
+              {
+                default: () => h('span', { 'data-testid': 'custom-grip' }, '拖动')
+              }
+            ),
+            h(ResizablePanel, { defaultSize: 50 })
+          ]
+        }
+      )
   })
   const page = render(Fixture)
 

@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -28,21 +29,30 @@ it.each([
   const page = render(AspectRatio, { props: { ratio } })
   const wrapper = page.container.querySelector('[data-reka-aspect-ratio-wrapper]') as HTMLElement
 
-  expect(Number.parseFloat(wrapper.style.paddingBottom)).toBeCloseTo(Number.parseFloat(expectedPadding), 3)
+  expect(Number.parseFloat(wrapper.style.paddingBottom)).toBeCloseTo(
+    Number.parseFloat(expectedPadding),
+    3
+  )
 })
 
 it('透传插槽参数、属性、事件和调用方类名', () => {
   const onClick = vi.fn()
   const Fixture = defineComponent({
-    setup: () => () => h(AspectRatio, {
-      'aria-label': '视频预览',
-      'class': 'custom-aspect-ratio',
-      'data-testid': 'media-preview',
-      'onClick': onClick,
-      'ratio': 16 / 9
-    }, {
-      default: ({ aspect }: { aspect: number }) => h('span', { 'data-aspect': aspect }, '预览内容')
-    })
+    setup: () => () =>
+      h(
+        AspectRatio,
+        {
+          'aria-label': '视频预览',
+          'class': 'custom-aspect-ratio',
+          'data-testid': 'media-preview',
+          'onClick': onClick,
+          'ratio': 16 / 9
+        },
+        {
+          default: ({ aspect }: { aspect: number }) =>
+            h('span', { 'data-aspect': aspect }, '预览内容')
+        }
+      )
   })
   const page = render(Fixture)
   const content = page.container.querySelector('[data-slot="aspect-ratio"]') as HTMLElement
@@ -69,9 +79,14 @@ it('支持 as 与 asChild 多态渲染，并保留稳定槽位', () => {
   expect(section?.getAttribute('aria-label')).toBe('媒体区域')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(AspectRatio, { asChild: true }, {
-      default: () => h('a', { href: '#media' }, '查看媒体')
-    })
+    setup: () => () =>
+      h(
+        AspectRatio,
+        { asChild: true },
+        {
+          default: () => h('a', { href: '#media' }, '查看媒体')
+        }
+      )
   })
   const asChild = render(AsChildFixture)
   const link = asChild.container.querySelector('a')

@@ -61,4 +61,6 @@
 @import './utilities.css';
 @import './motion.css';
 
+@reference "tailwindcss";
+
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));

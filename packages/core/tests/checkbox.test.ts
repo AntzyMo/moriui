@@ -1,5 +1,6 @@
-import { expect, it } from 'vitest'
-import { userEvent } from 'vitest/browser'
+import { expect, it } from 'vite-plus/test'
+import { userEvent } from 'vite-plus/test/browser'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -33,12 +34,13 @@ it('渲染稳定槽位并透传属性和调用方类名', () => {
 it('支持点击、Space 键和受控 v-model 切换', async () => {
   const value = ref(false)
   const Fixture = defineComponent({
-    setup: () => () => h(Checkbox, {
-      'modelValue': value.value,
-      'onUpdate:modelValue': (nextValue: boolean) => {
-        value.value = nextValue
-      }
-    })
+    setup: () => () =>
+      h(Checkbox, {
+        'modelValue': value.value,
+        'onUpdate:modelValue': (nextValue: boolean) => {
+          value.value = nextValue
+        }
+      })
   })
   const page = render(Fixture)
   const checkbox = page.container.querySelector('[data-slot="checkbox"]') as HTMLButtonElement
@@ -48,7 +50,9 @@ it('支持点击、Space 键和受控 v-model 切换', async () => {
   expect(value.value).toBe(true)
   expect(checkbox.getAttribute('aria-checked')).toBe('true')
   expect(checkbox.getAttribute('data-state')).toBe('checked')
-  expect(page.container.querySelector('[data-slot="checkbox-indicator"]')?.getAttribute('data-state')).toBe('checked')
+  expect(
+    page.container.querySelector('[data-slot="checkbox-indicator"]')?.getAttribute('data-state')
+  ).toBe('checked')
 
   checkbox.focus()
   await userEvent.keyboard(' ')
@@ -60,12 +64,13 @@ it('支持点击、Space 键和受控 v-model 切换', async () => {
 it('半选状态保持 mixed ARIA 语义，并在切换后变为选中', async () => {
   const value = ref<boolean | 'indeterminate'>('indeterminate')
   const Fixture = defineComponent({
-    setup: () => () => h(Checkbox, {
-      'modelValue': value.value,
-      'onUpdate:modelValue': (nextValue: boolean | 'indeterminate') => {
-        value.value = nextValue
-      }
-    })
+    setup: () => () =>
+      h(Checkbox, {
+        'modelValue': value.value,
+        'onUpdate:modelValue': (nextValue: boolean | 'indeterminate') => {
+          value.value = nextValue
+        }
+      })
   })
   const page = render(Fixture)
   const checkbox = page.container.querySelector('[data-slot="checkbox"]') as HTMLButtonElement
@@ -74,7 +79,9 @@ it('半选状态保持 mixed ARIA 语义，并在切换后变为选中', async (
   expect(checkbox.getAttribute('aria-checked')).toBe('mixed')
   expect(checkbox.getAttribute('data-state')).toBe('indeterminate')
   expect(indicator.getAttribute('data-state')).toBe('indeterminate')
-  const indicatorMark = page.container.querySelector('[data-slot="checkbox-indicator-mark"]') as HTMLElement
+  const indicatorMark = page.container.querySelector(
+    '[data-slot="checkbox-indicator-mark"]'
+  ) as HTMLElement
   expect(indicatorMark.tagName).toBe('svg')
   expect(getComputedStyle(indicatorMark).width).toBe('12px')
 
@@ -82,25 +89,30 @@ it('半选状态保持 mixed ARIA 语义，并在切换后变为选中', async (
   await nextTick()
   expect(value.value).toBe(true)
   expect(checkbox.getAttribute('data-state')).toBe('checked')
-  expect((page.container.querySelector('[data-slot="checkbox-indicator-mark"]') as HTMLElement).tagName).toBe('svg')
+  expect(
+    (page.container.querySelector('[data-slot="checkbox-indicator-mark"]') as HTMLElement).tagName
+  ).toBe('svg')
 })
 
 it('禁用和无效状态使用 Reka 属性及对应 Nova Token', async () => {
   const value = ref(false)
   const Fixture = defineComponent({
-    setup: () => () => h('div', { 'data-theme': 'dark' }, [
-      h(Checkbox, {
-        'aria-invalid': 'true',
-        'modelValue': value.value,
-        'onUpdate:modelValue': (nextValue: boolean) => {
-          value.value = nextValue
-        }
-      }),
-      h(Checkbox, { 'disabled': true, 'aria-label': '不可用' })
-    ])
+    setup: () => () =>
+      h('div', { 'data-theme': 'dark' }, [
+        h(Checkbox, {
+          'aria-invalid': 'true',
+          'modelValue': value.value,
+          'onUpdate:modelValue': (nextValue: boolean) => {
+            value.value = nextValue
+          }
+        }),
+        h(Checkbox, { 'disabled': true, 'aria-label': '不可用' })
+      ])
   })
   const page = render(Fixture)
-  const [invalid, disabled] = Array.from(page.container.querySelectorAll('[data-slot="checkbox"]')) as HTMLButtonElement[]
+  const [invalid, disabled] = Array.from(
+    page.container.querySelectorAll('[data-slot="checkbox"]')
+  ) as HTMLButtonElement[]
 
   expect(getComputedStyle(invalid).getPropertyValue('--checkbox-border').trim()).toBe(
     `color-mix(in oklch, ${getComputedStyle(invalid).getPropertyValue('--destructive').trim()} 50%, transparent)`
@@ -125,21 +137,31 @@ it('禁用和无效状态使用 Reka 属性及对应 Nova Token', async () => {
 it('完整传递默认作用域插槽，并保留表单隐藏输入语义', async () => {
   const value = ref(false)
   const Fixture = defineComponent({
-    setup: () => () => h('form', [
-      h(Checkbox, {
-        'modelValue': value.value,
-        'name': 'terms',
-        'required': true,
-        'value': 'accepted',
-        'onUpdate:modelValue': (nextValue: boolean) => {
-          value.value = nextValue
-        }
-      }, {
-        default: ({ modelValue, state }) => h('span', {
-          'data-testid': 'custom-indicator'
-        }, `${modelValue}-${state}`)
-      })
-    ])
+    setup: () => () =>
+      h('form', [
+        h(
+          Checkbox,
+          {
+            'modelValue': value.value,
+            'name': 'terms',
+            'required': true,
+            'value': 'accepted',
+            'onUpdate:modelValue': (nextValue: boolean) => {
+              value.value = nextValue
+            }
+          },
+          {
+            default: ({ modelValue, state }) =>
+              h(
+                'span',
+                {
+                  'data-testid': 'custom-indicator'
+                },
+                `${modelValue}-${state}`
+              )
+          }
+        )
+      ])
   })
   const page = render(Fixture)
   const form = page.container.querySelector('form') as HTMLFormElement
@@ -148,7 +170,9 @@ it('完整传递默认作用域插槽，并保留表单隐藏输入语义', asyn
   checkbox.click()
   await nextTick()
 
-  expect(page.container.querySelector('[data-testid="custom-indicator"]')?.textContent).toBe('true-true')
+  expect(page.container.querySelector('[data-testid="custom-indicator"]')?.textContent).toBe(
+    'true-true'
+  )
   const hiddenInput = form.querySelector('input[type="checkbox"]') as HTMLInputElement
   expect(hiddenInput.required).toBe(true)
   expect(new FormData(form).get('terms')).toBe('accepted')

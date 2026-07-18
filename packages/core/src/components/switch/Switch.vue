@@ -18,7 +18,7 @@
 
 <template>
   <SwitchRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model="modelValue"
     :class="slots.root({ size, class: props.class as never })"

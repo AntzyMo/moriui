@@ -1,4 +1,5 @@
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
+
 import { readCssPixel } from '../src/components/message-scroller/geometry'
 
 it('几何工具安全解析 CSS 像素值', () => {

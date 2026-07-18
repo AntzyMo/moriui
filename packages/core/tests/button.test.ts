@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -33,17 +34,13 @@ it('默认渲染原生按钮并透传属性与事件', () => {
   expect(onClick).toHaveBeenCalledOnce()
 })
 
-it.each([
-  'default',
-  'outline',
-  'secondary',
-  'ghost',
-  'destructive',
-  'link'
-] as const)('应用 %s 变体类', variant => {
-  const page = render(Button, { props: { variant } })
-  expect(page.container.querySelector('button')?.classList).toContain(`button--${variant}`)
-})
+it.each(['default', 'outline', 'secondary', 'ghost', 'destructive', 'link'] as const)(
+  '应用 %s 变体类',
+  variant => {
+    const page = render(Button, { props: { variant } })
+    expect(page.container.querySelector('button')?.classList).toContain(`button--${variant}`)
+  }
+)
 
 it.each([
   ['xs', 'button--xs'],
@@ -68,7 +65,8 @@ it('支持 as 与 asChild 多态渲染', () => {
   expect(asLink.container.querySelector('a')?.getAttribute('href')).toBe('#details')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(Button, { asChild: true }, { default: () => h('a', { href: '#next' }, '继续') })
+    setup: () => () =>
+      h(Button, { asChild: true }, { default: () => h('a', { href: '#next' }, '继续') })
   })
   const asChild = render(AsChildFixture)
   const link = asChild.container.querySelector('a')

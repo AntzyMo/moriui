@@ -14,7 +14,7 @@
 
 <template>
   <DateRangePickerPrev
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="dateRangePickerVariants().prev({ class: props.class as never })"
     data-slot="date-range-picker-prev"

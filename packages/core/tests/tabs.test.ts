@@ -1,5 +1,6 @@
-import { expect, it } from 'vitest'
-import { userEvent } from 'vitest/browser'
+import { expect, it } from 'vite-plus/test'
+import { userEvent } from 'vite-plus/test/browser'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -13,14 +14,27 @@ import './style.css'
 
 function tabsChildren(values: Array<{ disabled?: boolean, value: string }>, content = true) {
   return [
-    h(TabsList, { 'aria-label': '账户设置' }, {
-      default: () => values.map(tab => h(TabsTrigger, {
-        disabled: tab.disabled,
-        value: tab.value
-      }, { default: () => tab.value }))
-    }),
+    h(
+      TabsList,
+      { 'aria-label': '账户设置' },
+      {
+        default: () =>
+          values.map(tab =>
+            h(
+              TabsTrigger,
+              {
+                disabled: tab.disabled,
+                value: tab.value
+              },
+              { default: () => tab.value }
+            )
+          )
+      }
+    ),
     ...(content
-      ? values.map(tab => h(TabsContent, { value: tab.value }, { default: () => `${tab.value} 内容` }))
+      ? values.map(tab =>
+          h(TabsContent, { value: tab.value }, { default: () => `${tab.value} 内容` })
+        )
       : [])
   ]
 }
@@ -46,7 +60,9 @@ it('渲染稳定槽位、Nova 默认样式、作用域插槽和 ARIA 关联', as
 
   const root = page.container.querySelector('[data-slot="tabs"]') as HTMLElement
   const list = page.container.querySelector('[data-slot="tabs-list"]') as HTMLElement
-  const triggers = Array.from(page.container.querySelectorAll('[data-slot="tabs-trigger"]')) as HTMLButtonElement[]
+  const triggers = Array.from(
+    page.container.querySelectorAll('[data-slot="tabs-trigger"]')
+  ) as HTMLButtonElement[]
   const content = page.container.querySelector('[data-slot="tabs-content"]') as HTMLElement
 
   expect(root.classList).toContain('tabs')
@@ -69,41 +85,62 @@ it('支持受控 v-model、自动与手动激活、禁用项跳过和非循环�
   const automaticValue = ref('first')
   const manualValue = ref('first')
   const Fixture = defineComponent({
-    setup: () => () => h('div', [
-      h(Tabs, {
-        'modelValue': automaticValue.value,
-        'onUpdate:modelValue': (value: string | number | undefined) => {
-          automaticValue.value = String(value)
-        }
-      }, { default: () => tabsChildren([{ value: 'first' }, { value: 'second' }]) }),
-      h(Tabs, {
-        'activationMode': 'manual',
-        'modelValue': manualValue.value,
-        'onUpdate:modelValue': (value: string | number | undefined) => {
-          manualValue.value = String(value)
-        }
-      }, {
-        default: () => [
-          h(TabsList, { loop: false }, {
+    setup: () => () =>
+      h('div', [
+        h(
+          Tabs,
+          {
+            'modelValue': automaticValue.value,
+            'onUpdate:modelValue': (value: string | number | undefined) => {
+              automaticValue.value = String(value)
+            }
+          },
+          { default: () => tabsChildren([{ value: 'first' }, { value: 'second' }]) }
+        ),
+        h(
+          Tabs,
+          {
+            'activationMode': 'manual',
+            'modelValue': manualValue.value,
+            'onUpdate:modelValue': (value: string | number | undefined) => {
+              manualValue.value = String(value)
+            }
+          },
+          {
             default: () => [
-              h(TabsTrigger, { value: 'first' }, { default: () => 'first' }),
-              h(TabsTrigger, { disabled: true, value: 'disabled' }, { default: () => 'disabled' }),
-              h(TabsTrigger, { value: 'third' }, { default: () => 'third' })
+              h(
+                TabsList,
+                { loop: false },
+                {
+                  default: () => [
+                    h(TabsTrigger, { value: 'first' }, { default: () => 'first' }),
+                    h(
+                      TabsTrigger,
+                      { disabled: true, value: 'disabled' },
+                      { default: () => 'disabled' }
+                    ),
+                    h(TabsTrigger, { value: 'third' }, { default: () => 'third' })
+                  ]
+                }
+              ),
+              h(TabsContent, { value: 'first' }, { default: () => 'first 内容' }),
+              h(TabsContent, { value: 'disabled' }, { default: () => 'disabled 内容' }),
+              h(TabsContent, { value: 'third' }, { default: () => 'third 内容' })
             ]
-          }),
-          h(TabsContent, { value: 'first' }, { default: () => 'first 内容' }),
-          h(TabsContent, { value: 'disabled' }, { default: () => 'disabled 内容' }),
-          h(TabsContent, { value: 'third' }, { default: () => 'third 内容' })
-        ]
-      })
-    ])
+          }
+        )
+      ])
   })
   const page = render(Fixture)
   await nextTick()
 
   const groups = Array.from(page.container.querySelectorAll('[data-slot="tabs"]')) as HTMLElement[]
-  const automaticTriggers = Array.from(groups[0].querySelectorAll('[data-slot="tabs-trigger"]')) as HTMLButtonElement[]
-  const manualTriggers = Array.from(groups[1].querySelectorAll('[data-slot="tabs-trigger"]')) as HTMLButtonElement[]
+  const automaticTriggers = Array.from(
+    groups[0].querySelectorAll('[data-slot="tabs-trigger"]')
+  ) as HTMLButtonElement[]
+  const manualTriggers = Array.from(
+    groups[1].querySelectorAll('[data-slot="tabs-trigger"]')
+  ) as HTMLButtonElement[]
 
   automaticTriggers[0].focus()
   await userEvent.keyboard('{ArrowRight}')
@@ -137,12 +174,16 @@ it('支持 line 与垂直布局、保留隐藏内容，并在深色主题使用�
     },
     slots: {
       default: () => [
-        h(TabsList, { class: 'custom-list', variant: 'line' }, {
-          default: () => [
-            h(TabsTrigger, { value: 'profile' }, { default: () => '资料' }),
-            h(TabsTrigger, { value: 'security' }, { default: () => '安全' })
-          ]
-        }),
+        h(
+          TabsList,
+          { class: 'custom-list', variant: 'line' },
+          {
+            default: () => [
+              h(TabsTrigger, { value: 'profile' }, { default: () => '资料' }),
+              h(TabsTrigger, { value: 'security' }, { default: () => '安全' })
+            ]
+          }
+        ),
         h(TabsContent, { value: 'profile' }, { default: () => '资料内容' }),
         h(TabsContent, { value: 'security' }, { default: () => '安全内容' })
       ]
@@ -152,15 +193,23 @@ it('支持 line 与垂直布局、保留隐藏内容，并在深色主题使用�
 
   const root = page.container.querySelector('[data-slot="tabs"]') as HTMLElement
   const list = page.container.querySelector('[data-slot="tabs-list"]') as HTMLElement
-  const triggers = Array.from(page.container.querySelectorAll('[data-slot="tabs-trigger"]')) as HTMLButtonElement[]
-  const contents = Array.from(page.container.querySelectorAll('[data-slot="tabs-content"]')) as HTMLElement[]
+  const triggers = Array.from(
+    page.container.querySelectorAll('[data-slot="tabs-trigger"]')
+  ) as HTMLButtonElement[]
+  const contents = Array.from(
+    page.container.querySelectorAll('[data-slot="tabs-content"]')
+  ) as HTMLElement[]
 
   expect(root.dataset.orientation).toBe('vertical')
   expect(getComputedStyle(root).flexDirection).toBe('row')
   expect(list.classList).toContain('tabs__list--line')
   expect(list.classList).toContain('custom-list')
-  expect(getComputedStyle(triggers[0]).getPropertyValue('--tabs-trigger-indicator-opacity').trim()).toBe('1')
-  expect(getComputedStyle(triggers[1]).getPropertyValue('--tabs-trigger-indicator-opacity').trim()).toBe('0')
+  expect(
+    getComputedStyle(triggers[0]).getPropertyValue('--tabs-trigger-indicator-opacity').trim()
+  ).toBe('1')
+  expect(
+    getComputedStyle(triggers[1]).getPropertyValue('--tabs-trigger-indicator-opacity').trim()
+  ).toBe('0')
   expect(contents).toHaveLength(2)
   expect(contents[1].hidden).toBe(true)
 
@@ -173,11 +222,25 @@ it('触发器支持 asChild，且变体映射为全部可见槽位生成稳定�
     props: { defaultValue: 'account' },
     slots: {
       default: () => [
-        h(TabsList, {}, {
-          default: () => h(TabsTrigger, { asChild: true, value: 'account' }, {
-            default: () => h('button', { 'class': 'custom-trigger', 'data-testid': 'as-child-trigger' }, '账户')
-          })
-        }),
+        h(
+          TabsList,
+          {},
+          {
+            default: () =>
+              h(
+                TabsTrigger,
+                { asChild: true, value: 'account' },
+                {
+                  default: () =>
+                    h(
+                      'button',
+                      { 'class': 'custom-trigger', 'data-testid': 'as-child-trigger' },
+                      '账户'
+                    )
+                }
+              )
+          }
+        ),
         h(TabsContent, { value: 'account' }, { default: () => '账户内容' }),
         h(TabsContent, { forceMount: true, value: 'password' }, { default: () => '密码内容' })
       ]
@@ -185,7 +248,9 @@ it('触发器支持 asChild，且变体映射为全部可见槽位生成稳定�
   })
   await nextTick()
 
-  const trigger = page.container.querySelector('[data-testid="as-child-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="as-child-trigger"]'
+  ) as HTMLButtonElement
   const slots = tabsVariants()
 
   expect(trigger.classList).toContain('tabs__trigger')

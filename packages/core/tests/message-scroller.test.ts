@@ -1,6 +1,6 @@
+import { expect, it } from 'vite-plus/test'
 import type { ComponentPublicInstance } from 'vue'
 
-import { expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -28,24 +28,50 @@ function createFixture(autoScroll = false) {
   const provider = ref<ProviderInstance>()
   const messages = ref(['m1', 'm2', 'm3'])
   const Fixture = defineComponent({
-    setup: () => () => h(MessageScrollerProvider, { ref: provider, autoScroll }, {
-      default: () => h(MessageScroller, { class: 'custom-scroller', style: 'height: 160px; width: 320px;' }, {
-        default: () => [
-          h(MessageScrollerViewport, {}, {
-            default: () => h(MessageScrollerContent, { class: 'gap-2 p-2' }, {
-              default: () => messages.value.map((id, index) => h(MessageScrollerItem, {
-                key: id,
-                messageId: id,
-                scrollAnchor: index === 0
-              }, {
-                default: () => h('article', { style: 'height: 96px;' }, id)
-              }))
-            })
-          }),
-          h(MessageScrollerButton)
-        ]
-      })
-    })
+    setup: () => () =>
+      h(
+        MessageScrollerProvider,
+        { ref: provider, autoScroll },
+        {
+          default: () =>
+            h(
+              MessageScroller,
+              { class: 'custom-scroller', style: 'height: 160px; width: 320px;' },
+              {
+                default: () => [
+                  h(
+                    MessageScrollerViewport,
+                    {},
+                    {
+                      default: () =>
+                        h(
+                          MessageScrollerContent,
+                          { class: 'gap-2 p-2' },
+                          {
+                            default: () =>
+                              messages.value.map((id, index) =>
+                                h(
+                                  MessageScrollerItem,
+                                  {
+                                    key: id,
+                                    messageId: id,
+                                    scrollAnchor: index === 0
+                                  },
+                                  {
+                                    default: () => h('article', { style: 'height: 96px;' }, id)
+                                  }
+                                )
+                              )
+                          }
+                        )
+                    }
+                  ),
+                  h(MessageScrollerButton)
+                ]
+              }
+            )
+        }
+      )
   })
   return { page: render(Fixture), provider, messages }
 }
@@ -55,9 +81,15 @@ it('渲染组合槽位、默认无障碍语义与稳定变体类', async () => {
   await settle()
 
   const root = page.container.querySelector('[data-slot="message-scroller"]') as HTMLElement
-  const viewport = page.container.querySelector('[data-slot="message-scroller-viewport"]') as HTMLElement
-  const content = page.container.querySelector('[data-slot="message-scroller-content"]') as HTMLElement
-  const button = page.container.querySelector('[data-slot="message-scroller-button"]') as HTMLButtonElement
+  const viewport = page.container.querySelector(
+    '[data-slot="message-scroller-viewport"]'
+  ) as HTMLElement
+  const content = page.container.querySelector(
+    '[data-slot="message-scroller-content"]'
+  ) as HTMLElement
+  const button = page.container.querySelector(
+    '[data-slot="message-scroller-button"]'
+  ) as HTMLButtonElement
 
   expect(root.classList).toContain('message-scroller')
   expect(root.classList).toContain('custom-scroller')
@@ -73,15 +105,21 @@ it('渲染组合槽位、默认无障碍语义与稳定变体类', async () => {
     getComputedStyle(button).getPropertyValue('--background').trim()
   )
   expect(messageScrollerVariants().root()).toContain('message-scroller')
-  expect(messageScrollerVariants({ direction: 'start' }).button()).toContain('message-scroller__button--start')
+  expect(messageScrollerVariants({ direction: 'start' }).button()).toContain(
+    'message-scroller__button--start'
+  )
 })
 
 it('支持命令式跳转和末尾滚动按钮', async () => {
   const { page, provider } = createFixture()
   await settle()
   const root = page.container.querySelector('[data-slot="message-scroller"]') as HTMLElement
-  const viewport = page.container.querySelector('[data-slot="message-scroller-viewport"]') as HTMLElement
-  const button = page.container.querySelector('[data-slot="message-scroller-button"]') as HTMLButtonElement
+  const viewport = page.container.querySelector(
+    '[data-slot="message-scroller-viewport"]'
+  ) as HTMLElement
+  const button = page.container.querySelector(
+    '[data-slot="message-scroller-button"]'
+  ) as HTMLButtonElement
 
   expect(provider.value?.scrollToMessage('m2')).toBe(true)
   await settle()
@@ -100,7 +138,9 @@ it('支持命令式跳转和末尾滚动按钮', async () => {
 it('前插历史消息时保留当前阅读位置', async () => {
   const { page, messages } = createFixture()
   await settle()
-  const viewport = page.container.querySelector('[data-slot="message-scroller-viewport"]') as HTMLElement
+  const viewport = page.container.querySelector(
+    '[data-slot="message-scroller-viewport"]'
+  ) as HTMLElement
   viewport.scrollTop = 100
   viewport.dispatchEvent(new Event('scroll'))
   await settle()
@@ -116,8 +156,12 @@ it('在 RTL 下修正按钮定位，并保留细滚动条样式', async () => {
   const { page } = createFixture()
   await settle()
   const root = page.container.querySelector('[data-slot="message-scroller"]') as HTMLElement
-  const viewport = page.container.querySelector('[data-slot="message-scroller-viewport"]') as HTMLElement
-  const button = page.container.querySelector('[data-slot="message-scroller-button"]') as HTMLButtonElement
+  const viewport = page.container.querySelector(
+    '[data-slot="message-scroller-viewport"]'
+  ) as HTMLElement
+  const button = page.container.querySelector(
+    '[data-slot="message-scroller-button"]'
+  ) as HTMLButtonElement
   const ltrTransform = getComputedStyle(button).transform
 
   root.dir = 'rtl'

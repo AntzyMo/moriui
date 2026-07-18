@@ -1,4 +1,5 @@
-import { afterEach, expect, it, vi } from 'vitest'
+import { afterEach, expect, it, vi } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -16,42 +17,72 @@ afterEach(() => {
   delete document.documentElement.dataset.theme
 })
 
-function createFixture(options: { controlled?: boolean, disabled?: boolean, showArrow?: boolean } = {}) {
+function createFixture(
+  options: { controlled?: boolean, disabled?: boolean, showArrow?: boolean } = {}
+) {
   const open = ref(false)
   const onUpdateOpen = vi.fn((value: boolean) => {
     open.value = value
   })
 
   const Fixture = defineComponent({
-    setup: () => () => h(TooltipProvider, {
-      delayDuration: 0,
-      disabled: options.disabled
-    }, {
-      default: () => h(Tooltip, (options.controlled
-        ? { 'open': open.value, 'onUpdate:open': onUpdateOpen }
-        : {}), {
-        default: () => [
-          h(TooltipTrigger, { asChild: true }, {
-            default: () => h('button', {
-              'class': 'custom-trigger',
-              'data-testid': 'trigger'
-            }, '显示说明')
-          }),
-          h(TooltipPortal, {}, {
-            default: () => h(TooltipContent, {
-              'class': 'custom-content',
-              'side': 'bottom',
-              'data-testid': 'content'
-            }, {
-              default: () => [
-                ...(options.showArrow ? [h(TooltipArrow, { class: 'custom-arrow' })] : []),
-                h('span', { 'data-testid': 'content-copy' }, 'Tooltip 说明')
-              ]
-            })
-          })
-        ]
-      })
-    })
+    setup: () => () =>
+      h(
+        TooltipProvider,
+        {
+          delayDuration: 0,
+          disabled: options.disabled
+        },
+        {
+          default: () =>
+            h(
+              Tooltip,
+              options.controlled ? { 'open': open.value, 'onUpdate:open': onUpdateOpen } : {},
+              {
+                default: () => [
+                  h(
+                    TooltipTrigger,
+                    { asChild: true },
+                    {
+                      default: () =>
+                        h(
+                          'button',
+                          {
+                            'class': 'custom-trigger',
+                            'data-testid': 'trigger'
+                          },
+                          '显示说明'
+                        )
+                    }
+                  ),
+                  h(
+                    TooltipPortal,
+                    {},
+                    {
+                      default: () =>
+                        h(
+                          TooltipContent,
+                          {
+                            'class': 'custom-content',
+                            'side': 'bottom',
+                            'data-testid': 'content'
+                          },
+                          {
+                            default: () => [
+                              ...(options.showArrow
+                                ? [h(TooltipArrow, { class: 'custom-arrow' })]
+                                : []),
+                              h('span', { 'data-testid': 'content-copy' }, 'Tooltip 说明')
+                            ]
+                          }
+                        )
+                    }
+                  )
+                ]
+              }
+            )
+        }
+      )
   })
 
   return { Fixture, onUpdateOpen, open }
@@ -64,10 +95,12 @@ async function waitForTimers(delay = 0) {
 }
 
 function movePointer(trigger: HTMLElement) {
-  trigger.dispatchEvent(new PointerEvent('pointermove', {
-    bubbles: true,
-    pointerType: 'mouse'
-  }))
+  trigger.dispatchEvent(
+    new PointerEvent('pointermove', {
+      bubbles: true,
+      pointerType: 'mouse'
+    })
+  )
 }
 
 async function openTooltip(Fixture: ReturnType<typeof createFixture>['Fixture']) {
@@ -85,9 +118,11 @@ function getReducedMotionRule() {
   function findRule(rules: CSSRuleList | CSSRule[]): CSSStyleRule | undefined {
     for (const rule of rules) {
       if (rule instanceof CSSMediaRule && rule.conditionText.includes('prefers-reduced-motion')) {
-        const contentRule = Array.from(rule.cssRules)
-          .find((childRule): childRule is CSSStyleRule => childRule instanceof CSSStyleRule
-            && childRule.selectorText.includes('.tooltip__content'))
+        const contentRule = Array.from(rule.cssRules).find(
+          (childRule): childRule is CSSStyleRule =>
+            childRule instanceof CSSStyleRule
+            && childRule.selectorText.includes('.tooltip__content')
+        )
 
         if (contentRule)
           return contentRule
@@ -125,31 +160,61 @@ it('通过显式 Portal 打开到 body，并保留槽位、调用方类名和可
   expect(content.classList).toContain('custom-content')
   expect(content.dataset.state).toBe('delayed-open')
   expect(content.dataset.side).toBe('bottom')
-  expect(content.querySelector('[data-slot="tooltip-arrow"]')?.classList).toContain('tooltip__arrow')
+  expect(content.querySelector('[data-slot="tooltip-arrow"]')?.classList).toContain(
+    'tooltip__arrow'
+  )
   expect(content.querySelector('[data-slot="tooltip-arrow"]')?.classList).toContain('custom-arrow')
-  expect(getComputedStyle(content.querySelector('[data-slot="tooltip-arrow"]') as SVGElement).transform).toBe('none')
+  expect(
+    getComputedStyle(content.querySelector('[data-slot="tooltip-arrow"]') as SVGElement).transform
+  ).toBe('none')
   expect(content.querySelector('[data-testid="content-copy"]')?.textContent).toBe('Tooltip 说明')
 })
 
 it('tooltipProvider 默认在悬停 300ms 后打开', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h(TooltipProvider, {}, {
-      default: () => h(Tooltip, {}, {
-        default: () => [
-          h(TooltipTrigger, { asChild: true }, {
-            default: () => h('button', { 'data-testid': 'default-delay-trigger' }, '显示说明')
-          }),
-          h(TooltipPortal, {}, {
-            default: () => h(TooltipContent, { 'data-testid': 'default-delay-content' }, {
-              default: () => 'Tooltip 说明'
-            })
-          })
-        ]
-      })
-    })
+    setup: () => () =>
+      h(
+        TooltipProvider,
+        {},
+        {
+          default: () =>
+            h(
+              Tooltip,
+              {},
+              {
+                default: () => [
+                  h(
+                    TooltipTrigger,
+                    { asChild: true },
+                    {
+                      default: () =>
+                        h('button', { 'data-testid': 'default-delay-trigger' }, '显示说明')
+                    }
+                  ),
+                  h(
+                    TooltipPortal,
+                    {},
+                    {
+                      default: () =>
+                        h(
+                          TooltipContent,
+                          { 'data-testid': 'default-delay-content' },
+                          {
+                            default: () => 'Tooltip 说明'
+                          }
+                        )
+                    }
+                  )
+                ]
+              }
+            )
+        }
+      )
   })
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-testid="default-delay-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="default-delay-trigger"]'
+  ) as HTMLButtonElement
 
   movePointer(trigger)
   await waitForTimers(250)
@@ -161,27 +226,56 @@ it('tooltipProvider 默认在悬停 300ms 后打开', async () => {
 
 it('同一 Provider 内的后续 Tooltip 会跳过延迟', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h(TooltipProvider, {
-      delayDuration: 300,
-      skipDelayDuration: 300
-    }, {
-      default: () => ['first', 'second'].map(id => h(Tooltip, { key: id }, {
-        default: () => [
-          h(TooltipTrigger, { asChild: true }, {
-            default: () => h('button', { 'data-testid': `${id}-trigger` }, id)
-          }),
-          h(TooltipPortal, {}, {
-            default: () => h(TooltipContent, { 'data-testid': `${id}-content` }, {
-              default: () => `${id} tooltip`
-            })
-          })
-        ]
-      }))
-    })
+    setup: () => () =>
+      h(
+        TooltipProvider,
+        {
+          delayDuration: 300,
+          skipDelayDuration: 300
+        },
+        {
+          default: () =>
+            ['first', 'second'].map(id =>
+              h(
+                Tooltip,
+                { key: id },
+                {
+                  default: () => [
+                    h(
+                      TooltipTrigger,
+                      { asChild: true },
+                      {
+                        default: () => h('button', { 'data-testid': `${id}-trigger` }, id)
+                      }
+                    ),
+                    h(
+                      TooltipPortal,
+                      {},
+                      {
+                        default: () =>
+                          h(
+                            TooltipContent,
+                            { 'data-testid': `${id}-content` },
+                            {
+                              default: () => `${id} tooltip`
+                            }
+                          )
+                      }
+                    )
+                  ]
+                }
+              )
+            )
+        }
+      )
   })
   const page = render(Fixture)
-  const firstTrigger = page.container.querySelector('[data-testid="first-trigger"]') as HTMLButtonElement
-  const secondTrigger = page.container.querySelector('[data-testid="second-trigger"]') as HTMLButtonElement
+  const firstTrigger = page.container.querySelector(
+    '[data-testid="first-trigger"]'
+  ) as HTMLButtonElement
+  const secondTrigger = page.container.querySelector(
+    '[data-testid="second-trigger"]'
+  ) as HTMLButtonElement
 
   movePointer(firstTrigger)
   await waitForTimers(350)
@@ -236,13 +330,23 @@ it('内容对齐主题浮层、方向动效和减少动效规则', async () => {
   expect(getComputedStyle(content).borderRadius).toBe('10px')
   expect(getComputedStyle(content).boxShadow).not.toBe('none')
   expect(getComputedStyle(content).animationDuration).toBe('0.1s')
-  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-bg').trim()).toBe('oklch(1 0 0)')
-  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-fg').trim()).toBe('oklch(0 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-bg').trim()).toBe(
+    'oklch(1 0 0)'
+  )
+  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-fg').trim()).toBe(
+    'oklch(0 0 0)'
+  )
   expect(getComputedStyle(content).getPropertyValue('--tooltip-slide').trim()).toBe('0 -0.5rem')
-  expect(Math.round(content.getBoundingClientRect().top - trigger.getBoundingClientRect().bottom)).toBe(4)
+  expect(
+    Math.round(content.getBoundingClientRect().top - trigger.getBoundingClientRect().bottom)
+  ).toBe(4)
 
   document.documentElement.dataset.theme = 'dark'
-  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-bg').trim()).toBe('oklch(0.205 0 0)')
-  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-fg').trim()).toBe('oklch(0.985 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-bg').trim()).toBe(
+    'oklch(0.205 0 0)'
+  )
+  expect(getComputedStyle(content).getPropertyValue('--tooltip-content-fg').trim()).toBe(
+    'oklch(0.985 0 0)'
+  )
   expect(getReducedMotionRule()?.style.animationDuration).toBe('0ms')
 })

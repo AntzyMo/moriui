@@ -11,7 +11,7 @@
 
 <template>
   <MenubarRadioGroup
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     v-model="modelValue"
     data-slot="menubar-radio-group"

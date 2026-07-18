@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <DateRangePickerField #default="slotProps" :class="dateRangePickerVariants().field({ class: props.class as never })" data-slot="date-range-picker-field">
+  <DateRangePickerField v-slot="slotProps" :class="dateRangePickerVariants().field({ class: props.class as never })" data-slot="date-range-picker-field">
     <slot v-bind="slotProps" />
   </DateRangePickerField>
 </template>

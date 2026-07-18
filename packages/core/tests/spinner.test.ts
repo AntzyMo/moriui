@@ -1,7 +1,8 @@
+import { expect, it } from 'vite-plus/test'
+
 import Button from '../src/components/button/Button.vue'
 import Spinner from '../src/components/spinner/Spinner.vue'
 
-import { expect, it } from 'vitest'
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -55,5 +56,8 @@ it('默认尺寸继承父级 Button 的字号', () => {
   const button = page.container.querySelector('button')
   const spinner = page.container.querySelector('[data-slot="spinner"]')
 
-  expect(Number.parseFloat(getComputedStyle(spinner).width)).toBeCloseTo(Number.parseFloat(getComputedStyle(button).fontSize), 1)
+  expect(Number.parseFloat(getComputedStyle(spinner).width)).toBeCloseTo(
+    Number.parseFloat(getComputedStyle(button).fontSize),
+    1
+  )
 })

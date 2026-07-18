@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -52,25 +53,27 @@ it('允许调用方用 Tailwind 类或组件局部 Token 自定义颜色', () =>
 
   expect(utilityBadge.classList).toContain('bg-blue-50')
   expect(utilityBadge.classList).toContain('text-blue-700')
-  expect(getComputedStyle(utilityBadge).backgroundColor).not.toBe(getComputedStyle(defaultBadge).backgroundColor)
+  expect(getComputedStyle(utilityBadge).backgroundColor).not.toBe(
+    getComputedStyle(defaultBadge).backgroundColor
+  )
   expect(getComputedStyle(utilityBadge).color).not.toBe(getComputedStyle(defaultBadge).color)
   expect(tokenBadge.style.getPropertyValue('--badge-bg')).toBe('rgb(1, 2, 3)')
   expect(tokenBadge.style.getPropertyValue('--badge-fg')).toBe('rgb(4, 5, 6)')
-  expect(getComputedStyle(tokenBadge).backgroundColor).not.toBe(getComputedStyle(defaultBadge).backgroundColor)
+  expect(getComputedStyle(tokenBadge).backgroundColor).not.toBe(
+    getComputedStyle(defaultBadge).backgroundColor
+  )
   expect(getComputedStyle(tokenBadge).color).not.toBe(getComputedStyle(defaultBadge).color)
 })
 
-it.each([
-  'default',
-  'secondary',
-  'destructive',
-  'outline',
-  'ghost',
-  'link'
-] as const)('应用 %s 变体类', variant => {
-  const page = render(Badge, { props: { variant } })
-  expect(page.container.querySelector('[data-slot="badge"]')?.classList).toContain(`badge--${variant}`)
-})
+it.each(['default', 'secondary', 'destructive', 'outline', 'ghost', 'link'] as const)(
+  '应用 %s 变体类',
+  variant => {
+    const page = render(Badge, { props: { variant } })
+    expect(page.container.querySelector('[data-slot="badge"]')?.classList).toContain(
+      `badge--${variant}`
+    )
+  }
+)
 
 it('支持 as 与 asChild 多态渲染', () => {
   const asLink = render(Badge, {
@@ -81,7 +84,8 @@ it('支持 as 与 asChild 多态渲染', () => {
   expect(asLink.container.querySelector('a')?.getAttribute('href')).toBe('#details')
 
   const AsChildFixture = defineComponent({
-    setup: () => () => h(Badge, { asChild: true }, { default: () => h('a', { href: '#next' }, '继续') })
+    setup: () => () =>
+      h(Badge, { asChild: true }, { default: () => h('a', { href: '#next' }, '继续') })
   })
   const asChild = render(AsChildFixture)
   const link = asChild.container.querySelector('a')
@@ -92,12 +96,18 @@ it('支持 as 与 asChild 多态渲染', () => {
 
 it('链接形式保留默认实色 Badge，并为末尾图标收紧内边距', () => {
   const LinkFixture = defineComponent({
-    setup: () => () => h(Badge, { asChild: true }, {
-      default: () => h('a', { href: '#link' }, [
-        'Open Link',
-        h('svg', { 'data-icon': 'inline-end', 'viewBox': '0 0 24 24' })
-      ])
-    })
+    setup: () => () =>
+      h(
+        Badge,
+        { asChild: true },
+        {
+          default: () =>
+            h('a', { href: '#link' }, [
+              'Open Link',
+              h('svg', { 'data-icon': 'inline-end', 'viewBox': '0 0 24 24' })
+            ])
+        }
+      )
   })
   const page = render(LinkFixture)
   const badge = page.container.querySelector('a') as HTMLElement

@@ -1,4 +1,5 @@
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
+
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, shallowRef } from 'vue'
 
@@ -46,18 +47,23 @@ it('渲染 Reka 的进度语义、稳定槽位与默认百分比', () => {
 it('使用 v-model 更新确定进度并完整透传根默认作用域插槽', async () => {
   const value = shallowRef<number | null>(20)
   const Fixture = defineComponent({
-    setup: () => () => h(Progress, {
-      'max': 80,
-      'modelValue': value.value,
-      'onUpdate:modelValue': (nextValue: number | null) => {
-        value.value = nextValue
-      }
-    }, {
-      default: ({ modelValue }: { modelValue: number | null | undefined }) => [
-        h('output', { 'data-model-value': modelValue }, String(modelValue)),
-        h(ProgressTrack, () => h(ProgressIndicator))
-      ]
-    })
+    setup: () => () =>
+      h(
+        Progress,
+        {
+          'max': 80,
+          'modelValue': value.value,
+          'onUpdate:modelValue': (nextValue: number | null) => {
+            value.value = nextValue
+          }
+        },
+        {
+          default: ({ modelValue }: { modelValue: number | null | undefined }) => [
+            h('output', { 'data-model-value': modelValue }, String(modelValue)),
+            h(ProgressTrack, () => h(ProgressIndicator))
+          ]
+        }
+      )
   })
   const page = render(Fixture)
   const indicator = page.container.querySelector('[data-slot="progress-indicator"]') as HTMLElement
@@ -98,7 +104,9 @@ it('合并调用方样式、透传属性，并响应暗色主题 Token', () => {
       modelValue: 10
     },
     slots: {
-      default: () => h(ProgressTrack, { class: 'custom-track' }, () => h(ProgressIndicator, { class: 'custom-indicator' }))
+      default: () =>
+        h(ProgressTrack, { class: 'custom-track' }, () =>
+          h(ProgressIndicator, { class: 'custom-indicator' }))
     }
   })
   const root = page.container.querySelector('section') as HTMLElement
@@ -112,8 +120,12 @@ it('合并调用方样式、透传属性，并响应暗色主题 Token', () => {
   expect(root.dataset.testid).toBe('upload-progress')
   expect(track.classList).toContain('custom-track')
   expect(indicator.classList).toContain('custom-indicator')
-  expect(getComputedStyle(root).getPropertyValue('--progress-track').trim()).toBe(getComputedStyle(root).getPropertyValue('--muted').trim())
-  expect(getComputedStyle(root).getPropertyValue('--progress-indicator').trim()).toBe(getComputedStyle(root).getPropertyValue('--primary').trim())
+  expect(getComputedStyle(root).getPropertyValue('--progress-track').trim()).toBe(
+    getComputedStyle(root).getPropertyValue('--muted').trim()
+  )
+  expect(getComputedStyle(root).getPropertyValue('--progress-indicator').trim()).toBe(
+    getComputedStyle(root).getPropertyValue('--primary').trim()
+  )
 })
 
 it('为 ProgressValue 默认插槽提供完整进度数据', () => {
@@ -121,14 +133,23 @@ it('为 ProgressValue 默认插槽提供完整进度数据', () => {
     props: { modelValue: 40, max: 80 },
     slots: {
       default: () => [
-        h(ProgressValue, {}, {
-          default: ({ value, max, percentage, state }: {
-            value: number | null
-            max: number
-            percentage: number | null
-            state: string
-          }) => h('output', { 'data-state': state }, `${value}/${max}:${percentage}`)
-        }),
+        h(
+          ProgressValue,
+          {},
+          {
+            default: ({
+              value,
+              max,
+              percentage,
+              state
+            }: {
+              value: number | null
+              max: number
+              percentage: number | null
+              state: string
+            }) => h('output', { 'data-state': state }, `${value}/${max}:${percentage}`)
+          }
+        ),
         h(ProgressTrack, () => h(ProgressIndicator))
       ]
     }

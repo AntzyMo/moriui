@@ -17,7 +17,7 @@
 
 <template>
   <PaginationRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-model:page="page"
     v-bind="forwarded"
     :class="slots.root({ class: props.class as never })"

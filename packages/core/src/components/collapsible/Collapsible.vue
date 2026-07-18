@@ -17,7 +17,7 @@
 
 <template>
   <CollapsibleRoot
-    #default="slotProps"
+    v-slot="slotProps"
     v-model:open="open"
     v-bind="forwarded"
     :class="slots.root({ class: props.class as never })"

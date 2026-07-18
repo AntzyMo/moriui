@@ -1,8 +1,9 @@
+import { expect, it } from 'vite-plus/test'
+import { userEvent } from 'vite-plus/test/browser'
+
 import Switch from '../src/components/switch/Switch.vue'
 import { switchVariants } from '../src/components/switch/variants'
 
-import { expect, it } from 'vitest'
-import { userEvent } from 'vitest/browser'
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, shallowRef } from 'vue'
 
@@ -40,12 +41,13 @@ it('渲染稳定槽位、尺寸、属性与调用方类名', () => {
 it('支持点击、Space、Enter 与受控 v-model 切换', async () => {
   const value = shallowRef(false)
   const Fixture = defineComponent({
-    setup: () => () => h(Switch, {
-      'modelValue': value.value,
-      'onUpdate:modelValue': (nextValue: boolean) => {
-        value.value = nextValue
-      }
-    })
+    setup: () => () =>
+      h(Switch, {
+        'modelValue': value.value,
+        'onUpdate:modelValue': (nextValue: boolean) => {
+          value.value = nextValue
+        }
+      })
   })
   const page = render(Fixture)
   const root = page.container.querySelector('[data-slot="switch"]') as HTMLButtonElement
@@ -74,20 +76,23 @@ it('支持点击、Space、Enter 与受控 v-model 切换', async () => {
 it('支持尺寸、暗色无效状态与禁用状态', async () => {
   const value = shallowRef(false)
   const Fixture = defineComponent({
-    setup: () => () => h('div', { 'data-theme': 'dark' }, [
-      h(Switch, {
-        'aria-invalid': 'true',
-        'modelValue': value.value,
-        'size': 'sm',
-        'onUpdate:modelValue': (nextValue: boolean) => {
-          value.value = nextValue
-        }
-      }),
-      h(Switch, { 'disabled': true, 'aria-label': '不可用' })
-    ])
+    setup: () => () =>
+      h('div', { 'data-theme': 'dark' }, [
+        h(Switch, {
+          'aria-invalid': 'true',
+          'modelValue': value.value,
+          'size': 'sm',
+          'onUpdate:modelValue': (nextValue: boolean) => {
+            value.value = nextValue
+          }
+        }),
+        h(Switch, { 'disabled': true, 'aria-label': '不可用' })
+      ])
   })
   const page = render(Fixture)
-  const [invalid, disabled] = Array.from(page.container.querySelectorAll('[data-slot="switch"]')) as HTMLButtonElement[]
+  const [invalid, disabled] = Array.from(
+    page.container.querySelectorAll('[data-slot="switch"]')
+  ) as HTMLButtonElement[]
   const invalidThumb = invalid.querySelector('[data-slot="switch-thumb"]') as HTMLElement
 
   expect(invalid.classList).toContain('switch--sm')
@@ -112,23 +117,39 @@ it('支持尺寸、暗色无效状态与禁用状态', async () => {
 it('完整传递 Thumb 插槽状态，并保留自定义真假值的表单语义', async () => {
   const value = shallowRef<'enabled' | 'disabled'>('disabled')
   const Fixture = defineComponent({
-    setup: () => () => h('form', [
-      h(Switch, {
-        'modelValue': value.value,
-        'name': 'notifications',
-        'required': true,
-        'value': 'subscribed',
-        'trueValue': 'enabled',
-        'falseValue': 'disabled',
-        'onUpdate:modelValue': (nextValue: 'enabled' | 'disabled') => {
-          value.value = nextValue
-        }
-      }, {
-        thumb: ({ checked, modelValue }: { checked: boolean, modelValue: 'enabled' | 'disabled' }) => h('span', {
-          'data-testid': 'custom-thumb'
-        }, `${modelValue}-${checked}`)
-      })
-    ])
+    setup: () => () =>
+      h('form', [
+        h(
+          Switch,
+          {
+            'modelValue': value.value,
+            'name': 'notifications',
+            'required': true,
+            'value': 'subscribed',
+            'trueValue': 'enabled',
+            'falseValue': 'disabled',
+            'onUpdate:modelValue': (nextValue: 'enabled' | 'disabled') => {
+              value.value = nextValue
+            }
+          },
+          {
+            thumb: ({
+              checked,
+              modelValue
+            }: {
+              checked: boolean
+              modelValue: 'enabled' | 'disabled'
+            }) =>
+              h(
+                'span',
+                {
+                  'data-testid': 'custom-thumb'
+                },
+                `${modelValue}-${checked}`
+              )
+          }
+        )
+      ])
   })
   const page = render(Fixture)
   const form = page.container.querySelector('form') as HTMLFormElement
@@ -137,7 +158,9 @@ it('完整传递 Thumb 插槽状态，并保留自定义真假值的表单语义
   root.click()
   await nextTick()
 
-  expect(page.container.querySelector('[data-testid="custom-thumb"]')?.textContent).toBe('enabled-true')
+  expect(page.container.querySelector('[data-testid="custom-thumb"]')?.textContent).toBe(
+    'enabled-true'
+  )
   const hiddenInput = form.querySelector('input[type="checkbox"]') as HTMLInputElement
   expect(hiddenInput.required).toBe(true)
   expect(new FormData(form).get('notifications')).toBe('subscribed')

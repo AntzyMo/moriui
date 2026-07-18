@@ -30,7 +30,7 @@
 
 <template>
   <DateRangePicker v-model="value" :default-placeholder="placeholder" locale="en-US">
-    <DateRangePickerField #default="{ segments }">
+    <DateRangePickerField v-slot="{ segments }">
       <DateRangePickerInput
         v-for="segment in segments.start"
         :key="`start-${segment.part}`"
@@ -51,7 +51,7 @@
       <DateRangePickerTrigger aria-label="打开日期范围选择器" />
     </DateRangePickerField>
     <DateRangePickerContent>
-      <DateRangePickerCalendar #default="{ grid, weekDays }">
+      <DateRangePickerCalendar v-slot="{ grid, weekDays }">
         <DateRangePickerHeader><DateRangePickerPrev aria-label="上个月" /><DateRangePickerHeading /><DateRangePickerNext aria-label="下个月" /></DateRangePickerHeader>
         <DateRangePickerGrid v-for="month in grid" :key="month.value.toString()">
           <DateRangePickerGridHead>

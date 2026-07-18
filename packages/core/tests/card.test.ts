@@ -1,4 +1,5 @@
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
+
 import { defineComponent, h } from 'vue'
 import { render } from 'vitest-browser-vue'
 
@@ -47,24 +48,35 @@ it.each(['default', 'sm'] as const)('应用 %s 密度类和局部间距 Token', 
   const card = page.container.querySelector('[data-slot="card"]') as HTMLElement
 
   expect(card.classList).toContain(size === 'default' ? 'card--default-size' : 'card--sm')
-  expect(getComputedStyle(card).getPropertyValue('--card-spacing').trim()).toBe(size === 'default' ? '1rem' : '0.75rem')
+  expect(getComputedStyle(card).getPropertyValue('--card-spacing').trim()).toBe(
+    size === 'default' ? '1rem' : '0.75rem'
+  )
 })
 
 it('渲染完整组合槽位，并在操作区存在时应用 Header 网格布局', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Card, {}, {
-      default: () => [
-        h(CardHeader, {}, {
+    setup: () => () =>
+      h(
+        Card,
+        {},
+        {
           default: () => [
-            h(CardTitle, {}, { default: () => '项目概览' }),
-            h(CardDescription, {}, { default: () => '查看发布状态。' }),
-            h(CardAction, {}, { default: () => h('button', { type: 'button' }, '更多') })
+            h(
+              CardHeader,
+              {},
+              {
+                default: () => [
+                  h(CardTitle, {}, { default: () => '项目概览' }),
+                  h(CardDescription, {}, { default: () => '查看发布状态。' }),
+                  h(CardAction, {}, { default: () => h('button', { type: 'button' }, '更多') })
+                ]
+              }
+            ),
+            h(CardContent, {}, { default: () => '组件内容' }),
+            h(CardFooter, {}, { default: () => '操作' })
           ]
-        }),
-        h(CardContent, {}, { default: () => '组件内容' }),
-        h(CardFooter, {}, { default: () => '操作' })
-      ]
-    })
+        }
+      )
   })
   const page = render(Fixture)
   const card = page.container.querySelector('[data-slot="card"]') as HTMLElement
@@ -72,11 +84,19 @@ it('渲染完整组合槽位，并在操作区存在时应用 Header 网格布�
   const action = page.container.querySelector('[data-slot="card-action"]') as HTMLElement
 
   expect(header.classList).toContain('card__header')
-  expect(page.container.querySelector('[data-slot="card-title"]')?.classList).toContain('card__title')
-  expect(page.container.querySelector('[data-slot="card-description"]')?.classList).toContain('card__description')
+  expect(page.container.querySelector('[data-slot="card-title"]')?.classList).toContain(
+    'card__title'
+  )
+  expect(page.container.querySelector('[data-slot="card-description"]')?.classList).toContain(
+    'card__description'
+  )
   expect(action.classList).toContain('card__action')
-  expect(page.container.querySelector('[data-slot="card-content"]')?.classList).toContain('card__content')
-  expect(page.container.querySelector('[data-slot="card-footer"]')?.classList).toContain('card__footer')
+  expect(page.container.querySelector('[data-slot="card-content"]')?.classList).toContain(
+    'card__content'
+  )
+  expect(page.container.querySelector('[data-slot="card-footer"]')?.classList).toContain(
+    'card__footer'
+  )
   expect(getComputedStyle(header).display).toBe('grid')
   expect(getComputedStyle(action).gridColumnStart).toBe('2')
   expect(getComputedStyle(action).gridRowEnd).toBe('span 2')
@@ -85,13 +105,18 @@ it('渲染完整组合槽位，并在操作区存在时应用 Header 网格布�
 
 it('页脚和直接图片遵循 Card 的表面、边界与圆角规则', () => {
   const Fixture = defineComponent({
-    setup: () => () => h(Card, {}, {
-      default: () => [
-        h('img', { alt: '预览图', src: '/preview.png' }),
-        h(CardContent, {}, { default: () => '内容' }),
-        h(CardFooter, {}, { default: () => '页脚' })
-      ]
-    })
+    setup: () => () =>
+      h(
+        Card,
+        {},
+        {
+          default: () => [
+            h('img', { alt: '预览图', src: '/preview.png' }),
+            h(CardContent, {}, { default: () => '内容' }),
+            h(CardFooter, {}, { default: () => '页脚' })
+          ]
+        }
+      )
   })
   const page = render(Fixture)
   const card = page.container.querySelector('[data-slot="card"]') as HTMLElement

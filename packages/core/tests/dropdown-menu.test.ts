@@ -1,4 +1,5 @@
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, expect, it } from 'vite-plus/test'
+
 import { cleanup, render } from 'vitest-browser-vue'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
@@ -32,69 +33,122 @@ function createFixture() {
   const theme = ref('system')
 
   const Fixture = defineComponent({
-    setup: () => () => h(DropdownMenu, {
-      'open': open.value,
-      'onUpdate:open': (nextOpen: boolean) => {
-        open.value = nextOpen
-      }
-    }, {
-      default: () => [
-        h(DropdownMenuTrigger, { 'class': 'custom-trigger', 'data-testid': 'trigger' }, {
-          default: () => '打开菜单'
-        }),
-        h(DropdownMenuContent, { class: 'custom-content' }, {
+    setup: () => () =>
+      h(
+        DropdownMenu,
+        {
+          'open': open.value,
+          'onUpdate:open': (nextOpen: boolean) => {
+            open.value = nextOpen
+          }
+        },
+        {
           default: () => [
-            h(DropdownMenuArrow),
-            h(DropdownMenuGroup, {}, {
-              default: () => [
-                h(DropdownMenuLabel, {}, { default: () => '操作' }),
-                h(DropdownMenuItem, {
-                  'data-testid': 'copy-item',
-                  'onSelect': () => {
-                    copySelected.value = true
-                  }
-                }, {
-                  default: () => ['复制', h(DropdownMenuShortcut, {}, { default: () => '⌘C' })]
-                }),
-                h(DropdownMenuItem, { disabled: true }, { default: () => '不可用操作' })
-              ]
-            }),
-            h(DropdownMenuSeparator),
-            h(DropdownMenuCheckboxItem, {
-              'modelValue': checked.value,
-              'onUpdate:modelValue': (nextChecked: boolean) => {
-                checked.value = nextChecked
-              },
-              'onSelect': (event: Event) => event.preventDefault(),
-              'data-testid': 'checkbox-item'
-            }, {
-              default: () => '显示状态栏',
-              indicator: () => h('span', { 'data-testid': 'custom-indicator' }, '✓')
-            }),
-            h(DropdownMenuRadioGroup, {
-              'modelValue': theme.value,
-              'onUpdate:modelValue': (nextTheme: string) => {
-                theme.value = nextTheme
+            h(
+              DropdownMenuTrigger,
+              { 'class': 'custom-trigger', 'data-testid': 'trigger' },
+              {
+                default: () => '打开菜单'
               }
-            }, {
-              default: () => [
-                h(DropdownMenuRadioItem, { value: 'light', onSelect: (event: Event) => event.preventDefault() }, { default: () => '浅色' }),
-                h(DropdownMenuRadioItem, { value: 'system' }, { default: () => '系统' })
-              ]
-            }),
-            h(DropdownMenuSeparator),
-            h(DropdownMenuSub, {}, {
-              default: () => [
-                h(DropdownMenuSubTrigger, { 'data-testid': 'sub-trigger' }, { default: () => '更多工具' }),
-                h(DropdownMenuSubContent, {}, {
-                  default: () => h(DropdownMenuItem, { 'data-testid': 'sub-item' }, { default: () => '开发者工具' })
-                })
-              ]
-            })
+            ),
+            h(
+              DropdownMenuContent,
+              { class: 'custom-content' },
+              {
+                default: () => [
+                  h(DropdownMenuArrow),
+                  h(
+                    DropdownMenuGroup,
+                    {},
+                    {
+                      default: () => [
+                        h(DropdownMenuLabel, {}, { default: () => '操作' }),
+                        h(
+                          DropdownMenuItem,
+                          {
+                            'data-testid': 'copy-item',
+                            'onSelect': () => {
+                              copySelected.value = true
+                            }
+                          },
+                          {
+                            default: () => [
+                              '复制',
+                              h(DropdownMenuShortcut, {}, { default: () => '⌘C' })
+                            ]
+                          }
+                        ),
+                        h(DropdownMenuItem, { disabled: true }, { default: () => '不可用操作' })
+                      ]
+                    }
+                  ),
+                  h(DropdownMenuSeparator),
+                  h(
+                    DropdownMenuCheckboxItem,
+                    {
+                      'modelValue': checked.value,
+                      'onUpdate:modelValue': (nextChecked: boolean) => {
+                        checked.value = nextChecked
+                      },
+                      'onSelect': (event: Event) => event.preventDefault(),
+                      'data-testid': 'checkbox-item'
+                    },
+                    {
+                      default: () => '显示状态栏',
+                      indicator: () => h('span', { 'data-testid': 'custom-indicator' }, '✓')
+                    }
+                  ),
+                  h(
+                    DropdownMenuRadioGroup,
+                    {
+                      'modelValue': theme.value,
+                      'onUpdate:modelValue': (nextTheme: string) => {
+                        theme.value = nextTheme
+                      }
+                    },
+                    {
+                      default: () => [
+                        h(
+                          DropdownMenuRadioItem,
+                          { value: 'light', onSelect: (event: Event) => event.preventDefault() },
+                          { default: () => '浅色' }
+                        ),
+                        h(DropdownMenuRadioItem, { value: 'system' }, { default: () => '系统' })
+                      ]
+                    }
+                  ),
+                  h(DropdownMenuSeparator),
+                  h(
+                    DropdownMenuSub,
+                    {},
+                    {
+                      default: () => [
+                        h(
+                          DropdownMenuSubTrigger,
+                          { 'data-testid': 'sub-trigger' },
+                          { default: () => '更多工具' }
+                        ),
+                        h(
+                          DropdownMenuSubContent,
+                          {},
+                          {
+                            default: () =>
+                              h(
+                                DropdownMenuItem,
+                                { 'data-testid': 'sub-item' },
+                                { default: () => '开发者工具' }
+                              )
+                          }
+                        )
+                      ]
+                    }
+                  )
+                ]
+              }
+            )
           ]
-        })
-      ]
-    })
+        }
+      )
   })
 
   return { Fixture, checked, copySelected, open, theme }
@@ -129,18 +183,38 @@ it('外部 v-model:open 可控制 Reka 根状态', async () => {
 
 it('触发器可 asChild 合并行为至唯一子元素', async () => {
   const Fixture = defineComponent({
-    setup: () => () => h(DropdownMenu, {}, {
-      default: () => [
-        h(DropdownMenuTrigger, { asChild: true }, {
-          default: () => h('button', { 'class': 'custom-button', 'data-testid': 'as-child-trigger' }, '打开菜单')
-        }),
-        h(DropdownMenuContent, {}, { default: () => h(DropdownMenuItem, {}, { default: () => '操作' }) })
-      ]
-    })
+    setup: () => () =>
+      h(
+        DropdownMenu,
+        {},
+        {
+          default: () => [
+            h(
+              DropdownMenuTrigger,
+              { asChild: true },
+              {
+                default: () =>
+                  h(
+                    'button',
+                    { 'class': 'custom-button', 'data-testid': 'as-child-trigger' },
+                    '打开菜单'
+                  )
+              }
+            ),
+            h(
+              DropdownMenuContent,
+              {},
+              { default: () => h(DropdownMenuItem, {}, { default: () => '操作' }) }
+            )
+          ]
+        }
+      )
   })
 
   const page = render(Fixture)
-  const trigger = page.container.querySelector('[data-testid="as-child-trigger"]') as HTMLButtonElement
+  const trigger = page.container.querySelector(
+    '[data-testid="as-child-trigger"]'
+  ) as HTMLButtonElement
 
   expect(trigger.classList).toContain('dropdown-menu__trigger')
   expect(trigger.classList).toContain('custom-button')
@@ -182,8 +256,12 @@ it('点击触发、自动 Teleport，并保留稳定槽位、调用方类名与 
   expect(getComputedStyle(content).minWidth).toBe('160px')
   expect(getComputedStyle(content).borderRadius).toBe('10px')
   expect(getComputedStyle(content).boxShadow).not.toBe('none')
-  expect(getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingTop).toBe('4px')
-  expect(getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingLeft).toBe('6px')
+  expect(
+    getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingTop
+  ).toBe('4px')
+  expect(
+    getComputedStyle(content.querySelector('[data-testid="copy-item"]') as HTMLElement).paddingLeft
+  ).toBe('6px')
 })
 
 it('菜单项支持键盘导航、Enter 选择和 Escape 关闭', async () => {
@@ -195,7 +273,9 @@ it('菜单项支持键盘导航、Enter 选择和 Escape 关闭', async () => {
   await nextTick()
   expect(document.activeElement).toBe(item)
   item.setAttribute('data-highlighted', '')
-  expect(getComputedStyle(item).backgroundColor).toBe(getComputedStyle(item).getPropertyValue('--accent').trim())
+  expect(getComputedStyle(item).backgroundColor).toBe(
+    getComputedStyle(item).getPropertyValue('--accent').trim()
+  )
 
   item.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }))
   await nextTick()
@@ -209,7 +289,9 @@ it('菜单项支持键盘导航、Enter 选择和 Escape 关闭', async () => {
 it('禁用、Checkbox、Radio 与自定义指示器遵循 Reka 状态契约', async () => {
   const fixture = createFixture()
   const { content } = await openDropdownMenu(fixture.Fixture)
-  const disabled = Array.from(content.querySelectorAll('[data-slot="dropdown-menu-item"]')).find(item => item.textContent === '不可用操作') as HTMLElement
+  const disabled = Array.from(content.querySelectorAll('[data-slot="dropdown-menu-item"]')).find(
+    item => item.textContent === '不可用操作'
+  ) as HTMLElement
   const checkbox = content.querySelector('[data-testid="checkbox-item"]') as HTMLElement
 
   expect(disabled.hasAttribute('data-disabled')).toBe(true)
@@ -236,11 +318,15 @@ it('子菜单内容自动 Teleport，并在深色主题下消费 Popover Token',
   await nextTick()
   await nextTick()
 
-  const subContent = document.body.querySelector('[data-slot="dropdown-menu-sub-content"]') as HTMLElement
+  const subContent = document.body.querySelector(
+    '[data-slot="dropdown-menu-sub-content"]'
+  ) as HTMLElement
   expect(subContent).not.toBeNull()
   expect(document.body.contains(subContent)).toBe(true)
   expect(subContent.querySelector('[data-testid="sub-item"]')?.textContent).toBe('开发者工具')
 
   document.documentElement.dataset.theme = 'dark'
-  expect(getComputedStyle(content).getPropertyValue('--dropdown-menu-content-bg').trim()).toBe('oklch(0.205 0 0)')
+  expect(getComputedStyle(content).getPropertyValue('--dropdown-menu-content-bg').trim()).toBe(
+    'oklch(0.205 0 0)'
+  )
 })

@@ -291,7 +291,7 @@ export function useMessageScrollerController(options: MessageScrollerProviderOpt
     if (!defaultPositionApplied) {
       nextTick(applyDefaultScrollPosition)
     } else if (newAnchors.length === 1 && !prepended) {
-      scrollToElement(newAnchors[0], {}, true)
+      scrollToElement(newAnchors[0]!, {}, true)
     } else if (options.autoScroll && mode === 'following-bottom') {
       scrollToEnd()
     }

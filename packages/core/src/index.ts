@@ -1,3 +1,5 @@
+/// <reference path="./style.d.ts" />
+
 import './styles/index.css'
 
 export * from './components/accordion'

@@ -9,7 +9,7 @@
 
 <template>
   <MenubarMenu
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     data-slot="menubar-menu"
   >

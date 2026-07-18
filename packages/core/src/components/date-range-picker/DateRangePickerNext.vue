@@ -14,7 +14,7 @@
 
 <template>
   <DateRangePickerNext
-    #default="slotProps"
+    v-slot="slotProps"
     v-bind="forwarded"
     :class="dateRangePickerVariants().next({ class: props.class as never })"
     data-slot="date-range-picker-next"

@@ -20,7 +20,7 @@
 </script>
 
 <template>
-  <DatePickerCalendar #default="slotProps" :class="datePickerVariants().calendar({ class: props.class as never })" data-slot="date-picker-calendar">
+  <DatePickerCalendar v-slot="slotProps" :class="datePickerVariants().calendar({ class: props.class as never })" data-slot="date-picker-calendar">
     <slot v-bind="slotProps" />
   </DatePickerCalendar>
 </template>
