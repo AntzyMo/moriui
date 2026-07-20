@@ -4,13 +4,18 @@
   "version": "0.1.0",
   "description": "基于 Reka UI 与 Nova 视觉语言的 Vue 组件库。",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntzyMo/moriui.git",
+    "directory": "packages/core"
+  },
   "sideEffects": [
-    "./dist/style.css"
+    "*.css"
   ],
   "exports": {
     ".": "./src/index.ts",
     "./package.json": "./package.json",
-    "./style.css": "./dist/style.css"
+    "./style.css": "./src/styles/index.css"
   },
   "types": "./dist/index.d.ts",
   "files": [

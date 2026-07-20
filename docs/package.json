@@ -19,7 +19,7 @@
     "@vueuse/core": "catalog:",
     "better-sqlite3": "catalog:",
     "moriui": "workspace:*",
-    "nuxt": "catalog:",
+    "nuxt": "^4.5.0",
     "vue": "catalog:",
     "vue-router": "catalog:"
   },

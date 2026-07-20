@@ -18,12 +18,16 @@ export default defineConfig({
     platform: 'neutral',
     format: ['esm'],
     exports: {
-      devExports: true
+      devExports: true,
+      customExports(exports, { isPublish }) {
+        exports['./style.css'] = isPublish
+          ? './dist/style.css'
+          : './src/styles/index.css'
+
+        return exports
+      }
     },
     plugins: [rolldownVue()],
-    dts: { vue: true },
-    css: {
-      fileName: 'style.css'
-    }
+    dts: { vue: true }
   }
 })
