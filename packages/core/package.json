@@ -34,7 +34,6 @@
     "dev": "vp pack --watch",
     "test": "vp test",
     "typecheck": "vue-tsc --noEmit",
-    "release": "bumpp",
     "prepublishOnly": "vp run build"
   },
   "peerDependencies": {
@@ -60,7 +59,6 @@
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitest/browser-playwright": "catalog:",
-    "bumpp": "catalog:",
     "playwright": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",

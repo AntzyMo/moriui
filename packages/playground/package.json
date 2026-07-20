@@ -13,7 +13,6 @@
     "@internationalized/date": "catalog:",
     "@lucide/vue": "catalog:",
     "moriui": "workspace:*",
-    "reka-ui": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {

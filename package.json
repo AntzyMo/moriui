@@ -2,15 +2,15 @@
   "name": "moriui-workspace",
   "type": "module",
   "version": "0.0.0",
+  "private": true,
   "description": "",
   "author": "",
   "license": "MIT",
   "keywords": [],
-  "main": "index.js",
   "scripts": {
-    "dev": "vp run playground#dev",
+    "play": "vp run playground#dev",
     "build": "vp run moriui#build",
-    "build:docs": "pnpm --dir packages/core run build && pnpm --dir docs run generate",
+    "docs": "vp run docs#dev",
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
@@ -18,5 +18,12 @@
     "eslint": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.15.1",
+      "onFail": "download"
+    }
   }
 }

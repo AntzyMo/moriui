@@ -18,6 +18,8 @@
     "@nuxt/image": "catalog:",
     "@vueuse/core": "catalog:",
     "better-sqlite3": "catalog:",
+    "chrono-node": "^2.10.1",
+    "date-fns": "^4.4.0",
     "moriui": "workspace:*",
     "nuxt": "^4.5.0",
     "vue": "catalog:",

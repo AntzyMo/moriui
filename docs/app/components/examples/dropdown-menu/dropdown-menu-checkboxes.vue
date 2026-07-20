@@ -1,0 +1,28 @@
+<script setup lang="ts">
+import { shallowRef } from 'vue'
+import { Button, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from 'moriui'
+
+const showStatusBar = shallowRef(true)
+const showActivity = shallowRef(false)
+const showNotifications = shallowRef(true)
+</script>
+<template>
+  <DropdownMenu>
+    <DropdownMenuTrigger as-child>
+      <Button variant="outline">显示选项</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent class="w-56">
+      <DropdownMenuLabel>界面设置</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuCheckboxItem v-model="showStatusBar">
+        状态栏
+      </DropdownMenuCheckboxItem>
+      <DropdownMenuCheckboxItem v-model="showActivity">
+        活动面板
+      </DropdownMenuCheckboxItem>
+      <DropdownMenuCheckboxItem v-model="showNotifications">
+        通知提醒
+      </DropdownMenuCheckboxItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</template>

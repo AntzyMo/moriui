@@ -1003,7 +1003,7 @@ const controlReferences: Record<string, ReferenceDefinition> = {
 const references: Partial<Record<string, ReferenceDefinition>> = {
   ...baseReferences,
   dialog: {
-    importCode: 'import { Button, Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from \'moriui\'',
+    importCode: 'import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, Input, Label } from \'moriui\'',
     resources: [
       { label: '组件源码', href: 'https://github.com/AntzyMo/moriui/tree/main/packages/core/src/components/dialog' },
       { label: '问题反馈', href: 'https://github.com/AntzyMo/moriui/issues' }
@@ -1014,21 +1014,866 @@ const references: Partial<Record<string, ReferenceDefinition>> = {
         title: '组合方式',
         description: '使用 Dialog、DialogTrigger 和 DialogContent 组织模态窗口；内容内可使用 Header、Title、Description 与 Footer 提供清晰结构。',
         shadcnHeading: 'Composition'
-      }
+      },
+      { id: '自定义关闭按钮', title: '自定义关闭按钮', description: 'DialogClose 提供自定义关闭触发器，可用于替换默认关闭控件。', shadcnHeading: 'Custom Close Button' },
+      { id: '无关闭按钮', title: '无关闭按钮', description: 'showCloseButton 控制默认关闭控件的显示与隐藏。', shadcnHeading: 'No Close Button' },
+      { id: '固定底部', title: '固定底部', description: 'DialogFooter 固定在底部，内容区域独立滚动，操作始终可见。', shadcnHeading: 'Sticky Footer' },
+      { id: '可滚动内容', title: '可滚动内容', description: '长内容在固定 Header 下方滚动，适合条款等长文本。', shadcnHeading: 'Scrollable Content' },
+      { id: 'RTL', title: 'RTL', description: '对话框继承外围书写方向，内容随 dir 调整。', shadcnHeading: 'RTL' }
     ],
-    examples: [defineExample('dialog', 'dialog-demo', '概览', '在不中断当前上下文的情况下展示聚焦任务。')],
+    examples: [
+      defineExample('dialog', 'dialog-demo', '概览', '在不中断当前上下文的情况下展示聚焦任务。'),
+      defineExample('dialog', 'dialog-close-button', '自定义关闭按钮', '使用 DialogClose 替换默认关闭控件。'),
+      defineExample('dialog', 'dialog-no-close-button', '无关闭按钮', '隐藏默认关闭按钮。'),
+      defineExample('dialog', 'dialog-sticky-footer', '固定底部', '操作栏固定在底部。'),
+      defineExample('dialog', 'dialog-scrollable-content', '可滚动内容', '长内容在固定头部下方滚动。'),
+      defineExample('dialog', 'dialog-rtl', 'RTL', '从右到左的对话框内容。')
+    ],
     variants: 'DialogContent 提供统一模态表面；用 Header、Title、Description 与 Footer 组织语义结构。',
     api: [
       { name: 'Dialog v-model:open', type: 'boolean', defaultValue: 'undefined', description: '对话框的受控打开状态。' },
       { name: 'Dialog defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控对话框的初始状态。' },
       { name: 'Dialog modal', type: 'boolean', defaultValue: 'true', description: '是否阻断背景区域交互。' },
-      { name: 'DialogContent showCloseButton', type: 'boolean', defaultValue: 'true', description: '是否显示默认关闭按钮。' }
+      { name: 'DialogContent showCloseButton', type: 'boolean', defaultValue: 'true', description: '是否显示默认关闭按钮。' },
+      { name: 'DialogClose as / asChild', type: 'string | Component / boolean', defaultValue: '\'button\' / false', description: '关闭触发器的元素组合能力。' },
+      { name: 'DialogHeader class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到对话框头部的调用方类。' },
+      { name: 'DialogFooter class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到对话框脚部的调用方类。' }
     ],
     accessibility: {
       description: 'Dialog 复用 Reka UI 的焦点管理、Escape 关闭、遮罩交互和触发器焦点归还。DialogContent 内应提供 DialogTitle，并在需要补充说明时提供 DialogDescription。'
     }
   },
-  ...controlReferences
+  'alert': {
+    importCode: 'import { Alert, AlertAction, AlertDescription, AlertTitle } from \'moriui\'',
+    resources: componentResources('alert'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Alert 由 Title、Description 和 Action 组成，适合在页面内展示即时反馈。', shadcnHeading: 'Composition' },
+      { id: '变体', title: '变体', description: 'variant 支持 default 与 destructive，通过颜色区分信息层级。', shadcnHeading: 'Variant' },
+      { id: 'RTL', title: 'RTL', description: 'Alert 继承外围书写方向；图标与文本顺序会随 dir 调整。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('alert', 'alert-demo', '概览', '警告提示展示关键信息。'),
+      defineExample('alert', 'alert-basic', '基础', '默认变体用于通用提示。'),
+      defineExample('alert', 'alert-destructive', '破坏性', 'destructive 变体表达危险操作。'),
+      defineExample('alert', 'alert-colors', '自定义颜色', '调用方可覆盖局部颜色。'),
+      defineExample('alert', 'alert-action', '操作', 'AlertAction 可放置关闭或更多操作。'),
+      defineExample('alert', 'alert-rtl', 'RTL', '在 RTL 页面中保持自然的内容顺序。')
+    ],
+    variants: 'Alert variant 支持 default 与 destructive。',
+    api: [
+      { name: 'Alert variant', type: '\'default\' | \'destructive\'', defaultValue: '\'default\'', description: '警报的视觉层级。' },
+      { name: 'AlertTitle class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到标题的调用方类。' },
+      { name: 'AlertDescription class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到说明的调用方类。' },
+      { name: 'AlertAction class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到操作区域的调用方类。' }
+    ],
+    accessibility: { description: 'Alert 根元素默认包含 role="alert"，能够触发屏幕阅读器的即时朗读。动态出现的 Alert 会通过该角色自动宣告。' }
+  },
+  'alert-dialog': {
+    importCode: 'import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger } from \'moriui\'',
+    resources: componentResources('alert-dialog'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'AlertDialog 由 Trigger、Portal、Overlay、Content、Header、Media、Title、Description、Footer、Action 与 Cancel 组成。', shadcnHeading: 'Composition' },
+      { id: '尺寸', title: '尺寸', description: 'Content size 支持 default 与 sm，配合 Media 区域形成灵活布局。', shadcnHeading: 'Size' },
+      { id: 'RTL', title: 'RTL', description: '对话框内容沿外围 dir 排列，Action 与 Cancel 位置会随逻辑方向调整。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('alert-dialog', 'alert-dialog-demo', '概览', '确认操作的对话框。'),
+      defineExample('alert-dialog', 'alert-dialog-basic', '基础', '默认确认对话框。'),
+      defineExample('alert-dialog', 'alert-dialog-destructive', '破坏性', '用于不可逆操作的确认。'),
+      defineExample('alert-dialog', 'alert-dialog-media', '媒体', '在对话框中展示图标或图片媒体。'),
+      defineExample('alert-dialog', 'alert-dialog-small', '小尺寸', 'sm 尺寸适配紧凑场景。'),
+      defineExample('alert-dialog', 'alert-dialog-small-media', '小尺寸媒体', '小尺寸下的媒体布局。'),
+      defineExample('alert-dialog', 'alert-dialog-rtl', 'RTL', '在 RTL 页面中保持自然的操作顺序。')
+    ],
+    variants: 'AlertDialogContent size 支持 default 与 sm。',
+    api: [
+      { name: 'AlertDialog v-model:open', type: 'boolean', defaultValue: 'undefined', description: '对话框的受控打开状态。' },
+      { name: 'AlertDialog defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控对话框的初始状态。' },
+      { name: 'AlertDialogContent size', type: '\'default\' | \'sm\'', defaultValue: '\'default\'', description: '对话框尺寸。' },
+      { name: 'AlertDialogContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到对话框内容的调用方类。' },
+      { name: 'AlertDialogHeader as / asChild', type: 'string | Component / boolean', defaultValue: '\'div\' / false', description: '页眉的元素组合能力。' },
+      { name: 'AlertDialogFooter as / asChild', type: 'string | Component / boolean', defaultValue: '\'div\' / false', description: '页脚的元素组合能力。' },
+      { name: 'AlertDialogMedia as / asChild', type: 'string | Component / boolean', defaultValue: '\'div\' / false', description: '媒体区域的元素组合能力。' }
+    ],
+    accessibility: { description: 'AlertDialog 复用 Reka UI Dialog 的焦点管理、Escape 关闭、遮罩交互和焦点归还。Content 内应提供 AlertDialogTitle，以及可选的 AlertDialogDescription 为屏幕阅读器提供上下文。' }
+  },
+  'command': {
+    importCode: 'import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from \'moriui\'',
+    resources: componentResources('command'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Command 基于 Reka Combobox 构建，使用 Input、List、Group、Item、Empty 与 Separator 组合快速命令面板。', shadcnHeading: 'Composition' },
+      { id: '对话框模式', title: '对话框模式', description: 'CommandDialog 将命令面板包裹在模态 Dialog 中，适合全局快捷键唤醒的搜索场景。', shadcnHeading: 'Dialog' },
+      { id: '分组', title: '分组', description: 'CommandGroup 通过 heading 属性提供标题，CommandSeparator 在组间建立视觉边界。', shadcnHeading: 'Groups' },
+      { id: 'RTL', title: 'RTL', description: '搜索输入与项目列表沿 dir 排列。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('command', 'command-demo', '概览', '可搜索的命令面板。'),
+      defineExample('command', 'command-basic', '基础', '最小化的命令列表。'),
+      defineExample('command', 'command-dialog', '对话框', 'CommandDialog 将命令面板置于模态内。'),
+      defineExample('command', 'command-groups', '分组', 'Group 与 Separator 组织命令类别。'),
+      defineExample('command', 'command-scrollable', '可滚动', '长列表在 CommandList 中滚动。'),
+      defineExample('command', 'command-shortcuts', '快捷键', 'CommandShortcut 显示键位提示。'),
+      defineExample('command', 'command-rtl', 'RTL', '命令面板在 RTL 页面中工作。')
+    ],
+    variants: 'Command 没有公开视觉变体；打开、高亮与选中状态由 Reka Combobox 属性驱动。',
+    api: [
+      { name: 'Command v-model', type: 'AcceptableValue | AcceptableValue[]', defaultValue: 'undefined', description: '单选或多选值。' },
+      { name: 'Command multiple / disabled', type: 'boolean', defaultValue: 'false', description: '多选模式与整体禁用。' },
+      { name: 'Command ignoreFilter', type: 'boolean', defaultValue: 'false', description: '关闭内置筛选，由调用方控制。' },
+      { name: 'CommandInput v-model', type: 'string', defaultValue: '\'\'', description: '搜索输入值。' },
+      { name: 'CommandInput placeholder', type: 'string', defaultValue: '\'输入命令或搜索…\'', description: '输入占位提示。' },
+      { name: 'CommandDialog v-model:open', type: 'boolean', defaultValue: 'undefined', description: '对话框的受控打开状态。' },
+      { name: 'CommandDialog title', type: 'string', defaultValue: '\'命令面板\'', description: '对话框标题。' },
+      { name: 'CommandDialog description', type: 'string', defaultValue: '\'搜索并执行命令。\'', description: '对话框辅助说明。' },
+      { name: 'CommandGroup heading', type: 'string', defaultValue: 'undefined', description: '分组标题。' },
+      { name: 'CommandItem value', type: 'AcceptableValue', defaultValue: '—', description: '必填的项目值。' }
+    ],
+    accessibility: { description: 'Command 复用 Reka Combobox 的 combobox/listbox ARIA、方向键导航、Enter 选择与筛选。CommandDialog 额外使用 Dialog 的焦点管理。' }
+  },
+  'context-menu': {
+    importCode: 'import { ContextMenu, ContextMenuArrow, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuItemIndicator, ContextMenuLabel, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from \'moriui\'',
+    resources: componentResources('context-menu'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'ContextMenu 由 Trigger、Content、Item、Separator、Group、Label 与 Sub 组成，CheckboxItem 和 RadioItem 支持选择和设置。', shadcnHeading: 'Composition' },
+      { id: '子菜单', title: '子菜单', description: 'Sub、SubTrigger 与 SubContent 构建多级嵌套菜单。', shadcnHeading: 'Submenus' },
+      { id: '复选与单选', title: '复选与单选', description: 'CheckboxItem 和 RadioItem 使用 Indicator 表达选中状态；RadioGroup 管理单项选择。', shadcnHeading: 'Checkbox and Radio Items' },
+      { id: 'RTL', title: 'RTL', description: 'dir 控制弹层定位与方向键行为。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('context-menu', 'context-menu-demo', '概览', '右键菜单展示上下文操作。'),
+      defineExample('context-menu', 'context-menu-basic', '基础', '最小化的菜单内容。'),
+      defineExample('context-menu', 'context-menu-icons', '图标', '为菜单项添加图标。'),
+      defineExample('context-menu', 'context-menu-checkboxes', '复选项', 'CheckboxItem 支持多选状态。'),
+      defineExample('context-menu', 'context-menu-radio', '单选项', 'RadioItem 与 RadioGroup 管理唯一选择。'),
+      defineExample('context-menu', 'context-menu-groups', '分组', 'Group 与 Label 组织菜单层级。'),
+      defineExample('context-menu', 'context-menu-shortcuts', '快捷键', 'Shortcut 展示菜单项的键位提示。'),
+      defineExample('context-menu', 'context-menu-submenu', '子菜单', 'Sub、SubTrigger 与 SubContent 构建多级菜单。'),
+      defineExample('context-menu', 'context-menu-destructive', '破坏性', '使用样式区分危险操作。'),
+      defineExample('context-menu', 'context-menu-sides', '定位', 'Content 的 side 控制弹出方向。'),
+      defineExample('context-menu', 'context-menu-rtl', 'RTL', '菜单在 RTL 上下文中的定位。')
+    ],
+    variants: 'ContextMenuContent 的 side、align 来自 Reka Popper 定位，无公开视觉变体。',
+    api: [
+      { name: 'ContextMenu v-model:open', type: 'boolean', defaultValue: 'undefined', description: '右键菜单的受控打开状态。' },
+      { name: 'ContextMenu defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始打开状态。' },
+      { name: 'ContextMenuTrigger as / asChild', type: 'string | Component / boolean', defaultValue: '\'span\' / false', description: '右键触发区域的元素组合能力。' },
+      { name: 'ContextMenuContent side / align', type: 'PopperContentProps', defaultValue: '\'bottom\' / \'start\'', description: '弹层方向与对齐。' },
+      { name: 'ContextMenuItem disabled', type: 'boolean', defaultValue: 'false', description: '禁用菜单项。' },
+      { name: 'ContextMenuCheckboxItem v-model', type: 'boolean | \'indeterminate\'', defaultValue: 'undefined', description: '复选框的选中状态。' },
+      { name: 'ContextMenuRadioItem value', type: 'AcceptableValue', defaultValue: '—', description: '必填的单选项值。' },
+      { name: 'ContextMenuSeparator class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到分隔线的调用方类。' },
+      { name: 'ContextMenuLabel class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到标签的调用方类。' },
+      { name: 'ContextMenuSub v-model:open', type: 'boolean', defaultValue: 'undefined', description: '子菜单的受控打开状态。' },
+      { name: 'ContextMenuSubTrigger disabled', type: 'boolean', defaultValue: 'false', description: '禁用子菜单触发器。' },
+      { name: 'ContextMenuShortcut class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到快捷键标签的调用方类。' }
+    ],
+    accessibility: { description: 'ContextMenu 复用 Reka UI 的 menu ARIA、方向键导航、Enter/Space 选择与 Escape 关闭。Trigger 应表示其弹出行为；Content 内需要为 Label 等提供合适的语义。' }
+  },
+  'drawer': {
+    importCode: 'import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHandle, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger } from \'moriui\'',
+    resources: componentResources('drawer'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Drawer 由 Trigger、Portal、Overlay、Content 与 Handle 组成；Content 内可使用 Header、Title、Description 与 Footer 组织结构。', shadcnHeading: 'Composition' },
+      { id: '吸附点', title: '吸附点', description: 'snapPoints 设置内容停靠位置；activeSnapPoint 控制当前吸附点，用户拖拽时自动捕捉。', shadcnHeading: 'Snap Points' },
+      { id: '拖拽手柄', title: '拖拽手柄', description: 'showHandle 控制交互手柄的显示；DrawerHandle 也可独立使用 Reka Drawer 原语的拖拽行为。', shadcnHeading: 'Swipe Handle' },
+      { id: '从各侧滑出', title: '从各侧滑出', description: 'direction 控制抽屉从屏幕的哪一侧滑入，支持 top、right、bottom、left。', shadcnHeading: 'Direction' },
+      { id: '非模态', title: '非模态', description: 'modal 控制是否阻止背景交互；非模态时用户可与背景内容交互。', shadcnHeading: 'Non-Modal' },
+      { id: 'RTL', title: 'RTL', description: 'direction 的左右逻辑在 RTL 上下文中自然翻转。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('drawer', 'drawer-demo', '概览', '从底部滑出的编辑面板。'),
+      defineExample('drawer', 'drawer-sides', '方向', '从各侧滑入。'),
+      defineExample('drawer', 'drawer-snap-points', '吸附点', 'snapPoints 控制多级高度位置。'),
+      defineExample('drawer', 'drawer-swipe-handle', '拖拽手柄', '手柄区域触发拖拽交互。'),
+      defineExample('drawer', 'drawer-non-modal', '非模态', '非模态时背景可交互。'),
+      defineExample('drawer', 'drawer-nested', '嵌套', '在 Drawer 内打开另一个 Drawer。'),
+      defineExample('drawer', 'drawer-dialog', '对话框', '结合 Dialog 与 Drawer 的响应式模式。'),
+      defineExample('drawer', 'drawer-rtl', 'RTL', '在 RTL 页面中保持自然的方向逻辑。')
+    ],
+    variants: 'Drawer 的 direction 支持 top、right、bottom、left；snapPoints 通过 number[] 定义吸附位置百分比。',
+    api: [
+      { name: 'Drawer v-model:open', type: 'boolean', defaultValue: 'undefined', description: '抽屉的受控打开状态。' },
+      { name: 'Drawer defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始打开状态。' },
+      { name: 'Drawer direction', type: '\'top\' | \'right\' | \'bottom\' | \'left\'', defaultValue: 'undefined', description: '抽屉从屏幕边缘滑出的方向。' },
+      { name: 'Drawer modal', type: 'boolean', defaultValue: 'true', description: '是否阻断背景区域交互。' },
+      { name: 'Drawer dismissible', type: 'boolean', defaultValue: 'true', description: '是否点击遮罩或拖拽关闭。' },
+      { name: 'Drawer snapPoints', type: 'number[]', defaultValue: 'undefined', description: '可吸附的高度百分比位置。' },
+      { name: 'DrawerContent showHandle', type: 'boolean', defaultValue: 'false', description: '是否显示拖拽手柄。' },
+      { name: 'DrawerHandle class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到手柄的调用方类。' },
+      { name: 'DrawerHeader as / asChild', type: 'string | Component / boolean', defaultValue: '\'div\' / false', description: '页眉的元素组合能力。' },
+      { name: 'DrawerFooter as / asChild', type: 'string | Component / boolean', defaultValue: '\'div\' / false', description: '页脚的元素组合能力。' },
+      { name: 'DrawerClose as / asChild', type: 'string | Component / boolean', defaultValue: 'undefined', description: '关闭按钮的元素组合能力。' }
+    ],
+    accessibility: { description: 'Drawer 复用 Reka UI Dialog 的焦点管理、Escape 关闭、遮罩交互和焦点归还。Content 内应提供 DrawerTitle，需要时提供 DrawerDescription。拖拽交互在触摸设备上需确保有键盘替代方式。' }
+  },
+  'dropdown-menu': {
+    importCode: 'import { DropdownMenu, DropdownMenuArrow, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuItemIndicator, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from \'moriui\'',
+    resources: componentResources('dropdown-menu'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'DropdownMenu 由 Trigger、Content、Item、Separator、Group、Label 与 Sub 组成，CheckboxItem 和 RadioItem 提供选择能力。', shadcnHeading: 'Composition' },
+      { id: '子菜单', title: '子菜单', description: 'Sub、SubTrigger 与 SubContent 构建多级嵌套菜单。', shadcnHeading: 'Submenus' },
+      { id: '复选与单选', title: '复选与单选', description: 'CheckboxItem 和 RadioItem 使用 Indicator 表达选中状态；RadioGroup 管理单项选择。', shadcnHeading: 'Checkbox and Radio Items' },
+      { id: 'RTL', title: 'RTL', description: 'dir 控制弹层定位与方向键行为。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('dropdown-menu', 'dropdown-menu-demo', '概览', '账户与设置的下拉菜单。'),
+      defineExample('dropdown-menu', 'dropdown-menu-basic', '基础', '最小化的菜单内容。'),
+      defineExample('dropdown-menu', 'dropdown-menu-icons', '图标', '为菜单项添加图标。'),
+      defineExample('dropdown-menu', 'dropdown-menu-checkboxes', '复选项', 'CheckboxItem 支持多选状态。'),
+      defineExample('dropdown-menu', 'dropdown-menu-checkboxes-icons', '图标复选项', '带图标的复选菜单项。'),
+      defineExample('dropdown-menu', 'dropdown-menu-radio-group', '单选项', 'RadioItem 与 RadioGroup 管理唯一选择。'),
+      defineExample('dropdown-menu', 'dropdown-menu-radio-icons', '图标单选项', '带图标的单选菜单项。'),
+      defineExample('dropdown-menu', 'dropdown-menu-shortcuts', '快捷键', 'Shortcut 展示菜单项的键位提示。'),
+      defineExample('dropdown-menu', 'dropdown-menu-submenu', '子菜单', 'Sub、SubTrigger 与 SubContent 构建多级菜单。'),
+      defineExample('dropdown-menu', 'dropdown-menu-destructive', '破坏性', '使用样式区分危险操作。'),
+      defineExample('dropdown-menu', 'dropdown-menu-avatar', '头像', '在 Trigger 中使用头像。'),
+      defineExample('dropdown-menu', 'dropdown-menu-complex', '复杂', '组合多种菜单项类型的场景。'),
+      defineExample('dropdown-menu', 'dropdown-menu-rtl', 'RTL', '菜单在 RTL 上下文中的定位。')
+    ],
+    variants: 'DropdownMenuContent 的 side、align 来自 Reka Popper 定位，无公开视觉变体。',
+    api: [
+      { name: 'DropdownMenu v-model:open', type: 'boolean', defaultValue: 'undefined', description: '菜单的受控打开状态。' },
+      { name: 'DropdownMenu defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始打开状态。' },
+      { name: 'DropdownMenuTrigger as / asChild', type: 'string | Component / boolean', defaultValue: '\'button\' / false', description: '触发器的元素组合能力。' },
+      { name: 'DropdownMenuContent side / align', type: 'PopperContentProps', defaultValue: '\'bottom\' / \'start\'', description: '弹层方向与对齐。' },
+      { name: 'DropdownMenuItem disabled', type: 'boolean', defaultValue: 'false', description: '禁用菜单项。' },
+      { name: 'DropdownMenuCheckboxItem v-model', type: 'boolean | \'indeterminate\'', defaultValue: 'undefined', description: '复选框的选中状态。' },
+      { name: 'DropdownMenuRadioItem value', type: 'AcceptableValue', defaultValue: '—', description: '必填的单选项值。' },
+      { name: 'DropdownMenuRadioGroup v-model', type: 'AcceptableValue', defaultValue: 'undefined', description: '单选组当前值。' },
+      { name: 'DropdownMenuSeparator class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到分隔线的调用方类。' },
+      { name: 'DropdownMenuLabel class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到标签的调用方类。' },
+      { name: 'DropdownMenuSub v-model:open', type: 'boolean', defaultValue: 'undefined', description: '子菜单的受控打开状态。' },
+      { name: 'DropdownMenuSubTrigger disabled', type: 'boolean', defaultValue: 'false', description: '禁用子菜单触发器。' },
+      { name: 'DropdownMenuShortcut class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到快捷键标签的调用方类。' }
+    ],
+    accessibility: { description: 'DropdownMenu 复用 Reka UI 的 menu ARIA、方向键导航、Enter/Space 选择与 Escape 关闭。Trigger 应有 aria-haspopup；Content 内需要为 Label 等提供合适的语义。' }
+  },
+  'hover-card': {
+    importCode: 'import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardTrigger } from \'moriui\'',
+    resources: componentResources('hover-card'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'HoverCard 由 Trigger、Portal、Content 与可选 Arrow 组成；通过鼠标悬浮或焦点触发。', shadcnHeading: 'Composition' },
+      { id: '定位', title: '定位', description: 'Content 的 side 与 align 控制弹出卡片的方向和对齐。', shadcnHeading: 'Sides' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('hover-card', 'hover-card-demo', '概览', '悬浮在日历时查看详情。'),
+      defineExample('hover-card', 'hover-card-sides', '定位', '使用 side 控制卡片弹出方向。'),
+      defineExample('hover-card', 'hover-card-rtl', 'RTL', '从右到左的悬浮卡片布局。')
+    ],
+    variants: 'HoverCardContent 的 side 与 align 来自 Reka Popper 定位。',
+    api: [
+      { name: 'HoverCard v-model:open', type: 'boolean', defaultValue: 'undefined', description: '悬浮卡的受控打开状态。' },
+      { name: 'HoverCard defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始打开状态。' },
+      { name: 'HoverCard openDelay', type: 'number', defaultValue: '300', description: '悬浮后打开延迟的毫秒数。' },
+      { name: 'HoverCard closeDelay', type: 'number', defaultValue: '300', description: '离开后关闭延迟的毫秒数。' },
+      { name: 'HoverCardContent side / align', type: 'PopperContentProps', defaultValue: '\'bottom\' / \'center\'', description: '卡片方向与对齐。' },
+      { name: 'HoverCardContent sideOffset', type: 'number', defaultValue: '4', description: '卡片与触发器的偏移像素。' },
+      { name: 'HoverCardArrow width / height', type: 'number', defaultValue: '10 / 5', description: '箭头的宽度与高度。' }
+    ],
+    accessibility: { description: 'HoverCard 复用 Reka UI Popper 的悬浮触发，并支持键盘焦点触发。Content 内的交互元素键盘用户可通过 Tab 进入；隐藏时不应保留可聚焦元素。' }
+  },
+  'sheet': {
+    importCode: 'import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger } from \'moriui\'',
+    resources: componentResources('sheet'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Sheet 由 Trigger 和 Content 组成；Content 内可使用 Header、Title、Description 与 Footer 组织结构。', shadcnHeading: 'Composition' },
+      { id: '位置', title: '位置', description: 'side 控制面板从屏幕边缘滑出的方向，支持 top、right、bottom、left。', shadcnHeading: 'Side' },
+      { id: '无关闭按钮', title: '无关闭按钮', description: 'showCloseButton 控制默认关闭控件的显示。', shadcnHeading: 'No Close Button' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('sheet', 'sheet-demo', '概览', '编辑资料的侧边面板。'),
+      defineExample('sheet', 'sheet-side', '位置', '使用 side 控制面板从屏幕边缘滑出。'),
+      defineExample('sheet', 'sheet-no-close-button', '无关闭按钮', '隐藏默认关闭按钮。'),
+      defineExample('sheet', 'sheet-rtl', 'RTL', '从右到左的面板布局。')
+    ],
+    variants: 'SheetContent 的 side 支持 top、right、bottom、left。',
+    api: [
+      { name: 'Sheet v-model:open', type: 'boolean', defaultValue: 'undefined', description: '面板的受控打开状态。' },
+      { name: 'Sheet defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始打开状态。' },
+      { name: 'SheetContent side', type: '\'top\' | \'right\' | \'bottom\' | \'left\'', defaultValue: '\'right\'', description: '面板从屏幕边缘滑出的方向。' },
+      { name: 'SheetContent showCloseButton', type: 'boolean', defaultValue: 'true', description: '是否显示默认关闭按钮。' },
+      { name: 'SheetClose as / asChild', type: 'string | Component / boolean', defaultValue: '\'button\' / false', description: '关闭触发器的元素组合能力。' },
+      { name: 'SheetHeader class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到面板头部的调用方类。' },
+      { name: 'SheetFooter class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到面板脚部的调用方类。' }
+    ],
+    accessibility: { description: 'Sheet 复用 Reka UI Dialog 的焦点管理、Escape 关闭、遮罩交互和焦点归还。Content 内应提供 SheetTitle，并在需要时提供 SheetDescription。' }
+  },
+  'tooltip': {
+    importCode: 'import { Tooltip, TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from \'moriui\'',
+    resources: componentResources('tooltip'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Tooltip 由 Provider、Trigger、Portal、Content 与可选 Arrow 组成；Provider 统一配置组件的打开延迟与关闭行为。', shadcnHeading: 'Composition' },
+      { id: '定位', title: '定位', description: 'Content 的 side 与 sideOffset 控制提示文本的方向和间距。', shadcnHeading: 'Sides' },
+      { id: '禁用状态', title: '禁用状态', description: 'TooltipProvider 的 disableHoverableContent 可关闭内容的悬浮保持行为。', shadcnHeading: 'Disabled' },
+      { id: '键盘', title: '键盘', description: 'Tooltip 通过焦点触发，支持键盘用户在焦点可见时查看提示。', shadcnHeading: 'Keyboard' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('tooltip', 'tooltip-demo', '概览', '保存按钮的提示文本。'),
+      defineExample('tooltip', 'tooltip-sides', '定位', '使用 side 控制提示出现的方位。'),
+      defineExample('tooltip', 'tooltip-disabled', '禁用', '禁用按钮仍然触发提示。'),
+      defineExample('tooltip', 'tooltip-keyboard', '键盘', '键盘焦点也能触发工具提示。'),
+      defineExample('tooltip', 'tooltip-rtl', 'RTL', '从右到左的提示布局。')
+    ],
+    variants: 'Tooltip 没有公开视觉变体；side 与 sideOffset 来自 Reka Popper 定位属性。',
+    api: [
+      { name: 'Tooltip v-model:open', type: 'boolean', defaultValue: 'undefined', description: '提示的受控打开状态。' },
+      { name: 'Tooltip defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始打开状态。' },
+      { name: 'TooltipProvider delayDuration', type: 'number', defaultValue: '300', description: '触发打开前的延迟毫秒数。' },
+      { name: 'TooltipProvider disableHoverableContent', type: 'boolean', defaultValue: 'false', description: '关闭鼠标悬浮在内容上时的保持打开行为。' },
+      { name: 'TooltipProvider skipDelayDuration', type: 'number', defaultValue: '300', description: '工具提示切换之间的跳过延迟。' },
+      { name: 'TooltipContent side / align', type: 'PopperContentProps', defaultValue: '\'top\' / \'center\'', description: '提示方向与对齐。' },
+      { name: 'TooltipContent sideOffset', type: 'number', defaultValue: '4', description: '提示与触发器的偏移像素。' },
+      { name: 'TooltipArrow width / height', type: 'number', defaultValue: '10 / 5', description: '箭头的宽度与高度。' }
+    ],
+    accessibility: { description: 'Tooltip 复用 Reka UI 的 tooltip 角色，触发元素需要描述性文本；纯图标按钮的 Tooltip 应配合 aria-label。Tooltip 本身不应包含交互元素。' }
+  },
+  ...controlReferences,
+  'accordion': {
+    importCode: 'import { Accordion, AccordionContent, AccordionIcon, AccordionItem, AccordionTrigger } from \'moriui\'',
+    resources: componentResources('accordion'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Accordion 基于 Reka UI 构建，由 Item、Trigger 和 Content 组成；AccordionIcon 提供默认展开指示图标。', shadcnHeading: 'Composition' },
+      { id: '多项展开', title: '多项展开', description: '添加 multiple 属性可同时展开多个项目。', shadcnHeading: 'Multiple' },
+      { id: '禁用项目', title: '禁用项目', description: 'AccordionItem 支持 disabled 属性，禁用后无法展开。', shadcnHeading: 'Disabled' },
+      { id: 'RTL', title: 'RTL', description: 'Accordion 内容沿外围 dir 排列。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('accordion', 'accordion-demo', '概览', '常见问答的折叠面板。'),
+      defineExample('accordion', 'accordion-basic', '基础', '单项目展开的折叠面板。'),
+      defineExample('accordion', 'accordion-multiple', '多项展开', '同时展开多个项目。'),
+      defineExample('accordion', 'accordion-disabled', '禁用', '禁用单个项目。'),
+      defineExample('accordion', 'accordion-borders', '边框', '带边框的折叠面板。'),
+      defineExample('accordion', 'accordion-card', '卡片', '包含在 Card 中的折叠面板。'),
+      defineExample('accordion', 'accordion-rtl', 'RTL', '从右到左的折叠面板。')
+    ],
+    variants: 'Accordion 没有视觉变体；multiple、disabled 由 Reka UI 属性驱动。',
+    api: [
+      { name: 'Accordion v-model', type: 'string | string[]', defaultValue: 'undefined', description: '当前展开项的值（single）或值数组（multiple）。' },
+      { name: 'Accordion defaultValue', type: 'string | string[]', defaultValue: 'undefined', description: '非受控展开项的初始值。' },
+      { name: 'Accordion multiple', type: 'boolean', defaultValue: 'false', description: '允许多项同时展开。' },
+      { name: 'AccordionItem value', type: 'string', defaultValue: '—', description: '必填，唯一标识该项目。' },
+      { name: 'AccordionItem disabled', type: 'boolean', defaultValue: 'false', description: '禁用该项目。' },
+      { name: 'AccordionTrigger class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到触发器的调用方类。' },
+      { name: 'AccordionContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到内容区域的调用方类。' },
+      { name: 'AccordionIcon class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到展开图标的调用方类。' },
+      { name: 'Accordion as / asChild', type: 'string | Component / boolean', defaultValue: '\'div\' / false', description: '来自 Reka Primitive 的元素组合能力。' }
+    ],
+    accessibility: { description: 'Accordion 复用 Reka UI 的 Accordion ARIA，包括区域角色、方向键导航、Enter/Space 展开收起和 aria-expanded。Trigger 应包含清晰的标题文本。' }
+  },
+  'breadcrumb': {
+    importCode: 'import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from \'moriui\'',
+    resources: componentResources('breadcrumb'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Breadcrumb 通过 List 组织 Item，Item 内为 Link 或 Page 表示当前页；Separator 和 Ellipsis 分别处理分隔与折叠。', shadcnHeading: 'Composition' },
+      { id: '自定义分隔符', title: '自定义分隔符', description: 'BreadcrumbSeparator 的默认插槽可替换为任意分隔图标。', shadcnHeading: 'Custom Separator' },
+      { id: '省略菜单', title: '省略菜单', description: 'BreadcrumbEllipsis 可配合 DropdownMenu 展开被折叠的路径。', shadcnHeading: 'Ellipsis' },
+      { id: 'RTL', title: 'RTL', description: '面包屑沿 dir 逻辑方向排列，分隔符方向随之调整。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('breadcrumb', 'breadcrumb-demo', '概览', '面包屑导航展示页面层级。'),
+      defineExample('breadcrumb', 'breadcrumb-basic', '基础', '简单的路径导航链接。'),
+      defineExample('breadcrumb', 'breadcrumb-separator', '自定义分隔符', '替换默认分隔图标。'),
+      defineExample('breadcrumb', 'breadcrumb-link', '链接', '使用 BreadcrumbLink 构建导航。'),
+      defineExample('breadcrumb', 'breadcrumb-ellipsis', '省略', '使用 BreadcrumbEllipsis 折叠长路径。'),
+      defineExample('breadcrumb', 'breadcrumb-dropdown', '菜单', 'Ellipsis 配合 DropdownMenu 展开路径。'),
+      defineExample('breadcrumb', 'breadcrumb-rtl', 'RTL', '从右到左的面包屑导航。')
+    ],
+    variants: 'Breadcrumb 没有视觉变体；各子组件通过 class 自定义间距和颜色。',
+    api: [
+      { name: 'BreadcrumbList class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到列表容器的调用方类。' },
+      { name: 'BreadcrumbItem class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到列表项的调用方类。' },
+      { name: 'BreadcrumbLink href', type: 'string', defaultValue: '—', description: '导航链接目标地址。' },
+      { name: 'BreadcrumbLink as / asChild', type: 'string | Component / boolean', defaultValue: '\'a\' / false', description: '渲染为其他路由组件。' },
+      { name: 'BreadcrumbPage class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '表示当前页的文字。' },
+      { name: 'BreadcrumbSeparator class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到分隔符的调用方类。' },
+      { name: 'BreadcrumbEllipsis class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到省略按钮的调用方类。' }
+    ],
+    accessibility: { description: 'Breadcrumb 默认输出 role="navigation" 和 aria-label="Breadcrumb"，列表使用 role="list" 和 role="listitem"。当前页使用 BreadcrumbPage 且 aria-current="page"。链接有清晰目的名称。' }
+  },
+  'calendar': {
+    importCode: 'import { Calendar } from \'moriui\'',
+    resources: componentResources('calendar'),
+    states: [
+      { id: '选择模式', title: '选择模式', description: 'Calendar 通过 multiple 属性控制单选或多选；day 插槽可自定义日期格内容。', shadcnHeading: 'Mode' },
+      { id: '自定义标题', title: '自定义标题', description: 'heading 插槽替换默认月份/年份标题。', shadcnHeading: 'Caption' },
+      { id: '自定义日期格', title: '自定义日期格', description: 'day 插槽接收 dayValue/disabled/today/selected 属性，支持自定义渲染。', shadcnHeading: 'Custom Days' },
+      { id: 'RTL', title: 'RTL', description: '日历网格和方向键遵循 dir。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('calendar', 'calendar-demo', '概览', '单日日期选择。'),
+      defineExample('calendar', 'calendar-basic', '基础', '最小化的日历。'),
+      defineExample('calendar', 'calendar-multiple', '多选', '多次日期选择。'),
+      defineExample('calendar', 'calendar-range', '范围', '选择日期区间。'),
+      defineExample('calendar', 'calendar-presets', '预设', '快捷预设日期。'),
+      defineExample('calendar', 'calendar-time', '时间', '日期时间选择。'),
+      defineExample('calendar', 'calendar-caption', '标题', '自定义月份标题。'),
+      defineExample('calendar', 'calendar-custom-days', '自定义日期', '在日期格中展示额外信息。'),
+      defineExample('calendar', 'calendar-week-numbers', '周数', '左侧显示周数。'),
+      defineExample('calendar', 'calendar-rtl', 'RTL', '从右到左的日历布局。')
+    ],
+    variants: 'Calendar 没有视觉变体；multiple 控制多选，通过 Reka UI DateField 管理日期状态。',
+    api: [
+      { name: 'Calendar v-model', type: 'DateValue | DateValue[] | null', defaultValue: 'undefined', description: '当前选择的日期。' },
+      { name: 'Calendar multiple', type: 'boolean', defaultValue: 'false', description: '允许多选。' },
+      { name: 'Calendar placeholder', type: 'DateValue', defaultValue: '今天', description: '日历初始聚焦月份。' },
+      { name: 'Calendar numberOfMonths', type: 'number', defaultValue: '1', description: '同时显示的月份数量。' },
+      { name: 'Calendar locale', type: 'string', defaultValue: '\'en\'', description: '日历的语言区域。' }
+    ],
+    accessibility: { description: 'Calendar 复用 Reka UI Calendar 的 grid ARIA、方向键导航。每个日期格有正确标签。' }
+  },
+  'collapsible': {
+    importCode: 'import { Collapsible, CollapsibleContent, CollapsibleTrigger } from \'moriui\'',
+    resources: componentResources('collapsible'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Collapsible 由 Trigger 和 Content 组成，通过 v-model:open 控制展开状态。', shadcnHeading: 'Composition' },
+      { id: 'RTL', title: 'RTL', description: 'Collapsible 内容沿外围 dir 排列。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('collapsible', 'collapsible-demo', '概览', '展开或收起订单详情。'),
+      defineExample('collapsible', 'collapsible-basic', '基础', '最小化的展开收起。'),
+      defineExample('collapsible', 'collapsible-file-tree', '文件目录', '嵌套 Collapsible 展示目录结构。'),
+      defineExample('collapsible', 'collapsible-settings', '设置面板', '分组设置项展开。'),
+      defineExample('collapsible', 'collapsible-rtl', 'RTL', '从右到左的折叠面板。')
+    ],
+    variants: 'Collapsible 没有视觉变体；open/closed 状态由 Reka UI 的 data-state 驱动。',
+    api: [
+      { name: 'Collapsible v-model:open', type: 'boolean', defaultValue: 'undefined', description: '受控展开状态。' },
+      { name: 'Collapsible defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始展开状态。' },
+      { name: 'Collapsible disabled', type: 'boolean', defaultValue: 'false', description: '禁用交互。' },
+      { name: 'CollapsibleTrigger as / asChild', type: 'string | Component / boolean', defaultValue: '\'button\' / false', description: '触发器的元素组合能力。' },
+      { name: 'CollapsibleContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到内容区的调用方类。' }
+    ],
+    accessibility: { description: 'Collapsible 复用 Reka UI Collapsible 的 button 和 region 角色、aria-expanded、aria-controls 和隐藏内容管理。Trigger 应提供清晰可理解的控制标签。' }
+  },
+  'date-picker': {
+    importCode: 'import { DatePicker } from \'moriui\'',
+    resources: componentResources('date-picker'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'DatePicker 组合 Calendar 和 Popover，通过 Trigger 打开日历弹层。', shadcnHeading: 'Composition' },
+      { id: '预设', title: '预设', description: '与日历 preset 组合可提供快捷日期范围。', shadcnHeading: 'Presets' },
+      { id: 'RTL', title: 'RTL', description: '弹层定位与日历方向遵循 dir。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('date-picker', 'date-picker-demo', '概览', '从弹层中选择日期。'),
+      defineExample('date-picker', 'date-picker-basic', '基础', '最小化的日期选择。'),
+      defineExample('date-picker', 'date-picker-range', '范围', '选择日期区间。'),
+      defineExample('date-picker', 'date-picker-input', '输入', '手动输入日期。'),
+      defineExample('date-picker', 'date-picker-dob', '生日', '选择出生日期。'),
+      defineExample('date-picker', 'date-picker-time', '时间', '日期时间选择。'),
+      defineExample('date-picker', 'date-picker-natural-language', '自然语言', '自然语言输入日期。'),
+      defineExample('date-picker', 'date-picker-rtl', 'RTL', '从右到左的日期选择。')
+    ],
+    variants: 'DatePicker 没有视觉变体；弹层定位由 Popper 控制。',
+    api: [
+      { name: 'DatePicker v-model', type: 'DateValue | null', defaultValue: 'undefined', description: '当前选中日期。' },
+      { name: 'DatePicker placeholder', type: 'DateValue', defaultValue: 'undefined', description: '无选择时的占位日期。' },
+      { name: 'DatePickerInput class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到输入框的调用方类。' },
+      { name: 'DatePickerContent side / align', type: 'PopperContentProps', defaultValue: '\'bottom\' / \'center\'', description: '弹层定位属性。' }
+    ],
+    accessibility: { description: 'DatePicker 将 Calendar 的 grid 语义放置在 Popover 弹层中，焦点在打开时移动到日历。输入框应有 Label 或 aria-label。' }
+  },
+  'date-range-picker': {
+    importCode: 'import { DateRangePicker } from \'moriui\'',
+    resources: componentResources('date-range-picker'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'DateRangePicker 为日期区间选择的包装组件，提供起止日期双输入。', shadcnHeading: 'Composition' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('date-range-picker', 'date-range-picker-demo', '概览', '选择日期区间。'),
+      defineExample('date-range-picker', 'date-range-picker-basic', '基础', '最小化区间选择。'),
+      defineExample('date-range-picker', 'date-range-picker-presets', '预设', '快捷预设日期范围。'),
+      defineExample('date-range-picker', 'date-range-picker-rtl', 'RTL', '从右到左的日期区间选择。')
+    ],
+    variants: 'DateRangePicker 没有视觉变体；弹层定位由 Popper 控制。',
+    api: [
+      { name: 'DateRangePicker v-model', type: '{ start: DateValue | null, end: DateValue | null }', defaultValue: 'undefined', description: '起止日期对象。' },
+      { name: 'DateRangePicker placeholder', type: 'DateValue', defaultValue: 'undefined', description: '无选择时的占位月份。' }
+    ],
+    accessibility: { description: 'DateRangePicker 将 Calendar range 模式与双输入字段组合。输入应有各自的 Label 或 aria-label。' }
+  },
+  'menubar': {
+    importCode: 'import { Menubar, MenubarArrow, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarItemIndicator, MenubarLabel, MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from \'moriui\'',
+    resources: componentResources('menubar'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Menubar 由 Menu、Trigger 和 Content 组成，支持 Item、CheckboxItem、RadioItem、Separator、Label、Sub 和 Shortcut。', shadcnHeading: 'Composition' },
+      { id: '子菜单', title: '子菜单', description: 'Sub、SubTrigger 与 SubContent 构建多级嵌套菜单。', shadcnHeading: 'Submenus' },
+      { id: '复选与单选', title: '复选与单选', description: 'CheckboxItem 和 RadioItem 使用 Indicator 表达选中状态；RadioGroup 管理单项选择。', shadcnHeading: 'Checkbox and Radio Items' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('menubar', 'menubar-demo', '概览', '应用菜单栏展示菜单层级。'),
+      defineExample('menubar', 'menubar-icons', '图标', '为菜单项添加图标。'),
+      defineExample('menubar', 'menubar-checkbox', '复选项', 'CheckboxItem 支持多选状态。'),
+      defineExample('menubar', 'menubar-radio', '单选项', 'RadioItem 与 RadioGroup 管理唯一选择。'),
+      defineExample('menubar', 'menubar-submenu', '子菜单', 'Sub、SubTrigger 与 SubContent 构建多级菜单。'),
+      defineExample('menubar', 'menubar-rtl', 'RTL', '菜单在 RTL 上下文中的定位。')
+    ],
+    variants: 'MenubarContent 的 side、align 来自 Reka Popper 定位，无公开视觉变体。',
+    api: [
+      { name: 'MenubarMenu value', type: 'string', defaultValue: '—', description: '菜单项唯一标识。' },
+      { name: 'MenubarTrigger as / asChild', type: 'string | Component / boolean', defaultValue: '\'button\' / false', description: '触发器的元素组合能力。' },
+      { name: 'MenubarItem disabled', type: 'boolean', defaultValue: 'false', description: '禁用菜单项。' },
+      { name: 'MenubarCheckboxItem v-model', type: 'boolean | \'indeterminate\'', defaultValue: 'undefined', description: '复选框的选中状态。' },
+      { name: 'MenubarRadioItem value', type: 'AcceptableValue', defaultValue: '—', description: '必填的单选项值。' },
+      { name: 'MenubarRadioGroup v-model', type: 'AcceptableValue', defaultValue: 'undefined', description: '单选组当前值。' },
+      { name: 'MenubarSeparator class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到分隔线的调用方类。' },
+      { name: 'MenubarLabel class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到标签的调用方类。' },
+      { name: 'MenubarSub v-model:open', type: 'boolean', defaultValue: 'undefined', description: '子菜单的受控打开状态。' },
+      { name: 'MenubarShortcut class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到快捷键标签的调用方类。' }
+    ],
+    accessibility: { description: 'Menubar 复用 Reka UI 的 menubar/menu ARIA、方向键导航、Enter/Space 选择与 Escape 关闭。Trigger 应有 aria-haspopup；Root 应有 aria-label。' }
+  },
+  'navigation-menu': {
+    importCode: 'import { NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuSub, NavigationMenuTrigger, NavigationMenuViewport } from \'moriui\'',
+    resources: componentResources('navigation-menu'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'NavigationMenu 由 List、Item、Trigger 和 Content 组成，Viewport 管理弹出内容的定位。', shadcnHeading: 'Composition' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('navigation-menu', 'navigation-menu-demo', '概览', '站点主导航菜单。'),
+      defineExample('navigation-menu', 'navigation-menu-rtl', 'RTL', '从右到左的导航菜单。')
+    ],
+    variants: 'NavigationMenu 没有视觉变体；viewport 定位由 Reka UI NavigationMenu 管理。',
+    api: [
+      { name: 'NavigationMenu v-model:modelValue', type: 'string', defaultValue: 'undefined', description: '当前激活菜单项的值。' },
+      { name: 'NavigationMenu defaultValue', type: 'string', defaultValue: 'undefined', description: '非受控初始激活项。' },
+      { name: 'NavigationMenu delayDuration', type: 'number', defaultValue: '200', description: '延迟打开/关闭的毫秒数。' },
+      { name: 'NavigationMenuList class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到列表的调用方类。' },
+      { name: 'NavigationMenuTrigger disabled', type: 'boolean', defaultValue: 'false', description: '禁用触发器。' },
+      { name: 'NavigationMenuLink as / asChild', type: 'string | Component / boolean', defaultValue: '\'a\' / false', description: '链接的元素组合能力。' },
+      { name: 'NavigationMenuLink active', type: 'boolean', defaultValue: 'false', description: '标记当前激活的导航链接。' },
+      { name: 'NavigationMenuViewport class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到视口容器的调用方类。' }
+    ],
+    accessibility: { description: 'NavigationMenu 复用 Reka UI 的 navigation/menubar ARIA 和键盘导航。Root 元素默认输出 role="navigation"；Trigger 和 Content 自动关联。' }
+  },
+  'pagination': {
+    importCode: 'import { Pagination, PaginationEllipsis, PaginationFirst, PaginationItem, PaginationLast, PaginationList, PaginationNext, PaginationPrev } from \'moriui\'',
+    resources: componentResources('pagination'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Pagination 通过 List 组织 Item，Item 包含页码，可选 Ellipsis、First、Last、Prev、Next 等导航子组件。', shadcnHeading: 'Composition' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('pagination', 'pagination-demo', '概览', '页码导航与上一页/下一页。'),
+      defineExample('pagination', 'pagination-simple', '简洁', '仅上一页/下一页。'),
+      defineExample('pagination', 'pagination-icons-only', '仅图标', '仅图标的分页按钮。'),
+      defineExample('pagination', 'pagination-rtl', 'RTL', '从右到左的分页导航。')
+    ],
+    variants: 'Pagination 没有视觉变体；当前页码通过 Reka UI 自动管理。',
+    api: [
+      { name: 'PaginationList class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到页码列表的调用方类。' },
+      { name: 'PaginationItem class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到页码项的调用方类。' },
+      { name: 'PaginationPrev / Next href', type: 'string', defaultValue: 'undefined', description: '导航按钮的链接地址。' },
+      { name: 'PaginationEllipsis class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到省略号的调用方类。' }
+    ],
+    accessibility: { description: 'Pagination 默认输出 role="navigation" 和 aria-label="Pagination"。列表使用 role="list"，当前页使用 aria-current="page"。导航按钮图标应提供 aria-label。' }
+  },
+  'tabs': {
+    importCode: 'import { Tabs, TabsContent, TabsList, TabsTrigger } from \'moriui\'',
+    resources: componentResources('tabs'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Tabs 由 List、Trigger 和 Content 组成；List 内 Trigger 控制对应 Content 的显示。', shadcnHeading: 'Composition' },
+      { id: '线条变体', title: '线条变体', description: 'TabsList 的 variant="line" 切换为下划线指示器样式。', shadcnHeading: 'Line' },
+      { id: '垂直方向', title: '垂直方向', description: 'orientation="vertical" 使标签垂直排列。', shadcnHeading: 'Vertical' },
+      { id: '禁用标签', title: '禁用标签', description: 'TabsTrigger 支持 disabled 属性。', shadcnHeading: 'Disabled' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('tabs', 'tabs-demo', '概览', '标签切换展示不同内容。'),
+      defineExample('tabs', 'tabs-line', '线条', '使用 variant="line" 线条样式。'),
+      defineExample('tabs', 'tabs-vertical', '垂直', '纵向排列的标签。'),
+      defineExample('tabs', 'tabs-disabled', '禁用', '禁用某个标签。'),
+      defineExample('tabs', 'tabs-icons', '图标', '标签带图标。'),
+      defineExample('tabs', 'tabs-rtl', 'RTL', '从右到左的标签布局。')
+    ],
+    variants: 'TabsList 的 variant 支持 default 与 line；orientation 支持 horizontal 与 vertical。',
+    api: [
+      { name: 'Tabs v-model', type: 'string', defaultValue: 'undefined', description: '当前激活标签的值。' },
+      { name: 'Tabs defaultValue', type: 'string', defaultValue: 'undefined', description: '非受控初始激活标签。' },
+      { name: 'Tabs orientation', type: '\'horizontal\' | \'vertical\'', defaultValue: '\'horizontal\'', description: '标签排列方向。' },
+      { name: 'Tabs activationMode', type: '\'automatic\' | \'manual\'', defaultValue: '\'automatic\'', description: '标签激活方式（自动/手动）。' },
+      { name: 'TabsList variant', type: '\'default\' | \'line\'', defaultValue: '\'default\'', description: '标签栏视觉变体。' },
+      { name: 'TabsList class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到标签栏的调用方类。' },
+      { name: 'TabsTrigger value', type: 'string', defaultValue: '—', description: '必填，关联的标签值。' },
+      { name: 'TabsTrigger disabled', type: 'boolean', defaultValue: 'false', description: '禁用此标签。' },
+      { name: 'TabsContent value', type: 'string', defaultValue: '—', description: '必填，关联的标签值。' },
+      { name: 'TabsContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到内容区域的调用方类。' }
+    ],
+    accessibility: { description: 'Tabs 复用 Reka UI 的 tablist/tab/tabpanel ARIA、方向键导航和 aria-selected/aria-controls。TabTrigger 应提供清晰标签。' }
+  },
+  'carousel': {
+    importCode: 'import { Carousel, CarouselAutoplay, CarouselContent, CarouselIndicator, CarouselIndicators, CarouselItem, CarouselNext, CarouselPrevious } from \'moriui\'',
+    resources: componentResources('carousel'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Carousel 由 Content、Item、Previous、Next、Indicators 和 Autoplay 组成，支持多种布局配置。', shadcnHeading: 'Composition' },
+      { id: '方向', title: '方向', description: 'orientation 支持 horizontal 与 vertical。', shadcnHeading: 'Orientation' },
+      { id: '间距', title: '间距', description: '通过 class 中的 gap 控制项目间距。', shadcnHeading: 'Spacing' },
+      { id: '插件', title: '插件', description: 'CarouselAutoplay 插件可开启自动轮播。', shadcnHeading: 'Plugin' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('carousel', 'carousel-demo', '概览', '图片卡片的横向轮播。'),
+      defineExample('carousel', 'carousel-size', '尺寸', '不同尺寸的轮播项目。'),
+      defineExample('carousel', 'carousel-orientation', '方向', '垂直方向的轮播。'),
+      defineExample('carousel', 'carousel-multiple', '多项目', '同时显示多个项目。'),
+      defineExample('carousel', 'carousel-spacing', '间距', '自定义项目间距。'),
+      defineExample('carousel', 'carousel-plugin', '自动播放', 'CarouselAutoplay 插件。'),
+      defineExample('carousel', 'carousel-rtl', 'RTL', '从右到左的轮播方向。')
+    ],
+    variants: 'Carousel 的 orientation 支持 horizontal/vertical；opts 支持 slidesToShow、loop、align 等 Embla 选项。',
+    api: [
+      { name: 'Carousel orientation', type: '\'horizontal\' | \'vertical\'', defaultValue: '\'horizontal\'', description: '轮播滚动方向。' },
+      { name: 'Carousel opts', type: 'CarouselOptions', defaultValue: '{ loop: false }', description: 'Embla Carousel 配置项。' },
+      { name: 'Carousel plugins', type: 'CarouselPlugin[]', defaultValue: '[]', description: 'Embla 插件数组。' },
+      { name: 'CarouselContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到内容容器的调用方类。' },
+      { name: 'CarouselItem class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到每个项目的调用方类。' },
+      { name: 'CarouselPrevious class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到上一页按钮的调用方类。' },
+      { name: 'CarouselNext class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到下一页按钮的调用方类。' },
+      { name: 'useCarousel()', type: 'CarouselApi', defaultValue: '—', description: '获取轮播 API 实例进行受控操作。' }
+    ],
+    accessibility: { description: 'Carousel 使用 Embla 的区域和 ARIA 属性。Previous/Next 按钮应提供 aria-label。当前状态可通过 Indicators 展示。' }
+  },
+  'chart': {
+    importCode: 'import { ChartContainer, ChartLegendContent, ChartTooltipContent } from \'moriui\'',
+    resources: componentResources('chart'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Chart 基于 Unovis 构建，使用 ChartContainer 包裹 Vis 图表组件，通过 ChartTooltipContent 和 ChartLegendContent 提供交互辅助。', shadcnHeading: 'Composition' },
+      { id: 'RTL', title: 'RTL', description: '图表坐标轴在 RTL 页面中自动翻转。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('chart', 'chart-demo', '概览', '柱状图展示数据。'),
+      defineExample('chart', 'chart-example-tooltip', '提示框', '图表数据点提示。'),
+      defineExample('chart', 'chart-example-legend', '图例', '图表系列图例。'),
+      defineExample('chart', 'chart-rtl', 'RTL', '从右到左的图表布局。')
+    ],
+    variants: 'Chart 没有视觉变体；使用不同 Vis 组件（VisBar、VisLine、VisArea 等）表达数据。',
+    api: [
+      { name: 'ChartContainer config', type: 'ChartConfig', defaultValue: '—', description: '图表配置，定义系列名称、颜色和标签。' },
+      { name: 'ChartContainer class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到图表容器的调用方类。' },
+      { name: 'ChartTooltipContent indicator', type: 'ChartTooltipIndicator', defaultValue: '\'dot\'', description: '提示框中的指示器类型。' },
+      { name: 'ChartLegendContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到图例的调用方类。' }
+    ],
+    accessibility: { description: 'ChartContainer 生成的 SVG 图表应提供可访问的标题和描述。tooltip 应确保键盘用户可达。' }
+  },
+  'message': {
+    importCode: 'import { Message, MessageAvatar, MessageContent, MessageFooter, MessageGroup, MessageHeader } from \'moriui\'',
+    resources: componentResources('message'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Message 组合 Header、Avatar、Content 与 Footer 组成完整聊天消息；MessageGroup 组织连续消息。', shadcnHeading: 'Composition' },
+      { id: '对齐', title: '对齐', description: '通过 align 控制消息在流中的位置（start/end）。', shadcnHeading: 'Alignment' },
+      { id: 'RTL', title: 'RTL', description: '消息内容沿 dir 排列。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('message', 'message-demo', '概览', '展示聊天消息结构。'),
+      defineExample('message', 'message-avatar', '头像', '消息发送者头像。'),
+      defineExample('message', 'message-group', '消息组', '连续消息分组排列。'),
+      defineExample('message', 'message-header-footer', '头部与底部', '消息的头部和底部信息。'),
+      defineExample('message', 'message-actions', '操作', '消息上的交互操作。'),
+      defineExample('message', 'message-attachment', '附件', '消息中的文件附件。'),
+      defineExample('message', 'message-markdown', 'Markdown', '渲染 Markdown 内容。')
+    ],
+    variants: 'Message 的 variant 支持 default/secondary/tinted，align 支持 start/end。',
+    api: [
+      { name: 'Message variant', type: '\'default\' | \'secondary\' | \'tinted\'', defaultValue: '\'default\'', description: '消息视觉层级。' },
+      { name: 'Message align', type: '\'start\' | \'end\'', defaultValue: '\'start\'', description: '消息对齐方向。' },
+      { name: 'MessageHeader class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到消息头部的调用方类。' },
+      { name: 'MessageAvatar class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到头像区域的调用方类。' },
+      { name: 'MessageContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到消息内容的调用方类。' },
+      { name: 'MessageFooter class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到消息底部的调用方类。' },
+      { name: 'MessageGroup class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到消息分组的调用方类。' }
+    ],
+    accessibility: { description: '消息列表应由页面提供 log/list 等上下文。消息时间戳和发送者信息应可被辅助技术理解。可交互的消息元素应使用 button 或 a。' }
+  },
+  'message-scroller': {
+    importCode: 'import { MessageScroller, MessageScrollerButton, MessageScrollerContent, MessageScrollerItem, MessageScrollerProvider, MessageScrollerViewport, useMessageScroller, useMessageScrollerScrollable, useMessageScrollerVisibility } from \'moriui\'',
+    resources: componentResources('message-scroller'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'MessageScroller 由 Provider、Viewport、Content、Item 和 Button 组成，支持滚动定位、锚定与可见性检测。', shadcnHeading: 'Composition' },
+      { id: '滚动定位', title: '滚动定位', description: 'scrollAlign 控制新消息的滚动对齐方式。', shadcnHeading: 'Scroll Align' },
+      { id: '流式追加', title: '流式追加', description: '支持渐进式插入新消息，保持滚动位置稳定。', shadcnHeading: 'Streaming' },
+      { id: '加载历史', title: '加载历史', description: '回溯加载历史消息，不改变当前视口位置。', shadcnHeading: 'Load History' }
+    ],
+    examples: [
+      defineExample('message-scroller', 'message-scroller-demo', '概览', '标准消息滚动容器。'),
+      defineExample('message-scroller', 'message-scroller-scrollable', '可滚动', '长消息列表滚动。'),
+      defineExample('message-scroller', 'message-scroller-anchoring', '锚定', '新消息自动滚动对齐。'),
+      defineExample('message-scroller', 'message-scroller-streaming', '流式', '渐进追加流式消息。'),
+      defineExample('message-scroller', 'message-scroller-load-history', '加载历史', '回溯加载旧消息。'),
+      defineExample('message-scroller', 'message-scroller-visibility', '可见性', '检测消息进入视口。')
+    ],
+    variants: 'MessageScroller 的 scrollAlign 支持 start/end；defaultScrollPosition 支持 top/bottom。',
+    api: [
+      { name: 'MessageScrollerProvider class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到滚动器容器的调用方类。' },
+      { name: 'MessageScrollerViewport class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到视口的调用方类。' },
+      { name: 'MessageScrollerContent class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到内容容器的调用方类。' },
+      { name: 'MessageScrollerItem class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到每条消息项的调用方类。' },
+      { name: 'MessageScrollerButton direction', type: '\'top\' | \'bottom\'', defaultValue: '\'bottom\'', description: '滚动按钮的指向方向。' },
+      { name: 'useMessageScroller()', type: 'MessageScrollerScrollable', defaultValue: '—', description: '获取滚动器实例进行编程控制。' },
+      { name: 'useMessageScrollerScrollable()', type: 'ComputedRef<boolean>', defaultValue: '—', description: '检测内容是否可滚动。' },
+      { name: 'useMessageScrollerVisibility()', type: 'MessageScrollerVisibilityState', defaultValue: '—', description: '监听元素的视口可见性。' }
+    ],
+    accessibility: { description: 'MessageScroller 管理动态内容区域的滚动和焦点。新消息应有适当的 aria-live 区域通知。' }
+  },
+  'progress': {
+    importCode: 'import { Progress, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue } from \'moriui\'',
+    resources: componentResources('progress'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Progress 由 Track、Indicator、Label 和 Value 组成，通过 value 控制进度百分比。', shadcnHeading: 'Composition' },
+      { id: '受控', title: '受控', description: '使用 value prop 控制进度值，支持动态更新。', shadcnHeading: 'Controlled' },
+      { id: '标签', title: '标签', description: 'ProgressLabel 和 ProgressValue 提供百分比文字展示。', shadcnHeading: 'Label' },
+      { id: 'RTL', title: 'RTL', description: '进度条方向在 RTL 页面中自动翻转。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('progress', 'progress-demo', '概览', '动态进度条展示。'),
+      defineExample('progress', 'progress-controlled', '受控', '受控 value 驱动进度。'),
+      defineExample('progress', 'progress-label', '标签', '显示百分比文字。'),
+      defineExample('progress', 'progress-rtl', 'RTL', '从右到左的进度条。')
+    ],
+    variants: 'Progress 没有视觉变体；value 范围 0-100，indeterminate 使用动画效果。',
+    api: [
+      { name: 'Progress value', type: 'number | null', defaultValue: '0', description: '当前进度值（0-100）。' },
+      { name: 'Progress max', type: 'number', defaultValue: '100', description: '最大值。' },
+      { name: 'ProgressTrack class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到轨道的调用方类。' },
+      { name: 'ProgressIndicator class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到指示器的调用方类。' },
+      { name: 'ProgressLabel class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到标签文字的调用方类。' },
+      { name: 'ProgressValue class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到百分比值的调用方类。' }
+    ],
+    accessibility: { description: 'Progress 复用 Reka UI 的 progressbar 角色、aria-valuenow、aria-valuemin、aria-valuemax。Label 应描述正在进行的任务。' }
+  },
+  'resizable': {
+    importCode: 'import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from \'moriui\'',
+    resources: componentResources('resizable'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Resizable 基于 PanelGroup 组合 Panel 和 Handle，支持水平和垂直方向。', shadcnHeading: 'Composition' },
+      { id: '垂直方向', title: '垂直方向', description: 'direction="vertical" 切换上下排列。', shadcnHeading: 'Vertical' },
+      { id: '自定义手柄', title: '自定义手柄', description: 'ResizableHandle 默认插槽可放置自定义拖拽图标。', shadcnHeading: 'Handle' },
+      { id: 'RTL', title: 'RTL', description: 'PanelGroup 在 RTL 中翻转逻辑方向。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('resizable', 'resizable-demo', '概览', '水平排列三个面板。'),
+      defineExample('resizable', 'resizable-vertical', '垂直', '垂直排列面板。'),
+      defineExample('resizable', 'resizable-handle', '手柄', '自定义拖拽手柄图标。'),
+      defineExample('resizable', 'resizable-rtl', 'RTL', '从右到左的面板布局。')
+    ],
+    variants: 'ResizablePanelGroup 的 direction 支持 horizontal/vertical；ResizableHandle 显示拖拽区域。',
+    api: [
+      { name: 'ResizablePanelGroup direction', type: '\'horizontal\' | \'vertical\'', defaultValue: '\'horizontal\'', description: '面板排列方向。' },
+      { name: 'ResizablePanelGroup autoSaveId', type: 'string', defaultValue: 'undefined', description: '自动保存面板尺寸的存储键。' },
+      { name: 'ResizablePanel defaultSize', type: 'number', defaultValue: 'undefined', description: '面板初始大小百分比。' },
+      { name: 'ResizablePanel minSize', type: 'number', defaultValue: 'undefined', description: '面板最小百分比。' },
+      { name: 'ResizablePanel maxSize', type: 'number', defaultValue: 'undefined', description: '面板最大百分比。' },
+      { name: 'ResizablePanel collapsible', type: 'boolean', defaultValue: 'false', description: '面板可折叠。' },
+      { name: 'ResizablePanel collapsedSize', type: 'number', defaultValue: 'undefined', description: '折叠后的大小百分比。' },
+      { name: 'ResizableHandle class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到拖拽手柄的调用方类。' }
+    ],
+    accessibility: { description: 'Resizable 通过 PanelGroup 的 role="region" 和 aria-label 提供语义。Handle 使用 role="separator" 和 aria-valuenow，键盘用户可使用方向键调整尺寸。' }
+  },
+  'scroll-area': {
+    importCode: 'import { ScrollArea, ScrollAreaCorner, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from \'moriui\'',
+    resources: componentResources('scroll-area'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'ScrollArea 由 Viewport、Scrollbar、Thumb 和 Corner 组成。', shadcnHeading: 'Composition' },
+      { id: '方向', title: '方向', description: 'orientation 支持 vertical 和 horizontal。', shadcnHeading: 'Orientation' },
+      { id: 'RTL', title: 'RTL', description: '滚动条的左右定位在 RTL 中翻转。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('scroll-area', 'scroll-area-demo', '概览', '长文本垂直滚动。'),
+      defineExample('scroll-area', 'scroll-area-horizontal-demo', '横向', '横向内容滚动。'),
+      defineExample('scroll-area', 'scroll-area-rtl', 'RTL', '从右到左的滚动区域。')
+    ],
+    variants: 'ScrollArea 的 type 支持 auto/scroll/always/hover；orientation 支持 vertical/horizontal。',
+    api: [
+      { name: 'ScrollArea type', type: '\'auto\' | \'always\' | \'scroll\' | \'hover\'', defaultValue: '\'auto\'', description: '滚动条显示模式。' },
+      { name: 'ScrollAreaViewport class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到视口的调用方类。' },
+      { name: 'ScrollAreaScrollbar orientation', type: '\'vertical\' | \'horizontal\'', defaultValue: '\'vertical\'', description: '滚动条方向。' },
+      { name: 'ScrollAreaThumb class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到滚动条滑块的调用方类。' },
+      { name: 'ScrollAreaCorner class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到滚动条角落的调用方类。' }
+    ],
+    accessibility: { description: 'ScrollArea 视图应包含内容本身的语义，滚动条不干扰 Tab 顺序。内容在滚动时始终可读。' }
+  },
+  'sonner': {
+    importCode: 'import { Sonner, toast } from \'moriui\'',
+    resources: componentResources('sonner'),
+    states: [
+      { id: '使用方式', title: '使用方式', description: '安装 Sonner 到应用根节点，通过 toast API 触发通知。', shadcnHeading: 'Usage' },
+      { id: '类型', title: '类型', description: 'toast API 支持 default/success/error/info/warning 类型。', shadcnHeading: 'Types' },
+      { id: '位置', title: '位置', description: 'position 控制通知的出现位置（如 top-right、bottom-center）。', shadcnHeading: 'Position' },
+      { id: 'RTL', title: 'RTL', description: '通知内容沿 dir 排列。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('sonner', 'sonner-demo', '概览', '触发 toast 通知。'),
+      defineExample('sonner', 'sonner-types', '类型', '不同风格的通知。'),
+      defineExample('sonner', 'sonner-description', '描述', '带描述和操作的通知。'),
+      defineExample('sonner', 'sonner-position', '位置', '通知出现位置。')
+    ],
+    variants: 'Sonner 的 position 支持 top-left/top-center/top-right/bottom-left/bottom-center/bottom-right。',
+    api: [
+      { name: 'Sonner position', type: 'SonnerPosition', defaultValue: '\'bottom-right\'', description: '通知出现位置。' },
+      { name: 'Sonner duration', type: 'number', defaultValue: '4000', description: '通知显示的毫秒数。' },
+      { name: 'Sonner closeButton', type: 'boolean', defaultValue: 'false', description: '是否显示关闭按钮。' },
+      { name: 'Sonner richColors', type: 'boolean', defaultValue: 'false', description: '是否使用丰富的颜色方案。' },
+      { name: 'toast()', type: '(message: string) => string', defaultValue: '—', description: '触发默认通知。' },
+      { name: 'toast.success()', type: '(message: string) => string', defaultValue: '—', description: '触发成功通知。' },
+      { name: 'toast.error()', type: '(message: string) => string', defaultValue: '—', description: '触发错误通知。' },
+      { name: 'toast.info()', type: '(message: string) => string', defaultValue: '—', description: '触发信息通知。' },
+      { name: 'toast.warning()', type: '(message: string) => string', defaultValue: '—', description: '触发警告通知。' }
+    ],
+    accessibility: { description: 'Sonner 使用 role="status" 和 aria-live="polite" 确保通知被屏幕阅读器朗读。可交互的通知应包含操作按钮。' }
+  },
+  'spinner': {
+    importCode: 'import { Spinner } from \'moriui\'',
+    resources: componentResources('spinner'),
+    states: [
+      { id: '尺寸', title: '尺寸', description: 'size 支持 xs、sm、default、lg，通过 CSS 变量控制旋转图标的大小。', shadcnHeading: 'Size' },
+      { id: 'RTL', title: 'RTL', description: 'Spinner 的旋转方向与书写方向无关。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('spinner', 'spinner-demo', '概览', '基础旋转加载图标。'),
+      defineExample('spinner', 'spinner-size', '尺寸', '四种不同尺寸。'),
+      defineExample('spinner', 'spinner-button', '按钮', '按钮内的加载状态。'),
+      defineExample('spinner', 'spinner-badge', '徽记', '徽记内的加载状态。'),
+      defineExample('spinner', 'spinner-input-group', '输入组合', '输入框旁的加载状态。'),
+      defineExample('spinner', 'spinner-rtl', 'RTL', '旋转图标在 RTL 页面中。')
+    ],
+    variants: 'Spinner 的 size 支持 xs、sm、default、lg。',
+    api: [
+      { name: 'Spinner size', type: '\'xs\' | \'sm\' | \'default\' | \'lg\'', defaultValue: '\'default\'', description: '旋转图标的尺寸。' },
+      { name: 'Spinner class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到旋转图标容器的调用方类。' }
+    ],
+    accessibility: { description: 'Spinner 默认输出 role="status" 和 aria-label="Loading"。在按钮等具有自身语义的容器中使用时，应确保容器提供适当的加载状态描述。' }
+  },
+  'table': {
+    importCode: 'import { Table } from \'moriui\'',
+    resources: componentResources('table'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Table 基于 TanStack Table 构建，接收 data 和 columns 作为输入，内置排序、筛选、分页和行选择能力。', shadcnHeading: 'Composition' },
+      { id: '尺寸', title: '尺寸', description: 'size 支持 default 和 sm，控制行的密度。', shadcnHeading: 'Size' },
+      { id: '行选择', title: '行选择', description: 'selectable 启用行选择复选框。', shadcnHeading: 'Row Selection' },
+      { id: 'RTL', title: 'RTL', description: '表格内容沿 dir 排列。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('table', 'table-demo', '概览', '综合数据表格。'),
+      defineExample('table', 'table-actions', '操作', '表格行内操作。'),
+      defineExample('table', 'table-footer', '底部', '表格底部分页。'),
+      defineExample('table', 'table-rtl', 'RTL', '从右到左的表格布局。')
+    ],
+    variants: 'Table 的 size 支持 default 与 sm；支持排序、列筛选、全局搜索、分页和行选择。',
+    api: [
+      { name: 'Table data', type: 'TData[]', defaultValue: '—', description: '必填，表格数据数组。' },
+      { name: 'Table columns', type: 'ColumnDef<TData>[]', defaultValue: '—', description: '必填，列定义数组。' },
+      { name: 'Table size', type: '\'default\' | \'sm\'', defaultValue: '\'default\'', description: '表格行密度。' },
+      { name: 'Table selectable', type: 'boolean', defaultValue: 'false', description: '是否显示行选择复选框。' },
+      { name: 'Table pageSizeOptions', type: 'number[]', defaultValue: 'undefined', description: '可选的每页条数选项。' },
+      { name: 'Table searchPlaceholder', type: 'string', defaultValue: 'undefined', description: '全局搜索占位提示。' },
+      { name: 'Table emptyText', type: 'string', defaultValue: 'undefined', description: '空数据显示文本。' }
+    ],
+    accessibility: { description: 'Table 输出原生 table 元素，配合 TanStack Table 的排序、选择和分页 ARIA。表头使用 scope="col"，排序按钮有 aria-sort。' }
+  }
 }
 
 const controlSlugs = [
@@ -1050,11 +1895,23 @@ const controlSlugs = [
   'toggle',
   'toggle-group'
 ] as const
-const publishedSlugs = new Set([...baseSlugs, ...controlSlugs, 'dialog'])
+const publishedSlugs = new Set([
+  ...baseSlugs,
+  ...controlSlugs,
+  'alert', 'alert-dialog', 'command', 'context-menu', 'dialog', 'drawer',
+  'dropdown-menu', 'hover-card', 'sheet', 'tooltip',
+  'accordion', 'breadcrumb', 'calendar', 'collapsible',
+  'date-picker', 'date-range-picker', 'menubar', 'navigation-menu',
+  'pagination', 'tabs',
+  'carousel', 'chart', 'message', 'message-scroller', 'progress',
+  'resizable', 'scroll-area', 'sonner', 'spinner', 'table'
+])
 const publishedPreviews: Partial<Record<string, Component>> = {
   ...Object.fromEntries(baseSlugs.map(slug => [slug, defineCatalog(slug)])),
   ...Object.fromEntries(controlSlugs.map(slug => [slug, defineCatalog(slug)])),
-  dialog: defineCatalog('dialog')
+  ...Object.fromEntries(['alert', 'alert-dialog', 'command', 'context-menu', 'dialog', 'drawer', 'dropdown-menu', 'hover-card', 'sheet', 'tooltip'].map(slug => [slug, defineCatalog(slug)])),
+  ...Object.fromEntries(['accordion', 'breadcrumb', 'calendar', 'collapsible', 'date-picker', 'date-range-picker', 'menubar', 'navigation-menu', 'pagination', 'tabs'].map(slug => [slug, defineCatalog(slug)])),
+  ...Object.fromEntries(['carousel', 'chart', 'message', 'message-scroller', 'progress', 'resizable', 'scroll-area', 'sonner', 'spinner', 'table'].map(slug => [slug, defineCatalog(slug)]))
 }
 
 function getComponentName(slug: string) {

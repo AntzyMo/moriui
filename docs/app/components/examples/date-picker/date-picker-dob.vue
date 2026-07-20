@@ -1,0 +1,54 @@
+<script setup lang="ts">
+import { DatePicker, DatePickerCalendar, DatePickerCell, DatePickerCellTrigger, DatePickerContent, DatePickerField, DatePickerGrid, DatePickerGridBody, DatePickerGridHead, DatePickerGridRow, DatePickerHeadCell, DatePickerHeader, DatePickerHeading, DatePickerNext, DatePickerPrev, DatePickerTrigger } from 'moriui'
+import { Label } from 'moriui'
+import { ref } from 'vue'
+
+const open = ref(false)
+const date = ref<Date>()
+</script>
+<template>
+  <div class="mx-auto w-44">
+    <Label for="date" class="mb-2 block text-sm font-medium">出生日期</Label>
+    <DatePicker v-model="date" v-model:open="open" close-on-select>
+      <DatePickerTrigger
+        id="date"
+        class="flex w-full items-center justify-start gap-2 rounded-lg border border-input bg-background px-3 py-2 text-left text-sm font-normal shadow-sm hover:bg-accent hover:text-accent-foreground"
+      >
+        <span :class="date ? 'text-foreground' : 'text-muted-foreground'">
+          {{ date ? date.toLocaleDateString('zh-CN') : '选择日期' }}
+        </span>
+      </DatePickerTrigger>
+      <DatePickerContent class="w-auto rounded-lg border bg-popover p-0 shadow-md" align="start">
+        <DatePickerCalendar v-slot="{ grid, weekDays }">
+          <DatePickerHeader class="flex items-center justify-between px-3 pt-3">
+            <DatePickerPrev />
+            <DatePickerHeading class="text-sm font-medium" />
+            <DatePickerNext />
+          </DatePickerHeader>
+          <div class="p-3">
+            <DatePickerGrid v-for="month in grid" :key="month.value.toString()">
+              <DatePickerGridHead>
+                <DatePickerGridRow>
+                  <DatePickerHeadCell v-for="day in weekDays" :key="day" class="h-8 w-8 text-center text-xs text-muted-foreground">
+                    {{ day }}
+                  </DatePickerHeadCell>
+                </DatePickerGridRow>
+              </DatePickerGridHead>
+              <DatePickerGridBody>
+                <DatePickerGridRow v-for="(weekDates, index) in month.rows" :key="index">
+                  <DatePickerCell v-for="weekDate in weekDates" :key="weekDate.toString()" :date="weekDate" class="h-8 w-8 p-0">
+                    <DatePickerCellTrigger
+                      :day="weekDate"
+                      :month="month.value"
+                      class="flex h-8 w-8 items-center justify-center rounded-md text-sm hover:bg-accent hover:text-accent-foreground data-selected:bg-primary data-selected:text-primary-foreground data-today:bg-accent data-today:text-accent-foreground data-outside-view:text-muted-foreground/50"
+                    />
+                  </DatePickerCell>
+                </DatePickerGridRow>
+              </DatePickerGridBody>
+            </DatePickerGrid>
+          </div>
+        </DatePickerCalendar>
+      </DatePickerContent>
+    </DatePicker>
+  </div>
+</template>
