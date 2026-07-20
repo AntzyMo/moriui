@@ -1,0 +1,42 @@
+name: 发布
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: '24'
+          cache: true
+
+      - name: 安装依赖
+        run: vp install --frozen-lockfile
+
+      - name: 构建
+        run: vp run moriui#build
+
+      - name: 创建 GitHub Release
+        run: pnpm dlx changelogithub@14
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 升级 npm 以支持可信发布
+        run: npm install -g npm@^11
+
+      - name: 发布到 npm
+        working-directory: packages/core
+        run: npm publish --access public

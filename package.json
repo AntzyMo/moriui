@@ -11,10 +11,12 @@
     "play": "vp run playground#dev",
     "build": "vp run moriui#build",
     "docs": "vp run docs#dev",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "release": "bumpp package.json packages/core/package.json --all"
   },
   "devDependencies": {
     "@antzy/eslint-config": "catalog:",
+    "bumpp": "catalog:",
     "eslint": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
