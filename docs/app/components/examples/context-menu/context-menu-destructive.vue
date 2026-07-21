@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger
-} from 'moriui'
-import { Trash2 } from '@lucide/vue'
+  import { Trash2 } from '@lucide/vue'
+  import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuSeparator,
+    ContextMenuTrigger
+  } from 'moriui'
 </script>
 
 <template>

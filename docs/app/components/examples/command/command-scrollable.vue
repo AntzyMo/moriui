@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from 'moriui'
+  import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList
+  } from 'moriui'
 
-const items = Array.from({ length: 30 }, (_, i) => `命令 ${i + 1}`)
+  const items = Array.from({ length: 30 }, (_, i) => `命令 ${i + 1}`)
 </script>
+
 <template>
   <Command class="rounded-lg border shadow-sm w-full max-w-sm">
     <CommandInput placeholder="搜索命令…" />

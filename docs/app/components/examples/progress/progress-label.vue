@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Progress, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue } from 'moriui'
+  import { Progress, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue } from 'moriui'
 </script>
 
 <template>

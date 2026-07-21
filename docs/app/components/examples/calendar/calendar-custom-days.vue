@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import type { DateValue } from 'reka-ui'
-import { Calendar } from 'moriui'
-import { CalendarDate } from '@internationalized/date'
+  import type { DateValue } from 'reka-ui'
 
-const start = new CalendarDate(2026, 12, 8)
-const range: DateValue[] = []
-for (let i = 0; i < 11; i++) {
-  range.push(start.add({ days: i }))
-}
-const dates = shallowRef<DateValue[]>(range)
+  import { shallowRef } from 'vue'
+  import { Calendar } from 'moriui'
+  import { CalendarDate } from '@internationalized/date'
+
+  const start = new CalendarDate(2026, 12, 8)
+  const range: DateValue[] = []
+  for (let i = 0; i < 11; i++) {
+    range.push(start.add({ days: i }))
+  }
+  const dates = shallowRef<DateValue[]>(range)
 </script>
 
 <template>

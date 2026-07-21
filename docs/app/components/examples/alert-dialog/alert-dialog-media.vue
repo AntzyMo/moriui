@@ -1,11 +1,26 @@
 <script setup lang="ts">
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger, Button } from 'moriui'
-import { AlertTriangle } from '@lucide/vue'
+  import { AlertTriangle } from '@lucide/vue'
+  import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogMedia,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    Button
+  } from 'moriui'
 </script>
+
 <template>
   <AlertDialog>
     <AlertDialogTrigger as-child>
-      <Button variant="outline">删除账号</Button>
+      <Button variant="outline">
+        删除账号
+      </Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>

@@ -28,12 +28,20 @@
     </div>
     <CollapsibleContent class="flex flex-col gap-2">
       <div class="rounded-md border px-4 py-2 text-sm">
-        <p class="font-medium">收货地址</p>
-        <p class="text-muted-foreground">北京市朝阳区 100 号</p>
+        <p class="font-medium">
+          收货地址
+        </p>
+        <p class="text-muted-foreground">
+          北京市朝阳区 100 号
+        </p>
       </div>
       <div class="rounded-md border px-4 py-2 text-sm">
-        <p class="font-medium">商品</p>
-        <p class="text-muted-foreground">2x 降噪耳机</p>
+        <p class="font-medium">
+          商品
+        </p>
+        <p class="text-muted-foreground">
+          2x 降噪耳机
+        </p>
       </div>
     </CollapsibleContent>
   </Collapsible>

@@ -1,13 +1,25 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from 'moriui'
+  import { shallowRef } from 'vue'
+  import {
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+  } from 'moriui'
 
-const density = shallowRef('comfortable')
+  const density = shallowRef('comfortable')
 </script>
+
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline">界面密度</Button>
+      <Button variant="outline">
+        界面密度
+      </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-48">
       <DropdownMenuLabel>密度设置</DropdownMenuLabel>

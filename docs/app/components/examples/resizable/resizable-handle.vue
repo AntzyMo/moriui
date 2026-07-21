@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { GripVertical } from '@lucide/vue'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'moriui'
+  import { GripVertical } from '@lucide/vue'
+  import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'moriui'
 </script>
+
 <template>
   <ResizablePanelGroup
     direction="horizontal"

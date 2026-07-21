@@ -1,6 +1,15 @@
 <script setup lang="ts">
-import { DirectionProvider, NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from 'moriui'
+  import {
+    DirectionProvider,
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <NavigationMenu>

@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import { Card, CardContent, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from 'moriui'
+  import {
+    Card,
+    CardContent,
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious
+  } from 'moriui'
 </script>
+
 <template>
   <div class="flex w-full max-w-lg flex-col gap-8">
     <div>
-      <h3 class="mb-3 text-sm font-medium text-muted-foreground">每项 50% 宽度</h3>
+      <h3 class="mb-3 text-sm font-medium text-muted-foreground">
+        每项 50% 宽度
+      </h3>
       <Carousel :opts="{ align: 'start' }">
         <CarouselContent>
           <CarouselItem v-for="index in 6" :key="index" class="basis-1/2">
@@ -22,7 +33,9 @@ import { Card, CardContent, Carousel, CarouselContent, CarouselItem, CarouselNex
       </Carousel>
     </div>
     <div>
-      <h3 class="mb-3 text-sm font-medium text-muted-foreground">每项 33% 宽度</h3>
+      <h3 class="mb-3 text-sm font-medium text-muted-foreground">
+        每项 33% 宽度
+      </h3>
       <Carousel :opts="{ align: 'start' }">
         <CarouselContent>
           <CarouselItem v-for="index in 6" :key="index" class="basis-1/3">

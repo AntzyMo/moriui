@@ -1,28 +1,61 @@
 <script setup lang="ts">
-import { Calendar } from '@lucide/vue'
-import { DatePicker, DatePickerCalendar, DatePickerCell, DatePickerCellTrigger, DatePickerContent, DatePickerGrid, DatePickerGridBody, DatePickerGridHead, DatePickerGridRow, DatePickerHeadCell, DatePickerHeader, DatePickerHeading, DatePickerNext, DatePickerPrev, DatePickerTrigger } from 'moriui'
-import { Label } from 'moriui'
-import { ref } from 'vue'
+  import { ref } from 'vue'
+  import { Calendar } from '@lucide/vue'
+  import { CalendarDate } from '@internationalized/date'
+  import {
+    DatePicker,
+    DatePickerCalendar,
+    DatePickerCell,
+    DatePickerCellTrigger,
+    DatePickerContent,
+    DatePickerGrid,
+    DatePickerGridBody,
+    DatePickerGridHead,
+    DatePickerGridRow,
+    DatePickerHeadCell,
+    DatePickerHeader,
+    DatePickerHeading,
+    DatePickerNext,
+    DatePickerPrev,
+    DatePickerTrigger,
+    Label
 
-function formatDate(date: Date | undefined): string {
-  if (!date) return ''
-  return date.toLocaleDateString('zh-CN', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  })
-}
+  } from 'moriui'
 
-function isValidDate(date: Date | undefined): boolean {
-  if (!date) return false
-  return !isNaN(date.getTime())
-}
+  function toNativeDate(date: unknown): Date | undefined {
+    if (!date)
+      return undefined
+    if (date instanceof Date)
+      return date
+    if (date instanceof CalendarDate)
+      return date.toDate('UTC')
+    return undefined
+  }
 
-const open = ref(false)
-const date = ref<Date | undefined>(new Date('2025-06-01'))
-const placeholder = ref<Date | undefined>(date.value)
-const value = ref(formatDate(date.value))
+  function formatDate(date: unknown): string {
+    const native = toNativeDate(date)
+    if (!native)
+      return ''
+    return native.toLocaleDateString('zh-CN', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })
+  }
+
+  function isValidDate(date: unknown): boolean {
+    const native = toNativeDate(date)
+    if (!native)
+      return false
+    return !isNaN(native.getTime())
+  }
+
+  const open = ref(false)
+  const date = ref<CalendarDate>(new CalendarDate(2025, 6, 1))
+  const placeholder = ref<Date | undefined>(new Date('2025-06-01'))
+  const value = ref(formatDate(date.value))
 </script>
+
 <template>
   <div class="mx-auto w-48">
     <Label for="date-required" class="mb-2 block text-sm font-medium">订阅日期</Label>
@@ -37,20 +70,30 @@ const value = ref(formatDate(date.value))
           const parsed = new Date(target.value)
           value = target.value
           if (isValidDate(parsed)) {
-            date = parsed
+            date = new CalendarDate(parsed.getFullYear(), parsed.getMonth() + 1, parsed.getDate())
             placeholder = parsed
           }
         }"
         @keydown.arrow-down.prevent="open = true"
-      />
-      <DatePicker v-model="date" v-model:open="open" :placeholder="placeholder" @update:placeholder="placeholder = $event">
+      >
+      <DatePicker
+        v-model="date"
+        v-model:open="open"
+        :placeholder="placeholder"
+        @update:placeholder="placeholder = $event"
+      >
         <DatePickerTrigger
           class="mr-1 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground"
           aria-label="选择日期"
         >
           <Calendar class="size-4" />
         </DatePickerTrigger>
-        <DatePickerContent class="w-auto rounded-lg border bg-popover p-0 shadow-md" align="end" :align-offset="-8" :side-offset="10">
+        <DatePickerContent
+          class="w-auto rounded-lg border bg-popover p-0 shadow-md"
+          align="end"
+          :align-offset="-8"
+          :side-offset="10"
+        >
           <DatePickerCalendar v-slot="{ grid, weekDays }">
             <DatePickerHeader class="flex items-center justify-between px-3 pt-3">
               <DatePickerPrev />
@@ -68,7 +111,12 @@ const value = ref(formatDate(date.value))
                 </DatePickerGridHead>
                 <DatePickerGridBody>
                   <DatePickerGridRow v-for="(weekDates, index) in monthItem.rows" :key="index">
-                    <DatePickerCell v-for="weekDate in weekDates" :key="weekDate.toString()" :date="weekDate" class="h-8 w-8 p-0">
+                    <DatePickerCell
+                      v-for="weekDate in weekDates"
+                      :key="weekDate.toString()"
+                      :date="weekDate"
+                      class="h-8 w-8 p-0"
+                    >
                       <DatePickerCellTrigger
                         :day="weekDate"
                         :month="monthItem.value"

@@ -1,7 +1,24 @@
 <script setup lang="ts">
-import { File, Folder, HelpCircle, Save, Settings, Trash2 } from '@lucide/vue'
-import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from 'moriui'
+  import {
+    File,
+    Folder,
+    HelpCircle,
+    Save,
+    Settings,
+    Trash2
+  } from '@lucide/vue'
+  import {
+    Menubar,
+    MenubarContent,
+    MenubarGroup,
+    MenubarItem,
+    MenubarMenu,
+    MenubarSeparator,
+    MenubarShortcut,
+    MenubarTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <Menubar class="w-72">
     <MenubarMenu>

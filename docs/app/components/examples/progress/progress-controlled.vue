@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Progress, ProgressIndicator, ProgressTrack } from 'moriui'
+  import { ref } from 'vue'
+  import { Progress, ProgressIndicator, ProgressTrack } from 'moriui'
 
-const value = ref(50)
+  const value = ref(50)
 </script>
 
 <template>
@@ -15,13 +15,13 @@ const value = ref(50)
     <div class="flex items-center gap-3">
       <span class="text-sm">0%</span>
       <input
-        type="range"
         v-model.number="value"
+        type="range"
         min="0"
         max="100"
         step="1"
         class="w-full"
-      />
+      >
       <span class="text-sm">100%</span>
     </div>
   </div>

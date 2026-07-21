@@ -1,11 +1,23 @@
 <script setup lang="ts">
-import { Button, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from 'moriui'
+  import {
+    Button,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+  } from 'moriui'
 </script>
 
 <template>
   <Drawer>
     <DrawerTrigger as-child>
-      <Button variant="outline">打开嵌套抽屉</Button>
+      <Button variant="outline">
+        打开嵌套抽屉
+      </Button>
     </DrawerTrigger>
     <DrawerContent show-handle>
       <DrawerHeader>
@@ -24,7 +36,9 @@ import { Button, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFo
             </DrawerHeader>
             <DrawerFooter>
               <DrawerClose as-child>
-                <Button variant="outline">关闭</Button>
+                <Button variant="outline">
+                  关闭
+                </Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>

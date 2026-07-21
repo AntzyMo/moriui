@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { Card, CardContent, Carousel, CarouselAutoplay, CarouselContent, CarouselItem } from 'moriui'
+  import {
+    Card,
+    CardContent,
+    Carousel,
+    CarouselAutoplay,
+    CarouselContent,
+    CarouselItem
+  } from 'moriui'
 </script>
+
 <template>
   <Carousel class="w-full max-w-xs" autoplay>
     <CarouselContent>

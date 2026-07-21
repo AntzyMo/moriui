@@ -1,6 +1,15 @@
 <script setup lang="ts">
-import { Card, CardContent, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from 'moriui'
+  import {
+    Card,
+    CardContent,
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious
+  } from 'moriui'
 </script>
+
 <template>
   <Carousel class="w-full max-w-xs" style="--carousel-gap: 2rem">
     <CarouselContent>

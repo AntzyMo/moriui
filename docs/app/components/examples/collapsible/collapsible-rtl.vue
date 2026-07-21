@@ -29,12 +29,20 @@
       </div>
       <CollapsibleContent class="flex flex-col gap-2">
         <div class="rounded-md border px-4 py-2 text-sm">
-          <p class="font-medium">عنوان الشحن</p>
-          <p class="text-muted-foreground">شارع الاستقلال، الرياض</p>
+          <p class="font-medium">
+            عنوان الشحن
+          </p>
+          <p class="text-muted-foreground">
+            شارع الاستقلال، الرياض
+          </p>
         </div>
         <div class="rounded-md border px-4 py-2 text-sm">
-          <p class="font-medium">المنتجات</p>
-          <p class="text-muted-foreground">2x سماعات رأس</p>
+          <p class="font-medium">
+            المنتجات
+          </p>
+          <p class="text-muted-foreground">
+            2x سماعات رأس
+          </p>
         </div>
       </CollapsibleContent>
     </Collapsible>

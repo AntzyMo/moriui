@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Pagination, PaginationList, PaginationItem } from 'moriui'
+  import { Pagination, PaginationItem, PaginationList } from 'moriui'
 </script>
+
 <template>
   <Pagination :total="5" :default-page="2">
     <PaginationList v-slot="{ items }">

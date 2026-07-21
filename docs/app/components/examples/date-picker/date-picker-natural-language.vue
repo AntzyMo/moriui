@@ -1,23 +1,58 @@
 <script setup lang="ts">
-import { Calendar } from '@lucide/vue'
-import { parseDate } from 'chrono-node'
-import { DatePicker, DatePickerCalendar, DatePickerCell, DatePickerCellTrigger, DatePickerContent, DatePickerGrid, DatePickerGridBody, DatePickerGridHead, DatePickerGridRow, DatePickerHeadCell, DatePickerHeader, DatePickerHeading, DatePickerNext, DatePickerPrev, DatePickerTrigger } from 'moriui'
-import { Label } from 'moriui'
-import { ref } from 'vue'
+  import { ref } from 'vue'
+  import { Calendar } from '@lucide/vue'
+  import { parseDate } from 'chrono-node'
+  import { CalendarDate } from '@internationalized/date'
+  import {
+    DatePicker,
+    DatePickerCalendar,
+    DatePickerCell,
+    DatePickerCellTrigger,
+    DatePickerContent,
+    DatePickerGrid,
+    DatePickerGridBody,
+    DatePickerGridHead,
+    DatePickerGridRow,
+    DatePickerHeadCell,
+    DatePickerHeader,
+    DatePickerHeading,
+    DatePickerNext,
+    DatePickerPrev,
+    DatePickerTrigger,
+    Label
 
-function formatDate(date: Date | undefined): string {
-  if (!date) return ''
-  return date.toLocaleDateString('zh-CN', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  })
-}
+  } from 'moriui'
 
-const open = ref(false)
-const value = ref('后天')
-const date = ref<Date | undefined>(parseDate(value.value) || undefined)
+  function toNativeDate(date: unknown): Date | undefined {
+    if (!date)
+      return undefined
+    if (date instanceof Date)
+      return date
+    if (date instanceof CalendarDate)
+      return date.toDate('UTC')
+    return undefined
+  }
+
+  function formatDate(date: unknown): string {
+    const native = toNativeDate(date)
+    if (!native)
+      return ''
+    return native.toLocaleDateString('zh-CN', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })
+  }
+
+  const open = ref(false)
+  const value = ref('后天')
+  const now = new Date()
+  const initialDate = parseDate(value.value)
+  const date = ref<CalendarDate | undefined>(
+    initialDate ? new CalendarDate(initialDate.getFullYear(), initialDate.getMonth() + 1, initialDate.getDate()) : undefined
+  )
 </script>
+
 <template>
   <div class="mx-auto max-w-xs">
     <Label for="date-optional" class="mb-2 block text-sm font-medium">日程日期</Label>
@@ -31,10 +66,10 @@ const date = ref<Date | undefined>(parseDate(value.value) || undefined)
           const target = e.target as HTMLInputElement
           value = target.value
           const parsed = parseDate(target.value)
-          if (parsed) date = parsed
+          if (parsed) date = new CalendarDate(parsed.getFullYear(), parsed.getMonth() + 1, parsed.getDate())
         }"
         @keydown.arrow-down.prevent="open = true"
-      />
+      >
       <DatePicker v-model="date" v-model:open="open">
         <DatePickerTrigger
           class="mr-1 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -60,7 +95,12 @@ const date = ref<Date | undefined>(parseDate(value.value) || undefined)
                 </DatePickerGridHead>
                 <DatePickerGridBody>
                   <DatePickerGridRow v-for="(weekDates, index) in month.rows" :key="index">
-                    <DatePickerCell v-for="weekDate in weekDates" :key="weekDate.toString()" :date="weekDate" class="h-8 w-8 p-0">
+                    <DatePickerCell
+                      v-for="weekDate in weekDates"
+                      :key="weekDate.toString()"
+                      :date="weekDate"
+                      class="h-8 w-8 p-0"
+                    >
                       <DatePickerCellTrigger
                         :day="weekDate"
                         :month="month.value"

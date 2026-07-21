@@ -1,11 +1,22 @@
 <script setup lang="ts">
-import { Trash2, AlertTriangle, Ban, UserX } from '@lucide/vue'
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from 'moriui'
+  import { AlertTriangle, Ban, Trash2, UserX } from '@lucide/vue'
+  import {
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline">危险操作</Button>
+      <Button variant="outline">
+        危险操作
+      </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-56">
       <DropdownMenuGroup>

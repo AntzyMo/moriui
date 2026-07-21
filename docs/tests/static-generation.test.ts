@@ -8,7 +8,7 @@ describe('static generation configuration', () => {
       readFile(new URL('../../vercel.json', import.meta.url), 'utf8')
     ])
     const rootScripts = (JSON.parse(rootPackageJson) as { scripts: Record<string, string> }).scripts
-    const vercel = JSON.parse(vercelConfig) as { buildCommand?: string; outputDirectory?: string }
+    const vercel = JSON.parse(vercelConfig) as { buildCommand?: string, outputDirectory?: string }
 
     expect(rootScripts['build:docs']).toBe('pnpm --dir packages/core run build && pnpm --dir docs run generate')
     expect(vercel.buildCommand).toBe('pnpm run build:docs')

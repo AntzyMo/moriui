@@ -1,16 +1,29 @@
 <script setup lang="ts">
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, DirectionProvider } from 'moriui'
+  import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+    DirectionProvider
+  } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <Breadcrumb dir="rtl">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">الرئيسية</BreadcrumbLink>
+          <BreadcrumbLink href="/">
+            الرئيسية
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/docs">التوثيق</BreadcrumbLink>
+          <BreadcrumbLink href="/docs">
+            التوثيق
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>

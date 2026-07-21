@@ -1,8 +1,9 @@
+import { defineConfig, lazyPlugins } from 'vite-plus'
+import { playwright } from 'vite-plus/test/browser-playwright'
+
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import rolldownVue from 'unplugin-vue/rolldown'
-import { defineConfig, lazyPlugins } from 'vite-plus'
-import { playwright } from 'vite-plus/test/browser-playwright'
 
 export default defineConfig({
   plugins: lazyPlugins(() => [tailwindcss(), vue()]),

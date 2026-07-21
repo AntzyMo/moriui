@@ -1,26 +1,34 @@
 <script setup lang="ts">
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  DirectionProvider,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from 'moriui'
+  import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+    DirectionProvider,
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger
+  } from 'moriui'
 </script>
 
 <template>
   <DirectionProvider dir="rtl">
     <Tabs default-value="overview" class="w-full max-w-sm">
       <TabsList>
-        <TabsTrigger value="overview">نظرة عامة</TabsTrigger>
-        <TabsTrigger value="analytics">تحليلات</TabsTrigger>
-        <TabsTrigger value="reports">تقارير</TabsTrigger>
-        <TabsTrigger value="settings">إعدادات</TabsTrigger>
+        <TabsTrigger value="overview">
+          نظرة عامة
+        </TabsTrigger>
+        <TabsTrigger value="analytics">
+          تحليلات
+        </TabsTrigger>
+        <TabsTrigger value="reports">
+          تقارير
+        </TabsTrigger>
+        <TabsTrigger value="settings">
+          إعدادات
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="overview">
         <Card>

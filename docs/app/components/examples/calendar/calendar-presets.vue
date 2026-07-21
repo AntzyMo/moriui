@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import type { DateValue } from 'reka-ui'
-import { Calendar } from 'moriui'
-import { CalendarDate, today, getLocalTimeZone } from '@internationalized/date'
+  import type { DateValue } from 'reka-ui'
 
-const date = shallowRef<DateValue>(new CalendarDate(2026, 2, 12))
-const placeholder = shallowRef<DateValue>(new CalendarDate(2026, 2, 1))
+  import { shallowRef } from 'vue'
+  import { Calendar } from 'moriui'
+  import { CalendarDate, getLocalTimeZone, today } from '@internationalized/date'
 
-const presets = [
-  { label: '今天', days: 0 },
-  { label: '明天', days: 1 },
-  { label: '3 天后', days: 3 },
-  { label: '一周后', days: 7 },
-  { label: '两周后', days: 14 },
-]
+  const date = shallowRef<DateValue>(new CalendarDate(2026, 2, 12))
+  const placeholder = shallowRef<DateValue>(new CalendarDate(2026, 2, 1))
 
-function selectPreset(days: number) {
-  const d = today(getLocalTimeZone()).add({ days })
-  date.value = d
-  placeholder.value = d.set({ day: 1 })
-}
+  const presets = [
+    { label: '今天', days: 0 },
+    { label: '明天', days: 1 },
+    { label: '3 天后', days: 3 },
+    { label: '一周后', days: 7 },
+    { label: '两周后', days: 14 }
+  ]
+
+  function selectPreset(days: number) {
+    const d = today(getLocalTimeZone()).add({ days })
+    date.value = d
+    placeholder.value = d.set({ day: 1 })
+  }
 </script>
 
 <template>

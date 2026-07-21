@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { Button, Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from 'moriui'
+  import {
+    Menubar,
+    MenubarContent,
+    MenubarItem,
+    MenubarMenu,
+    MenubarTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <Menubar class="w-72">
     <MenubarMenu>

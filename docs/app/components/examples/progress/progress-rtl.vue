@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { DirectionProvider, Progress, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue } from 'moriui'
+  import {
+    DirectionProvider,
+    Progress,
+    ProgressIndicator,
+    ProgressLabel,
+    ProgressTrack,
+    ProgressValue
+  } from 'moriui'
 </script>
 
 <template>

@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { CalendarDate } from '@internationalized/date'
-import {
-  DateRangePicker,
-  DateRangePickerCalendar,
-  DateRangePickerCell,
-  DateRangePickerCellTrigger,
-  DateRangePickerContent,
-  DateRangePickerField,
-  DateRangePickerGrid,
-  DateRangePickerGridBody,
-  DateRangePickerGridHead,
-  DateRangePickerGridRow,
-  DateRangePickerHeadCell,
-  DateRangePickerHeader,
-  DateRangePickerHeading,
-  DateRangePickerInput,
-  DateRangePickerNext,
-  DateRangePickerPrev,
-  DateRangePickerTrigger,
-  DirectionProvider,
-} from 'moriui'
+  import { shallowRef } from 'vue'
+  import { CalendarDate } from '@internationalized/date'
+  import {
+    DateRangePicker,
+    DateRangePickerCalendar,
+    DateRangePickerCell,
+    DateRangePickerCellTrigger,
+    DateRangePickerContent,
+    DateRangePickerField,
+    DateRangePickerGrid,
+    DateRangePickerGridBody,
+    DateRangePickerGridHead,
+    DateRangePickerGridRow,
+    DateRangePickerHeadCell,
+    DateRangePickerHeader,
+    DateRangePickerHeading,
+    DateRangePickerInput,
+    DateRangePickerNext,
+    DateRangePickerPrev,
+    DateRangePickerTrigger,
+    DirectionProvider
+  } from 'moriui'
 
-const value = shallowRef({
-  start: new CalendarDate(2024, 1, 20),
-  end: new CalendarDate(2024, 2, 10),
-})
+  const value = shallowRef({
+    start: new CalendarDate(2024, 1, 20),
+    end: new CalendarDate(2024, 2, 10)
+  })
 </script>
 
 <template>

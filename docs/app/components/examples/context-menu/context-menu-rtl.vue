@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuItemIndicator,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-  DirectionProvider
-} from 'moriui'
-import { Check } from '@lucide/vue'
+  import { ref } from 'vue'
+  import { Check } from '@lucide/vue'
+  import {
+    ContextMenu,
+    ContextMenuCheckboxItem,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuItemIndicator,
+    ContextMenuSeparator,
+    ContextMenuShortcut,
+    ContextMenuTrigger,
+    DirectionProvider
+  } from 'moriui'
 
-const wrap = ref(true)
+  const wrap = ref(true)
 </script>
 
 <template>

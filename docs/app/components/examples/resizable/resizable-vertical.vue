@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'moriui'
+  import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'moriui'
 </script>
+
 <template>
   <ResizablePanelGroup
     direction="vertical"

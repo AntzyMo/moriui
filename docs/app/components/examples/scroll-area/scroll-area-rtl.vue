@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ScrollArea, DirectionProvider } from 'moriui'
+  import { DirectionProvider, ScrollArea } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <ScrollArea class="h-56 w-64 rounded-md border">
       <div class="p-4">
-        <h4 class="mb-4 text-sm leading-none font-medium">اتفاقية خدمة المستخدم</h4>
+        <h4 class="mb-4 text-sm leading-none font-medium">
+          اتفاقية خدمة المستخدم
+        </h4>
         <p class="mb-3 text-sm leading-relaxed">
           مرحباً بك في خدمتنا. هذه الاتفاقية هي اتفاقية قانونية بينك وبيننا فيما يتعلق باستخدام هذه الخدمة.
         </p>

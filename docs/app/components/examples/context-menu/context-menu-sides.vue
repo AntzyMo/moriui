@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger
-} from 'moriui'
+  import { ref } from 'vue'
+  import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuSeparator,
+    ContextMenuTrigger
+  } from 'moriui'
 
-const side = ref<'top' | 'bottom' | 'left' | 'right'>('bottom')
-const sides = [
-  { label: '上方', value: 'top' as const },
-  { label: '下方', value: 'bottom' as const },
-  { label: '左侧', value: 'left' as const },
-  { label: '右侧', value: 'right' as const }
-]
+  const side = ref<'top' | 'bottom' | 'left' | 'right'>('bottom')
+  const sides = [
+    { label: '上方', value: 'top' as const },
+    { label: '下方', value: 'bottom' as const },
+    { label: '左侧', value: 'left' as const },
+    { label: '右侧', value: 'right' as const }
+  ]
 </script>
 
 <template>

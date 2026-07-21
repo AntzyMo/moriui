@@ -1,6 +1,15 @@
 <script setup lang="ts">
-import { DirectionProvider, Pagination, PaginationList, PaginationEllipsis, PaginationItem, PaginationPrev, PaginationNext } from 'moriui'
+  import {
+    DirectionProvider,
+    Pagination,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationList,
+    PaginationNext,
+    PaginationPrev
+  } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <Pagination :total="10">

@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { Button, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from 'moriui'
+  import { shallowRef } from 'vue'
+  import {
+    Button,
+    Command,
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList
+  } from 'moriui'
 
-const open = shallowRef(false)
+  const open = shallowRef(false)
 </script>
+
 <template>
   <Button size="sm" variant="outline" @click="open = true">
     打开命令面板

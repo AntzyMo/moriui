@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import { Button, DirectionProvider, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from 'moriui'
+  import {
+    Button,
+    DirectionProvider,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+  } from 'moriui'
 </script>
 
 <template>
   <DirectionProvider direction="rtl">
     <Drawer dir="rtl">
       <DrawerTrigger as-child>
-        <Button variant="outline">فتح الدرج</Button>
+        <Button variant="outline">
+          فتح الدرج
+        </Button>
       </DrawerTrigger>
       <DrawerContent show-handle>
         <DrawerHeader>
@@ -18,7 +31,9 @@ import { Button, DirectionProvider, Drawer, DrawerClose, DrawerContent, DrawerDe
         </div>
         <DrawerFooter>
           <DrawerClose as-child>
-            <Button variant="outline">إغلاق</Button>
+            <Button variant="outline">
+              إغلاق
+            </Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

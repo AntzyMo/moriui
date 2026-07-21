@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from 'moriui'
+  import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from 'moriui'
 </script>
+
 <template>
   <NavigationMenu>
     <NavigationMenuList>

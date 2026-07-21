@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Badge, Spinner } from 'moriui'
+  import { Badge, Spinner } from 'moriui'
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { DirectionProvider, Alert, AlertDescription, AlertTitle } from 'moriui'
+  import { Alert, AlertDescription, AlertTitle, DirectionProvider } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <Alert>

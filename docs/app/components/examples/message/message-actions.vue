@@ -18,13 +18,28 @@
           <BubbleContent>安装失败的原因在于工作区依赖。</BubbleContent>
         </Bubble>
         <MessageFooter>
-          <Button variant="ghost" size="icon" aria-label="复制" title="复制">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="复制"
+            title="复制"
+          >
             <Copy />
           </Button>
-          <Button variant="ghost" size="icon" aria-label="赞同" title="赞同">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="赞同"
+            title="赞同"
+          >
             <ThumbsUp />
           </Button>
-          <Button variant="ghost" size="icon" aria-label="反对" title="反对">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="反对"
+            title="反对"
+          >
             <ThumbsDown />
           </Button>
         </MessageFooter>
@@ -37,7 +52,12 @@
         </Bubble>
         <MessageFooter class="gap-2">
           <span class="font-normal text-destructive">发送失败</span>
-          <Button variant="ghost" size="icon-xs" title="重试" aria-label="重试">
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            title="重试"
+            aria-label="重试"
+          >
             <RefreshCcw />
           </Button>
         </MessageFooter>

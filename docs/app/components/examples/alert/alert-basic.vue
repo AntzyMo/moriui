@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Alert, AlertDescription, AlertTitle } from 'moriui'
+  import { Alert, AlertDescription, AlertTitle } from 'moriui'
 </script>
+
 <template>
   <Alert>
     <AlertTitle>基本信息</AlertTitle>

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItemIndicator,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger
-} from 'moriui'
-import { Check } from '@lucide/vue'
+  import { ref } from 'vue'
+  import { Check } from '@lucide/vue'
+  import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItemIndicator,
+    ContextMenuRadioGroup,
+    ContextMenuRadioItem,
+    ContextMenuSeparator,
+    ContextMenuTrigger
+  } from 'moriui'
 
-const alignment = ref<string>('left')
-const lineHeight = ref<string>('1.5')
+  const alignment = ref<string>('left')
+  const lineHeight = ref<string>('1.5')
 </script>
 
 <template>

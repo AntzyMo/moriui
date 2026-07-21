@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import type { DateValue } from 'reka-ui'
-import { Calendar } from 'moriui'
-import { CalendarDate } from '@internationalized/date'
-import { Clock } from '@lucide/vue'
+  import type { DateValue } from 'reka-ui'
 
-const date = shallowRef<DateValue>(new CalendarDate(2026, 7, 12))
+  import { shallowRef } from 'vue'
+  import { Calendar } from 'moriui'
+  import { Clock } from '@lucide/vue'
+  import { CalendarDate } from '@internationalized/date'
+
+  const date = shallowRef<DateValue>(new CalendarDate(2026, 7, 12))
 </script>
 
 <template>
@@ -21,7 +22,7 @@ const date = shallowRef<DateValue>(new CalendarDate(2026, 7, 12))
             step="1"
             value="10:30:00"
             class="w-20 border-none bg-transparent text-sm outline-none"
-          />
+          >
           <Clock class="h-4 w-4 text-muted-foreground" />
         </div>
       </div>
@@ -34,7 +35,7 @@ const date = shallowRef<DateValue>(new CalendarDate(2026, 7, 12))
             step="1"
             value="12:30:00"
             class="w-20 border-none bg-transparent text-sm outline-none"
-          />
+          >
           <Clock class="h-4 w-4 text-muted-foreground" />
         </div>
       </div>

@@ -1,11 +1,29 @@
 <script setup lang="ts">
-import { DatePicker, DatePickerCalendar, DatePickerCell, DatePickerCellTrigger, DatePickerContent, DatePickerField, DatePickerGrid, DatePickerGridBody, DatePickerGridHead, DatePickerGridRow, DatePickerHeadCell, DatePickerHeader, DatePickerHeading, DatePickerNext, DatePickerPrev, DatePickerTrigger } from 'moriui'
-import { Label } from 'moriui'
-import { ref } from 'vue'
+  import { ref } from 'vue'
+  import {
+    DatePicker,
+    DatePickerCalendar,
+    DatePickerCell,
+    DatePickerCellTrigger,
+    DatePickerContent,
+    DatePickerGrid,
+    DatePickerGridBody,
+    DatePickerGridHead,
+    DatePickerGridRow,
+    DatePickerHeadCell,
+    DatePickerHeader,
+    DatePickerHeading,
+    DatePickerNext,
+    DatePickerPrev,
+    DatePickerTrigger,
+    Label
 
-const open = ref(false)
-const date = ref<Date>()
+  } from 'moriui'
+
+  const open = ref(false)
+  const date = ref<Date>()
 </script>
+
 <template>
   <div class="mx-auto w-44">
     <Label for="date" class="mb-2 block text-sm font-medium">出生日期</Label>
@@ -36,7 +54,12 @@ const date = ref<Date>()
               </DatePickerGridHead>
               <DatePickerGridBody>
                 <DatePickerGridRow v-for="(weekDates, index) in month.rows" :key="index">
-                  <DatePickerCell v-for="weekDate in weekDates" :key="weekDate.toString()" :date="weekDate" class="h-8 w-8 p-0">
+                  <DatePickerCell
+                    v-for="weekDate in weekDates"
+                    :key="weekDate.toString()"
+                    :date="weekDate"
+                    class="h-8 w-8 p-0"
+                  >
                     <DatePickerCellTrigger
                       :day="weekDate"
                       :month="month.value"

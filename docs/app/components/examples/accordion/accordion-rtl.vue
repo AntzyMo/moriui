@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, DirectionProvider } from 'moriui'
+  import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, DirectionProvider } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <Accordion default-value="item-1" class="max-w-md">

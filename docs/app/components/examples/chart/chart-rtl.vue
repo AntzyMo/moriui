@@ -1,33 +1,41 @@
 <script setup lang="ts">
-import type { ChartConfig } from 'moriui'
-import { ChartContainer, ChartLegendContent, ChartTooltipContent, ChartCrosshair, componentToString, DirectionProvider } from 'moriui'
-import { VisGroupedBar, VisXYContainer, VisAxis } from '@unovis/vue'
+  import type { ChartConfig } from 'moriui'
 
-const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو']
+  import { VisAxis, VisGroupedBar, VisXYContainer } from '@unovis/vue'
+  import {
+    ChartContainer,
+    ChartCrosshair,
+    ChartLegendContent,
+    ChartTooltipContent,
+    DirectionProvider,
+    componentToString
+  } from 'moriui'
 
-const chartData = [
-  { month: 'يناير', desktop: 186, mobile: 80 },
-  { month: 'فبراير', desktop: 305, mobile: 200 },
-  { month: 'مارس', desktop: 237, mobile: 120 },
-  { month: 'أبريل', desktop: 73, mobile: 190 },
-  { month: 'مايو', desktop: 209, mobile: 130 },
-  { month: 'يونيو', desktop: 214, mobile: 140 },
-]
+  const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو']
 
-const chartConfig = {
-  desktop: {
-    label: 'سطح المكتب',
-    color: '#2563eb',
-  },
-  mobile: {
-    label: 'الجوال',
-    color: '#60a5fa',
-  },
-} satisfies ChartConfig
+  const chartData = [
+    { month: 'يناير', desktop: 186, mobile: 80 },
+    { month: 'فبراير', desktop: 305, mobile: 200 },
+    { month: 'مارس', desktop: 237, mobile: 120 },
+    { month: 'أبريل', desktop: 73, mobile: 190 },
+    { month: 'مايو', desktop: 209, mobile: 130 },
+    { month: 'يونيو', desktop: 214, mobile: 140 }
+  ]
 
-const tooltipTemplate = componentToString(chartConfig, ChartTooltipContent, {
-  labelFormatter: (_x: number) => chartData[_x]?.month ?? '',
-})
+  const chartConfig = {
+    desktop: {
+      label: 'سطح المكتب',
+      color: '#2563eb'
+    },
+    mobile: {
+      label: 'الجوال',
+      color: '#60a5fa'
+    }
+  } satisfies ChartConfig
+
+  const tooltipTemplate = componentToString(chartConfig, ChartTooltipContent, {
+    labelFormatter: (_x: number) => chartData[_x]?.month ?? ''
+  })
 </script>
 
 <template>

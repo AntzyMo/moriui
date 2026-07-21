@@ -1,11 +1,25 @@
 <script setup lang="ts">
-import { DirectionProvider, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from 'moriui'
+  import {
+    Button,
+    DirectionProvider,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <DropdownMenu>
       <DropdownMenuTrigger as-child>
-        <Button variant="outline">فتح القائمة</Button>
+        <Button variant="outline">
+          فتح القائمة
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent class="w-56">
         <DropdownMenuGroup>

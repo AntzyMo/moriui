@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'moriui'
+  import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'moriui'
 </script>
+
 <template>
   <TooltipProvider>
     <Tooltip>

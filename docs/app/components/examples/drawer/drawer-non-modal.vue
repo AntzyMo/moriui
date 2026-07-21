@@ -1,15 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Button, Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 'moriui'
+  import { ref } from 'vue'
+  import {
+    Button,
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+  } from 'moriui'
 
-const open = ref(false)
+  const open = ref(false)
 </script>
 
 <template>
   <div class="flex flex-col items-center gap-4">
     <Drawer v-model:open="open" :modal="false">
       <DrawerTrigger as-child>
-        <Button variant="outline">非模态抽屉</Button>
+        <Button variant="outline">
+          非模态抽屉
+        </Button>
       </DrawerTrigger>
       <DrawerContent show-handle>
         <DrawerHeader>

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger
-} from 'moriui'
-import {
-  Copy,
-  ExternalLink,
-  FilePen,
-  Import,
-  Trash2
-} from '@lucide/vue'
+  import {
+    Copy,
+    ExternalLink,
+    FilePen,
+    Import,
+    Trash2
+  } from '@lucide/vue'
+  import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuSeparator,
+    ContextMenuTrigger
+  } from 'moriui'
 </script>
 
 <template>

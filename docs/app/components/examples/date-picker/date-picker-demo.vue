@@ -1,12 +1,29 @@
 <script setup lang="ts">
-import { ChevronDown } from '@lucide/vue'
-import { format } from 'date-fns'
-import { zhCN } from 'date-fns/locale'
-import { DatePicker, DatePickerCalendar, DatePickerCell, DatePickerCellTrigger, DatePickerContent, DatePickerGrid, DatePickerGridBody, DatePickerGridHead, DatePickerGridRow, DatePickerHeadCell, DatePickerHeader, DatePickerHeading, DatePickerNext, DatePickerPrev, DatePickerTrigger } from 'moriui'
-import { ref } from 'vue'
+  import { ref } from 'vue'
+  import { format } from 'date-fns'
+  import { zhCN } from 'date-fns/locale'
+  import { ChevronDown } from '@lucide/vue'
+  import {
+    DatePicker,
+    DatePickerCalendar,
+    DatePickerCell,
+    DatePickerCellTrigger,
+    DatePickerContent,
+    DatePickerGrid,
+    DatePickerGridBody,
+    DatePickerGridHead,
+    DatePickerGridRow,
+    DatePickerHeadCell,
+    DatePickerHeader,
+    DatePickerHeading,
+    DatePickerNext,
+    DatePickerPrev,
+    DatePickerTrigger
+  } from 'moriui'
 
-const date = ref<Date>()
+  const date = ref<Date>()
 </script>
+
 <template>
   <DatePicker v-model="date" class="mx-auto w-fit">
     <DatePickerTrigger class="flex w-[212px] items-center justify-between gap-2 rounded-lg border border-input bg-background px-3 py-2 text-left text-sm font-normal shadow-sm hover:bg-accent hover:text-accent-foreground data-[state=open]:ring-1 data-[state=open]:ring-ring">
@@ -33,7 +50,12 @@ const date = ref<Date>()
             </DatePickerGridHead>
             <DatePickerGridBody>
               <DatePickerGridRow v-for="(weekDates, index) in month.rows" :key="index">
-                <DatePickerCell v-for="weekDate in weekDates" :key="weekDate.toString()" :date="weekDate" class="h-8 w-8 p-0">
+                <DatePickerCell
+                  v-for="weekDate in weekDates"
+                  :key="weekDate.toString()"
+                  :date="weekDate"
+                  class="h-8 w-8 p-0"
+                >
                   <DatePickerCellTrigger :day="weekDate" :month="month.value" class="flex h-8 w-8 items-center justify-center rounded-md text-sm hover:bg-accent hover:text-accent-foreground data-selected:bg-primary data-selected:text-primary-foreground data-today:bg-accent data-today:text-accent-foreground data-outside-view:text-muted-foreground/50" />
                 </DatePickerCell>
               </DatePickerGridRow>

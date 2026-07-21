@@ -1,6 +1,19 @@
 <script setup lang="ts">
-import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from 'moriui'
+  import {
+    Menubar,
+    MenubarContent,
+    MenubarGroup,
+    MenubarItem,
+    MenubarMenu,
+    MenubarSeparator,
+    MenubarShortcut,
+    MenubarSub,
+    MenubarSubContent,
+    MenubarSubTrigger,
+    MenubarTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <Menubar class="w-72">
     <MenubarMenu>
@@ -15,7 +28,9 @@ import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, Menuba
             新建窗口
             <MenubarShortcut>⌘N</MenubarShortcut>
           </MenubarItem>
-          <MenubarItem disabled>新建无痕窗口</MenubarItem>
+          <MenubarItem disabled>
+            新建无痕窗口
+          </MenubarItem>
         </MenubarGroup>
         <MenubarSeparator />
         <MenubarGroup>
@@ -75,16 +90,24 @@ import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, Menuba
       <MenubarTrigger>视图</MenubarTrigger>
       <MenubarContent class="w-44">
         <MenubarGroup>
-          <MenubarItem inset>重新加载</MenubarItem>
-          <MenubarItem disabled inset>强制重新加载</MenubarItem>
+          <MenubarItem inset>
+            重新加载
+          </MenubarItem>
+          <MenubarItem disabled inset>
+            强制重新加载
+          </MenubarItem>
         </MenubarGroup>
         <MenubarSeparator />
         <MenubarGroup>
-          <MenubarItem inset>切换全屏</MenubarItem>
+          <MenubarItem inset>
+            切换全屏
+          </MenubarItem>
         </MenubarGroup>
         <MenubarSeparator />
         <MenubarGroup>
-          <MenubarItem inset>隐藏侧边栏</MenubarItem>
+          <MenubarItem inset>
+            隐藏侧边栏
+          </MenubarItem>
         </MenubarGroup>
       </MenubarContent>
     </MenubarMenu>

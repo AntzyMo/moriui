@@ -1,16 +1,27 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { Eye, Activity, Bell } from '@lucide/vue'
-import { Button, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from 'moriui'
+  import { shallowRef } from 'vue'
+  import { Activity, Bell, Eye } from '@lucide/vue'
+  import {
+    Button,
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+  } from 'moriui'
 
-const showStatusBar = shallowRef(true)
-const showActivity = shallowRef(false)
-const showNotifications = shallowRef(true)
+  const showStatusBar = shallowRef(true)
+  const showActivity = shallowRef(false)
+  const showNotifications = shallowRef(true)
 </script>
+
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline">显示选项</Button>
+      <Button variant="outline">
+        显示选项
+      </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-56">
       <DropdownMenuLabel>界面设置</DropdownMenuLabel>

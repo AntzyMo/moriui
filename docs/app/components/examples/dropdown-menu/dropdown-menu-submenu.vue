@@ -1,10 +1,23 @@
 <script setup lang="ts">
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from 'moriui'
+  import {
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline">更多</Button>
+      <Button variant="outline">
+        更多
+      </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-48">
       <DropdownMenuItem>新建文件</DropdownMenuItem>

@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Button, Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 'moriui'
+  import { ref } from 'vue'
+  import {
+    Button,
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+  } from 'moriui'
 
-const snap = ref(0.5)
+  const snap = ref(0.5)
 </script>
 
 <template>
   <Drawer v-model:snap-point="snap" :snap-points="[0.25, 0.5, 0.85]">
     <DrawerTrigger as-child>
-      <Button variant="outline">吸附点抽屉</Button>
+      <Button variant="outline">
+        吸附点抽屉
+      </Button>
     </DrawerTrigger>
     <DrawerContent show-handle>
       <DrawerHeader>

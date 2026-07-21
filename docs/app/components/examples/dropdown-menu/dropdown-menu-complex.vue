@@ -1,11 +1,38 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { Bell, Settings, User, LogOut, CreditCard, HelpCircle, Palette } from '@lucide/vue'
-import { Avatar, AvatarFallback, Button, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from 'moriui'
+  import { shallowRef } from 'vue'
+  import {
+    Bell,
+    CreditCard,
+    HelpCircle,
+    LogOut,
+    Palette,
+    Settings,
+    User
+  } from '@lucide/vue'
+  import {
+    Avatar,
+    AvatarFallback,
+    Button,
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger
+  } from 'moriui'
 
-const notifications = shallowRef(true)
-const theme = shallowRef('system')
+  const notifications = shallowRef(true)
+  const theme = shallowRef('system')
 </script>
+
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Spinner } from 'moriui'
+  import { Button, Spinner } from 'moriui'
 </script>
 
 <template>

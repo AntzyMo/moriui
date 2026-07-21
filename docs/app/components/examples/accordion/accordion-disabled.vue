@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'moriui'
+  import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'moriui'
 </script>
+
 <template>
   <Accordion class="w-full">
     <AccordionItem value="item-1">

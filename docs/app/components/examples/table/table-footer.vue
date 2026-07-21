@@ -1,45 +1,47 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { Table } from 'moriui'
-import type { ColumnDef, PaginationState, SortingState } from 'moriui'
+  import type { ColumnDef, PaginationState, SortingState } from 'moriui'
 
-interface Invoice {
-  invoice: string
-  status: string
-  amount: number
-}
+  import { Table } from 'moriui'
+  import { computed, ref } from 'vue'
 
-const columns: ColumnDef<Invoice>[] = [
-  { accessorKey: 'invoice', header: '发票号', cell: ctx => String(ctx.getValue()) },
-  {
-    accessorKey: 'status',
-    header: '状态',
-    cell: ctx => String(ctx.getValue())
-  },
-  {
-    accessorKey: 'amount',
-    header: '金额',
-    cell: ctx => `¥${(ctx.getValue() as number).toFixed(2)}`
+  interface Invoice {
+    invoice: string
+    status: string
+    amount: number
   }
-]
 
-const data: Invoice[] = [
-  { invoice: 'INV-001', status: '已支付', amount: 250 },
-  { invoice: 'INV-002', status: '待支付', amount: 150 },
-  { invoice: 'INV-003', status: '未支付', amount: 350 },
-  { invoice: 'INV-004', status: '已支付', amount: 450 },
-  { invoice: 'INV-005', status: '已支付', amount: 550 },
-  { invoice: 'INV-006', status: '待支付', amount: 200 },
-  { invoice: 'INV-007', status: '未支付', amount: 300 }
-]
+  const columns: ColumnDef<Invoice>[] = [
+    { accessorKey: 'invoice', header: '发票号', cell: ctx => String(ctx.getValue()) },
+    {
+      accessorKey: 'status',
+      header: '状态',
+      cell: ctx => String(ctx.getValue())
+    },
+    {
+      accessorKey: 'amount',
+      header: '金额',
+      cell: ctx => `¥${(ctx.getValue() as number).toFixed(2)}`
+    }
+  ]
 
-const sorting = ref<SortingState>([])
-const pagination = ref<PaginationState>({ pageIndex: 0, pageSize: 5 })
+  const data: Invoice[] = [
+    { invoice: 'INV-001', status: '已支付', amount: 250 },
+    { invoice: 'INV-002', status: '待支付', amount: 150 },
+    { invoice: 'INV-003', status: '未支付', amount: 350 },
+    { invoice: 'INV-004', status: '已支付', amount: 450 },
+    { invoice: 'INV-005', status: '已支付', amount: 550 },
+    { invoice: 'INV-006', status: '待支付', amount: 200 },
+    { invoice: 'INV-007', status: '未支付', amount: 300 }
+  ]
 
-const filteredTotal = computed(() =>
-  data.reduce((sum, inv) => sum + inv.amount, 0)
-)
+  const sorting = ref<SortingState>([])
+  const pagination = ref<PaginationState>({ pageIndex: 0, pageSize: 5 })
+
+  const filteredTotal = computed(() =>
+    data.reduce((sum, inv) => sum + inv.amount, 0)
+  )
 </script>
+
 <template>
   <Table
     v-model:sorting="sorting"

@@ -1,14 +1,27 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { Sun, Moon, Monitor } from '@lucide/vue'
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItemIndicator, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from 'moriui'
+  import { shallowRef } from 'vue'
+  import { Monitor, Moon, Sun } from '@lucide/vue'
+  import {
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItemIndicator,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+  } from 'moriui'
 
-const theme = shallowRef('system')
+  const theme = shallowRef('system')
 </script>
+
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline">主题</Button>
+      <Button variant="outline">
+        主题
+      </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-48">
       <DropdownMenuLabel>选择主题</DropdownMenuLabel>

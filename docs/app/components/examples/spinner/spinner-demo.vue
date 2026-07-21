@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Item, ItemContent, ItemMedia, ItemTitle, Spinner } from 'moriui'
+  import { Item, ItemContent, ItemMedia, ItemTitle, Spinner } from 'moriui'
 </script>
 
 <template>
@@ -10,7 +10,9 @@ import { Item, ItemContent, ItemMedia, ItemTitle, Spinner } from 'moriui'
           <Spinner role="status" aria-label="加载中" />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle class="line-clamp-1">正在处理支付…</ItemTitle>
+          <ItemTitle class="line-clamp-1">
+            正在处理支付…
+          </ItemTitle>
         </ItemContent>
         <ItemContent class="flex-none justify-end">
           <span class="text-sm tabular-nums">¥100.00</span>

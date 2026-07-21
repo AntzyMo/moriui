@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from 'moriui'
+  import { shallowRef } from 'vue'
+  import {
+    Menubar,
+    MenubarCheckboxItem,
+    MenubarContent,
+    MenubarItem,
+    MenubarMenu,
+    MenubarSeparator,
+    MenubarShortcut,
+    MenubarTrigger
+  } from 'moriui'
 
-const showBookmarksBar = shallowRef(true)
-const showFullUrls = shallowRef(false)
-const showStrikethrough = shallowRef(true)
-const showCode = shallowRef(false)
-const showSuperscript = shallowRef(false)
+  const showBookmarksBar = shallowRef(true)
+  const showFullUrls = shallowRef(false)
+  const showStrikethrough = shallowRef(true)
+  const showCode = shallowRef(false)
+  const showSuperscript = shallowRef(false)
 </script>
+
 <template>
   <Menubar class="w-72">
     <MenubarMenu>

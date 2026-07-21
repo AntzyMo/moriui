@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Sonner, toast } from 'moriui'
+  import { Button, Sonner, toast } from 'moriui'
 </script>
 
 <template>

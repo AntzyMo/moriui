@@ -1,24 +1,28 @@
 <script setup lang="ts">
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from 'moriui'
+  import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger
+  } from 'moriui'
 
-const activeTab = defineModel<string>({ default: 'account' })
+  const activeTab = defineModel<string>({ default: 'account' })
 </script>
 
 <template>
   <Tabs v-model="activeTab" class="w-[400px]">
     <TabsList>
-      <TabsTrigger value="account">账号</TabsTrigger>
-      <TabsTrigger value="password">密码</TabsTrigger>
+      <TabsTrigger value="account">
+        账号
+      </TabsTrigger>
+      <TabsTrigger value="password">
+        密码
+      </TabsTrigger>
     </TabsList>
     <TabsContent value="account">
       <Card>

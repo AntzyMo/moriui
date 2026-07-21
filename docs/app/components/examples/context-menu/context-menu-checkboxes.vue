@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  ContextMenuContent,
-  ContextMenuItemIndicator,
-  ContextMenuSeparator,
-  ContextMenuTrigger
-} from 'moriui'
-import { Check } from '@lucide/vue'
+  import { ref } from 'vue'
+  import { Check } from '@lucide/vue'
+  import {
+    ContextMenu,
+    ContextMenuCheckboxItem,
+    ContextMenuContent,
+    ContextMenuItemIndicator,
+    ContextMenuTrigger
+  } from 'moriui'
 
-const showToolbar = ref(true)
-const showStatusBar = ref(false)
-const showSidebar = ref(true)
-const wordWrap = ref(true)
+  const showToolbar = ref(true)
+  const showStatusBar = ref(false)
+  const showSidebar = ref(true)
+  const wordWrap = ref(true)
 </script>
 
 <template>

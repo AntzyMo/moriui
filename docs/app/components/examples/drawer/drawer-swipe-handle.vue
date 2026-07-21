@@ -1,15 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Button, Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 'moriui'
+  import { ref } from 'vue'
+  import {
+    Button,
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+  } from 'moriui'
 
-const showHandle = ref(true)
+  const showHandle = ref(true)
 </script>
 
 <template>
   <div class="flex items-center gap-4">
     <Drawer>
       <DrawerTrigger as-child>
-        <Button variant="outline">有拖拽手柄</Button>
+        <Button variant="outline">
+          有拖拽手柄
+        </Button>
       </DrawerTrigger>
       <DrawerContent show-handle>
         <DrawerHeader>
@@ -23,7 +32,9 @@ const showHandle = ref(true)
 
     <Drawer>
       <DrawerTrigger as-child>
-        <Button variant="outline">无拖拽手柄</Button>
+        <Button variant="outline">
+          无拖拽手柄
+        </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>

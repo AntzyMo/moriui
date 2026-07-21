@@ -13,6 +13,9 @@ export default defineNuxtConfig({
       failOnError: true
     }
   },
+  routeRules: {
+    '/docs': { redirect: '/docs/getting-started' }
+  },
   devtools: { enabled: true },
   compatibilityDate: '2026-07-18'
 })

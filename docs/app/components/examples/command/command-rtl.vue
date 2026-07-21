@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, DirectionProvider } from 'moriui'
+  import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    DirectionProvider
+  } from 'moriui'
 
-const actions = ['فتح', 'حفظ', 'طباعة', 'بحث']
+  const actions = ['فتح', 'حفظ', 'طباعة', 'بحث']
 </script>
+
 <template>
   <DirectionProvider direction="rtl">
     <Command class="rounded-lg border shadow-sm w-full max-w-sm" dir="rtl">

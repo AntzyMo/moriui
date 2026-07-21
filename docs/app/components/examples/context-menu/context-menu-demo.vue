@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  ContextMenuContent,
-  ContextMenuGroup,
-  ContextMenuItem,
-  ContextMenuItemIndicator,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuTrigger
-} from 'moriui'
-import { Check } from '@lucide/vue'
+  import { ref } from 'vue'
+  import { Check } from '@lucide/vue'
+  import {
+    ContextMenu,
+    ContextMenuCheckboxItem,
+    ContextMenuContent,
+    ContextMenuGroup,
+    ContextMenuItem,
+    ContextMenuItemIndicator,
+    ContextMenuLabel,
+    ContextMenuRadioGroup,
+    ContextMenuRadioItem,
+    ContextMenuSeparator,
+    ContextMenuShortcut,
+    ContextMenuSub,
+    ContextMenuSubContent,
+    ContextMenuSubTrigger,
+    ContextMenuTrigger
+  } from 'moriui'
 
-const bookmark = ref(true)
-const theme = ref<string>('system')
+  const bookmark = ref(true)
+  const theme = ref<string>('system')
 </script>
 
 <template>

@@ -1,80 +1,81 @@
 <script setup lang="ts">
-import { ArrowUp, Inbox, RotateCw } from '@lucide/vue'
-import { ref } from 'vue'
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-  InputGroup,
-  InputGroupButton,
-  MessageScroller,
-  MessageScrollerButton,
-  MessageScrollerContent,
-  MessageScrollerItem,
-  MessageScrollerProvider,
-  MessageScrollerViewport
-} from 'moriui'
+  import { ref } from 'vue'
+  import { ArrowUp, Inbox, RotateCw } from '@lucide/vue'
+  import {
+    Button,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+    Empty,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+    InputGroup,
+    InputGroupButton,
+    MessageScroller,
+    MessageScrollerButton,
+    MessageScrollerContent,
+    MessageScrollerItem,
+    MessageScrollerProvider,
+    MessageScrollerViewport
+  } from 'moriui'
 
-interface ChatMessage {
-  id: string
-  role: 'user' | 'assistant'
-  text: string
-}
-
-const messages = ref<ChatMessage[]>([])
-const inputText = ref('')
-const isBusy = ref(false)
-
-function sendMessage() {
-  const text = inputText.value.trim()
-  if (!text || isBusy.value) return
-
-  inputText.value = ''
-  const userMsg: ChatMessage = {
-    id: `msg-${Date.now()}`,
-    role: 'user',
-    text
+  interface ChatMessage {
+    id: string
+    role: 'user' | 'assistant'
+    text: string
   }
-  messages.value = [...messages.value, userMsg]
-  simulateReply()
-}
 
-function simulateReply() {
-  isBusy.value = true
-  setTimeout(() => {
-    const assistantMsg: ChatMessage = {
+  const messages = ref<ChatMessage[]>([])
+  const inputText = ref('')
+  const isBusy = ref(false)
+
+  function sendMessage() {
+    const text = inputText.value.trim()
+    if (!text || isBusy.value)
+      return
+
+    inputText.value = ''
+    const userMsg: ChatMessage = {
       id: `msg-${Date.now()}`,
-      role: 'assistant',
-      text: getDemoReply(messages.value.length)
+      role: 'user',
+      text
     }
-    messages.value = [...messages.value, assistantMsg]
+    messages.value = [...messages.value, userMsg]
+    simulateReply()
+  }
+
+  function simulateReply() {
+    isBusy.value = true
+    setTimeout(() => {
+      const assistantMsg: ChatMessage = {
+        id: `msg-${Date.now()}`,
+        role: 'assistant',
+        text: getDemoReply(messages.value.length)
+      }
+      messages.value = [...messages.value, assistantMsg]
+      isBusy.value = false
+    }, 800)
+  }
+
+  function resetConversation() {
+    messages.value = []
     isBusy.value = false
-  }, 800)
-}
+  }
 
-function resetConversation() {
-  messages.value = []
-  isBusy.value = false
-}
-
-function getDemoReply(count: number): string {
-  const replies = [
-    '这是一个很好的问题。`MessageScroller` 会自动管理滚动位置，让新消息始终可见。',
-    '当用户滚动查看历史消息时，自动滚动会暂停，不会打扰阅读体验。',
-    `你可以自定义滚动锚点，让特定消息在视图顶部附近固定显示。`,
-    '`MessageScrollerButton` 会在新消息到达时出现在底部，点击即可跳转到最新消息。'
-  ]
-  return replies[(count - 1) % replies.length]
-}
+  function getDemoReply(count: number): string {
+    const replies = [
+      '这是一个很好的问题。`MessageScroller` 会自动管理滚动位置，让新消息始终可见。',
+      '当用户滚动查看历史消息时，自动滚动会暂停，不会打扰阅读体验。',
+      `你可以自定义滚动锚点，让特定消息在视图顶部附近固定显示。`,
+      '`MessageScrollerButton` 会在新消息到达时出现在底部，点击即可跳转到最新消息。'
+    ]
+    return replies[(count - 1) % replies.length]
+  }
 </script>
 
 <template>
@@ -122,11 +123,11 @@ function getDemoReply(count: number): string {
                     class="flex flex-col gap-2"
                   >
                     <div
+                      class="rounded-2xl px-4 py-2.5 text-sm max-w-[80%]"
                       :class="[
-                        'rounded-2xl px-4 py-2.5 text-sm max-w-[80%]',
                         message.role === 'user'
                           ? 'bg-primary text-primary-foreground ms-auto'
-                          : 'bg-muted text-muted-foreground me-auto'
+                          : 'bg-muted text-muted-foreground me-auto',
                       ]"
                     >
                       {{ message.text }}
@@ -147,7 +148,7 @@ function getDemoReply(count: number): string {
                 placeholder="输入消息..."
                 :disabled="isBusy"
                 class="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              />
+              >
               <InputGroupButton
                 type="submit"
                 variant="default"

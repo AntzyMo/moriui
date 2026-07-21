@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { DateRangePicker, DateRangePickerField, DateRangePickerTrigger, DateRangePickerContent } from 'moriui'
+  import { DateRangePicker, DateRangePickerContent, DateRangePickerField, DateRangePickerTrigger } from 'moriui'
 </script>
+
 <template>
   <DateRangePicker>
     <DateRangePickerField>

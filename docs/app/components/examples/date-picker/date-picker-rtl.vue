@@ -1,12 +1,30 @@
 <script setup lang="ts">
-import { ChevronDown } from '@lucide/vue'
-import { format } from 'date-fns'
-import { arSA } from 'date-fns/locale'
-import { DatePicker, DatePickerCalendar, DatePickerCell, DatePickerCellTrigger, DatePickerContent, DatePickerGrid, DatePickerGridBody, DatePickerGridHead, DatePickerGridRow, DatePickerHeadCell, DatePickerHeader, DatePickerHeading, DatePickerNext, DatePickerPrev, DatePickerTrigger, DirectionProvider } from 'moriui'
-import { ref } from 'vue'
+  import { ref } from 'vue'
+  import { format } from 'date-fns'
+  import { arSA } from 'date-fns/locale'
+  import { ChevronDown } from '@lucide/vue'
+  import {
+    DatePicker,
+    DatePickerCalendar,
+    DatePickerCell,
+    DatePickerCellTrigger,
+    DatePickerContent,
+    DatePickerGrid,
+    DatePickerGridBody,
+    DatePickerGridHead,
+    DatePickerGridRow,
+    DatePickerHeadCell,
+    DatePickerHeader,
+    DatePickerHeading,
+    DatePickerNext,
+    DatePickerPrev,
+    DatePickerTrigger,
+    DirectionProvider
+  } from 'moriui'
 
-const date = ref<Date>()
+  const date = ref<Date>()
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <DatePicker v-model="date" class="mx-auto w-fit">
@@ -34,7 +52,12 @@ const date = ref<Date>()
               </DatePickerGridHead>
               <DatePickerGridBody>
                 <DatePickerGridRow v-for="(weekDates, index) in month.rows" :key="index">
-                  <DatePickerCell v-for="weekDate in weekDates" :key="weekDate.toString()" :date="weekDate" class="h-8 w-8 p-0">
+                  <DatePickerCell
+                    v-for="weekDate in weekDates"
+                    :key="weekDate.toString()"
+                    :date="weekDate"
+                    class="h-8 w-8 p-0"
+                  >
                     <DatePickerCellTrigger :day="weekDate" :month="month.value" class="flex h-8 w-8 items-center justify-center rounded-md text-sm hover:bg-accent hover:text-accent-foreground data-selected:bg-primary data-selected:text-primary-foreground data-today:bg-accent data-today:text-accent-foreground data-outside-view:text-muted-foreground/50" />
                   </DatePickerCell>
                 </DatePickerGridRow>

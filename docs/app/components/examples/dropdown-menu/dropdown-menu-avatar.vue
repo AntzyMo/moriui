@@ -1,11 +1,29 @@
 <script setup lang="ts">
-import { User, Settings, LogOut, HelpCircle } from '@lucide/vue'
-import { Avatar, AvatarFallback, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from 'moriui'
+  import { HelpCircle, LogOut, Settings, User } from '@lucide/vue'
+  import {
+    Avatar,
+    AvatarFallback,
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="ghost" size="icon" class="rounded-full" aria-label="打开用户菜单">
+      <Button
+        variant="ghost"
+        size="icon"
+        class="rounded-full"
+        aria-label="打开用户菜单"
+      >
         <Avatar>
           <AvatarFallback>张三</AvatarFallback>
         </Avatar>

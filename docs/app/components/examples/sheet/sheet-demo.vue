@@ -17,7 +17,9 @@
 <template>
   <Sheet>
     <SheetTrigger as-child>
-      <Button variant="outline">打开</Button>
+      <Button variant="outline">
+        打开
+      </Button>
     </SheetTrigger>
     <SheetContent>
       <SheetHeader>
@@ -35,9 +37,13 @@
         </div>
       </div>
       <SheetFooter>
-        <Button type="submit">保存</Button>
+        <Button type="submit">
+          保存
+        </Button>
         <SheetClose as-child>
-          <Button variant="outline">取消</Button>
+          <Button variant="outline">
+            取消
+          </Button>
         </SheetClose>
       </SheetFooter>
     </SheetContent>

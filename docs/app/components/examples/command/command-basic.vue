@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from 'moriui'
+  import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList
+  } from 'moriui'
 
-const actions = ['新建文件', '打开项目', '保存当前', '撤销操作', '重做操作']
+  const actions = ['新建文件', '打开项目', '保存当前', '撤销操作', '重做操作']
 </script>
+
 <template>
   <Command class="rounded-lg border shadow-sm w-full max-w-sm">
     <CommandInput placeholder="搜索操作…" />

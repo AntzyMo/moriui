@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { DirectionProvider, Item, ItemContent, ItemMedia, ItemTitle, Spinner } from 'moriui'
+  import {
+    DirectionProvider,
+    Item,
+    ItemContent,
+    ItemMedia,
+    ItemTitle,
+    Spinner
+  } from 'moriui'
 </script>
 
 <template>
@@ -11,7 +18,9 @@ import { DirectionProvider, Item, ItemContent, ItemMedia, ItemTitle, Spinner } f
             <Spinner role="status" aria-label="جاري التحميل" />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle class="line-clamp-1">جاري معالجة الدفع…</ItemTitle>
+            <ItemTitle class="line-clamp-1">
+              جاري معالجة الدفع…
+            </ItemTitle>
           </ItemContent>
           <ItemContent class="flex-none justify-end">
             <span class="text-sm tabular-nums">١٠٠٫٠٠ دولار</span>

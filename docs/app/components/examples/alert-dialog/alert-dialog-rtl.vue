@@ -1,11 +1,26 @@
 <script setup lang="ts">
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Button, DirectionProvider } from 'moriui'
+  import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    Button,
+    DirectionProvider
+  } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <AlertDialog>
       <AlertDialogTrigger as-child>
-        <Button variant="outline">حذف</Button>
+        <Button variant="outline">
+          حذف
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

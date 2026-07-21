@@ -1,18 +1,41 @@
 <script setup lang="ts">
-import { ChevronDown } from '@lucide/vue'
-import { format } from 'date-fns'
-import { zhCN } from 'date-fns/locale'
-import { DatePicker, DatePickerCalendar, DatePickerCell, DatePickerCellTrigger, DatePickerContent, DatePickerGrid, DatePickerGridBody, DatePickerGridHead, DatePickerGridRow, DatePickerHeadCell, DatePickerHeader, DatePickerHeading, DatePickerNext, DatePickerPrev, DatePickerTrigger } from 'moriui'
-import { Field, FieldGroup, FieldLabel, Input } from 'moriui'
-import { ref } from 'vue'
+  import { ref } from 'vue'
+  import { format } from 'date-fns'
+  import { zhCN } from 'date-fns/locale'
+  import { ChevronDown } from '@lucide/vue'
+  import {
+    DatePicker,
+    DatePickerCalendar,
+    DatePickerCell,
+    DatePickerCellTrigger,
+    DatePickerContent,
+    DatePickerGrid,
+    DatePickerGridBody,
+    DatePickerGridHead,
+    DatePickerGridRow,
+    DatePickerHeadCell,
+    DatePickerHeader,
+    DatePickerHeading,
+    DatePickerNext,
+    DatePickerPrev,
+    DatePickerTrigger,
+    Field,
+    FieldGroup,
+    FieldLabel,
+    Input
 
-const open = ref(false)
-const date = ref<Date>()
+  } from 'moriui'
+
+  const open = ref(false)
+  const date = ref<Date>()
 </script>
+
 <template>
   <FieldGroup class="mx-auto flex max-w-xs flex-row gap-4">
     <Field>
-      <FieldLabel for="date-picker-optional" class="text-sm font-medium">日期</FieldLabel>
+      <FieldLabel for="date-picker-optional" class="text-sm font-medium">
+        日期
+      </FieldLabel>
       <DatePicker v-model="date" v-model:open="open">
         <DatePickerTrigger
           id="date-picker-optional"
@@ -41,7 +64,12 @@ const date = ref<Date>()
                 </DatePickerGridHead>
                 <DatePickerGridBody>
                   <DatePickerGridRow v-for="(weekDates, index) in month.rows" :key="index">
-                    <DatePickerCell v-for="weekDate in weekDates" :key="weekDate.toString()" :date="weekDate" class="h-8 w-8 p-0">
+                    <DatePickerCell
+                      v-for="weekDate in weekDates"
+                      :key="weekDate.toString()"
+                      :date="weekDate"
+                      class="h-8 w-8 p-0"
+                    >
                       <DatePickerCellTrigger
                         :day="weekDate"
                         :month="month.value"
@@ -57,7 +85,9 @@ const date = ref<Date>()
       </DatePicker>
     </Field>
     <Field class="w-32">
-      <FieldLabel for="time-picker-optional" class="text-sm font-medium">时间</FieldLabel>
+      <FieldLabel for="time-picker-optional" class="text-sm font-medium">
+        时间
+      </FieldLabel>
       <Input
         id="time-picker-optional"
         type="time"

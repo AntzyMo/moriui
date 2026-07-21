@@ -1,6 +1,17 @@
 <script setup lang="ts">
-import { DirectionProvider, Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from 'moriui'
+  import {
+    DirectionProvider,
+    Menubar,
+    MenubarContent,
+    MenubarGroup,
+    MenubarItem,
+    MenubarMenu,
+    MenubarSeparator,
+    MenubarShortcut,
+    MenubarTrigger
+  } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <Menubar class="w-72">
@@ -16,7 +27,9 @@ import { DirectionProvider, Menubar, MenubarContent, MenubarGroup, MenubarItem, 
               نافذة جديدة
               <MenubarShortcut>⌘N</MenubarShortcut>
             </MenubarItem>
-            <MenubarItem disabled>نافذة التصفح المتخفي</MenubarItem>
+            <MenubarItem disabled>
+              نافذة التصفح المتخفي
+            </MenubarItem>
           </MenubarGroup>
           <MenubarSeparator />
           <MenubarGroup>

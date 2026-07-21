@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ArrowUp } from '@lucide/vue'
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, Spinner } from 'moriui'
+  import { ArrowUp } from '@lucide/vue'
+  import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, Spinner } from 'moriui'
 </script>
 
 <template>

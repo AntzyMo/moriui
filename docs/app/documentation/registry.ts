@@ -1002,7 +1002,7 @@ const controlReferences: Record<string, ReferenceDefinition> = {
 
 const references: Partial<Record<string, ReferenceDefinition>> = {
   ...baseReferences,
-  dialog: {
+  'dialog': {
     importCode: 'import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, Input, Label } from \'moriui\'',
     resources: [
       { label: '组件源码', href: 'https://github.com/AntzyMo/moriui/tree/main/packages/core/src/components/dialog' },
@@ -1898,13 +1898,36 @@ const controlSlugs = [
 const publishedSlugs = new Set([
   ...baseSlugs,
   ...controlSlugs,
-  'alert', 'alert-dialog', 'command', 'context-menu', 'dialog', 'drawer',
-  'dropdown-menu', 'hover-card', 'sheet', 'tooltip',
-  'accordion', 'breadcrumb', 'calendar', 'collapsible',
-  'date-picker', 'date-range-picker', 'menubar', 'navigation-menu',
-  'pagination', 'tabs',
-  'carousel', 'chart', 'message', 'message-scroller', 'progress',
-  'resizable', 'scroll-area', 'sonner', 'spinner', 'table'
+  'alert',
+  'alert-dialog',
+  'command',
+  'context-menu',
+  'dialog',
+  'drawer',
+  'dropdown-menu',
+  'hover-card',
+  'sheet',
+  'tooltip',
+  'accordion',
+  'breadcrumb',
+  'calendar',
+  'collapsible',
+  'date-picker',
+  'date-range-picker',
+  'menubar',
+  'navigation-menu',
+  'pagination',
+  'tabs',
+  'carousel',
+  'chart',
+  'message',
+  'message-scroller',
+  'progress',
+  'resizable',
+  'scroll-area',
+  'sonner',
+  'spinner',
+  'table'
 ])
 const publishedPreviews: Partial<Record<string, Component>> = {
   ...Object.fromEntries(baseSlugs.map(slug => [slug, defineCatalog(slug)])),

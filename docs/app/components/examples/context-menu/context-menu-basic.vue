@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuTrigger } from 'moriui'
+  import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuTrigger } from 'moriui'
 </script>
 
 <template>

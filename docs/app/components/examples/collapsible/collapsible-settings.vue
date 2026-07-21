@@ -1,6 +1,13 @@
 <script setup lang="ts">
   import { shallowRef } from 'vue'
-  import { Bell, ChevronDown, Eye, Settings, Shield, User } from '@lucide/vue'
+  import {
+    Bell,
+    ChevronDown,
+    Eye,
+    Settings,
+    Shield,
+    User
+  } from '@lucide/vue'
   import { Collapsible, CollapsibleContent, CollapsibleTrigger } from 'moriui'
 
   const generalOpen = shallowRef(true)

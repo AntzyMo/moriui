@@ -1,97 +1,98 @@
 <script setup lang="ts">
-import { ArrowUp, Inbox, RotateCw } from '@lucide/vue'
-import { computed, ref } from 'vue'
-import {
-  Button,
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-  InputGroup,
-  InputGroupButton,
-  MessageScroller,
-  MessageScrollerButton,
-  MessageScrollerContent,
-  MessageScrollerProvider,
-  MessageScrollerViewport
-} from 'moriui'
+  import { computed, ref } from 'vue'
+  import { ArrowUp, Inbox, RotateCw } from '@lucide/vue'
+  import {
+    Button,
+    Card,
+    CardAction,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+    Empty,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+    InputGroup,
+    InputGroupButton,
+    MessageScroller,
+    MessageScrollerButton,
+    MessageScrollerContent,
+    MessageScrollerProvider,
+    MessageScrollerViewport
+  } from 'moriui'
 
-interface ChatMessage {
-  id: string
-  role: 'user' | 'assistant'
-  text: string
-}
-
-interface StreamStage {
-  messages: ChatMessage[]
-  pendingText?: string
-}
-
-const isStreaming = ref(false)
-
-const stages: StreamStage[] = [
-  {
-    messages: []
-  },
-  {
-    messages: [
-      { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' }
-    ]
-  },
-  {
-    messages: [
-      { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' },
-      { id: 's-1-assistant', role: 'assistant', text: '这就是经典的流式滚动问题。将消息列表包裹在 `MessageScroller` 中并启用 autoScroll——视口会固定在底部，让用户始终看到最新的文本内容。\n\n重要的是：它只在阅读器已经在底部时才自动滚动。当用户向上滚动查看之前的内容时，自动滚动会暂停，保留用户的阅读位置。' }
-    ]
-  },
-  {
-    messages: [
-      { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' },
-      { id: 's-1-assistant', role: 'assistant', text: '这就是经典的流式滚动问题。将消息列表包裹在 `MessageScroller` 中并启用 autoScroll——视口会固定在底部，让用户始终看到最新的文本内容。\n\n重要的是：它只在阅读器已经在底部时才自动滚动。当用户向上滚动查看之前的内容时，自动滚动会暂停，保留用户的阅读位置。' },
-      { id: 's-2-user', role: 'user', text: '但如果用户向上滚动查看之前的回复呢？我不想把他们拉回来。' }
-    ]
-  },
-  {
-    messages: [
-      { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' },
-      { id: 's-1-assistant', role: 'assistant', text: '这就是经典的流式滚动问题。将消息列表包裹在 `MessageScroller` 中并启用 autoScroll——视口会固定在底部，让用户始终看到最新的文本内容。\n\n重要的是：它只在阅读器已经在底部时才自动滚动。当用户向上滚动查看之前的内容时，自动滚动会暂停，保留用户的阅读位置。' },
-      { id: 's-2-user', role: 'user', text: '但如果用户向上滚动查看之前的回复呢？我不想把他们拉回来。' },
-      { id: 's-2-assistant', role: 'assistant', text: '自动滚动只在视口固定在底部时运行，因此向上滚动是有意退出——即使用户未读的新消息不断到达，他们在对话中的位置也会保持不变。\n\n当有未读内容时，`MessageScrollerButton` 会出现在视口底部。点击即可跳转到最新消息并重新启用自动滚动。' }
-    ]
+  interface ChatMessage {
+    id: string
+    role: 'user' | 'assistant'
+    text: string
   }
-]
 
-const currentStage = ref(0)
-const messages = ref<ChatMessage[]>([])
+  interface StreamStage {
+    messages: ChatMessage[]
+    pendingText?: string
+  }
 
-const isBusy = computed(() => isStreaming.value)
-const hasNext = computed(() => currentStage.value < stages.length - 1)
+  const isStreaming = ref(false)
 
-function advanceStage() {
-  if (currentStage.value >= stages.length - 1) return
-  isStreaming.value = true
-  currentStage.value++
+  const stages: StreamStage[] = [
+    {
+      messages: []
+    },
+    {
+      messages: [
+        { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' }
+      ]
+    },
+    {
+      messages: [
+        { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' },
+        { id: 's-1-assistant', role: 'assistant', text: '这就是经典的流式滚动问题。将消息列表包裹在 `MessageScroller` 中并启用 autoScroll——视口会固定在底部，让用户始终看到最新的文本内容。\n\n重要的是：它只在阅读器已经在底部时才自动滚动。当用户向上滚动查看之前的内容时，自动滚动会暂停，保留用户的阅读位置。' }
+      ]
+    },
+    {
+      messages: [
+        { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' },
+        { id: 's-1-assistant', role: 'assistant', text: '这就是经典的流式滚动问题。将消息列表包裹在 `MessageScroller` 中并启用 autoScroll——视口会固定在底部，让用户始终看到最新的文本内容。\n\n重要的是：它只在阅读器已经在底部时才自动滚动。当用户向上滚动查看之前的内容时，自动滚动会暂停，保留用户的阅读位置。' },
+        { id: 's-2-user', role: 'user', text: '但如果用户向上滚动查看之前的回复呢？我不想把他们拉回来。' }
+      ]
+    },
+    {
+      messages: [
+        { id: 's-1-user', role: 'user', text: '我在为我们的应用构建聊天功能，滚动行为让我很头疼。每次 AI 流式回复时，整个对话线程都在跳动。' },
+        { id: 's-1-assistant', role: 'assistant', text: '这就是经典的流式滚动问题。将消息列表包裹在 `MessageScroller` 中并启用 autoScroll——视口会固定在底部，让用户始终看到最新的文本内容。\n\n重要的是：它只在阅读器已经在底部时才自动滚动。当用户向上滚动查看之前的内容时，自动滚动会暂停，保留用户的阅读位置。' },
+        { id: 's-2-user', role: 'user', text: '但如果用户向上滚动查看之前的回复呢？我不想把他们拉回来。' },
+        { id: 's-2-assistant', role: 'assistant', text: '自动滚动只在视口固定在底部时运行，因此向上滚动是有意退出——即使用户未读的新消息不断到达，他们在对话中的位置也会保持不变。\n\n当有未读内容时，`MessageScrollerButton` 会出现在视口底部。点击即可跳转到最新消息并重新启用自动滚动。' }
+      ]
+    }
+  ]
 
-  // Simulate streaming by showing the next stage after a delay
-  setTimeout(() => {
-    messages.value = stages[currentStage.value].messages
+  const currentStage = ref(0)
+  const messages = ref<ChatMessage[]>([])
+
+  const isBusy = computed(() => isStreaming.value)
+  const hasNext = computed(() => currentStage.value < stages.length - 1)
+
+  function advanceStage() {
+    if (currentStage.value >= stages.length - 1)
+      return
+    isStreaming.value = true
+    currentStage.value++
+
+    // Simulate streaming by showing the next stage after a delay
+    setTimeout(() => {
+      messages.value = stages[currentStage.value].messages
+      isStreaming.value = false
+    }, 600)
+  }
+
+  function resetStream() {
+    currentStage.value = 0
+    messages.value = []
     isStreaming.value = false
-  }, 600)
-}
-
-function resetStream() {
-  currentStage.value = 0
-  messages.value = []
-  isStreaming.value = false
-}
+  }
 </script>
 
 <template>
@@ -144,11 +145,11 @@ function resetStream() {
                     class="flex flex-col gap-2"
                   >
                     <div
+                      class="rounded-2xl px-4 py-2.5 text-sm max-w-[80%] whitespace-pre-wrap"
                       :class="[
-                        'rounded-2xl px-4 py-2.5 text-sm max-w-[80%] whitespace-pre-wrap',
                         message.role === 'user'
                           ? 'bg-primary text-primary-foreground ms-auto'
-                          : 'bg-muted text-muted-foreground me-auto'
+                          : 'bg-muted text-muted-foreground me-auto',
                       ]"
                     >
                       {{ message.text }}

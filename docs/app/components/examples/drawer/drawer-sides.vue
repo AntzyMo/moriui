@@ -1,18 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Button, Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 'moriui'
+  import { ref } from 'vue'
+  import {
+    Button,
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+  } from 'moriui'
 
-const openBottom = ref(false)
-const openTop = ref(false)
-const openLeft = ref(false)
-const openRight = ref(false)
+  const openBottom = ref(false)
+  const openTop = ref(false)
+  const openLeft = ref(false)
+  const openRight = ref(false)
 </script>
 
 <template>
   <div class="flex flex-wrap gap-2">
     <Drawer v-model:open="openBottom" swipe-direction="down">
       <DrawerTrigger as-child>
-        <Button variant="outline">底部</Button>
+        <Button variant="outline">
+          底部
+        </Button>
       </DrawerTrigger>
       <DrawerContent show-handle>
         <DrawerHeader>
@@ -26,7 +35,9 @@ const openRight = ref(false)
 
     <Drawer v-model:open="openTop" swipe-direction="up">
       <DrawerTrigger as-child>
-        <Button variant="outline">顶部</Button>
+        <Button variant="outline">
+          顶部
+        </Button>
       </DrawerTrigger>
       <DrawerContent show-handle>
         <DrawerHeader>
@@ -40,7 +51,9 @@ const openRight = ref(false)
 
     <Drawer v-model:open="openLeft" swipe-direction="left">
       <DrawerTrigger as-child>
-        <Button variant="outline">左侧</Button>
+        <Button variant="outline">
+          左侧
+        </Button>
       </DrawerTrigger>
       <DrawerContent show-handle>
         <DrawerHeader>
@@ -54,7 +67,9 @@ const openRight = ref(false)
 
     <Drawer v-model:open="openRight" swipe-direction="right">
       <DrawerTrigger as-child>
-        <Button variant="outline">右侧</Button>
+        <Button variant="outline">
+          右侧
+        </Button>
       </DrawerTrigger>
       <DrawerContent show-handle>
         <DrawerHeader>

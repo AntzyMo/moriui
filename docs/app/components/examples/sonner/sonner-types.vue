@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Sonner, toast } from 'moriui'
+  import { Button, Sonner, toast } from 'moriui'
 </script>
 
 <template>
@@ -20,14 +20,18 @@ import { Button, Sonner, toast } from 'moriui'
     <Button variant="outline" size="sm" @click="toast.error('操作失败')">
       错误
     </Button>
-    <Button variant="outline" size="sm" @click="toast.promise<{ name: string }>(
-      () => new Promise(resolve => setTimeout(() => resolve({ name: '活动' }), 2000)),
-      {
-        loading: '加载中…',
-        success: data => `${data.name}已创建`,
-        error: '创建失败'
-      }
-    )">
+    <Button
+      variant="outline"
+      size="sm"
+      @click="toast.promise<{ name: string }>(
+        () => new Promise(resolve => setTimeout(() => resolve({ name: '活动' }), 2000)),
+        {
+          loading: '加载中…',
+          success: data => `${data.name}已创建`,
+          error: '创建失败',
+        },
+      )"
+    >
       异步
     </Button>
   </div>

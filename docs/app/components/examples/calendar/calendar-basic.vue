@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Calendar } from 'moriui'
+  import { Calendar } from 'moriui'
 </script>
 
 <template>

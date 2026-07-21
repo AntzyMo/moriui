@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { DirectionProvider, ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'moriui'
+  import { DirectionProvider, ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'moriui'
 </script>
+
 <template>
   <DirectionProvider dir="rtl">
     <ResizablePanelGroup

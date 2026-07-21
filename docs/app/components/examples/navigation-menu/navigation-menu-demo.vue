@@ -1,21 +1,29 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from 'moriui'
+  import type { HTMLAttributes } from 'vue'
 
-interface ListItemProps {
-  title: string
-  href?: string
-  class?: HTMLAttributes['class']
-}
+  import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger
+  } from 'moriui'
 
-const components: { title: string; description: string }[] = [
-  { title: '弹窗', description: '模态对话框，用于重要操作确认' },
-  { title: '悬浮卡片', description: '为有视力的用户预览链接内容' },
-  { title: '进度条', description: '显示任务完成进度的指示器' },
-  { title: '滚动区域', description: '自定义滚动条样式的内容区域' },
-  { title: '标签页', description: '分层内容的面板切换组件' },
-  { title: '工具提示', description: '元素聚焦或悬停时弹出的信息' }
-]
+  interface ListItemProps {
+    title: string
+    href?: string
+    class?: HTMLAttributes['class']
+  }
+
+  const components: { title: string, description: string }[] = [
+    { title: '弹窗', description: '模态对话框，用于重要操作确认' },
+    { title: '悬浮卡片', description: '为有视力的用户预览链接内容' },
+    { title: '进度条', description: '显示任务完成进度的指示器' },
+    { title: '滚动区域', description: '自定义滚动条样式的内容区域' },
+    { title: '标签页', description: '分层内容的面板切换组件' },
+    { title: '工具提示', description: '元素聚焦或悬停时弹出的信息' }
+  ]
 </script>
 
 <template>

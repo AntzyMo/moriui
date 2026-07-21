@@ -1,93 +1,94 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { CalendarDate, today, getLocalTimeZone } from '@internationalized/date'
-import {
-  DateRangePicker,
-  DateRangePickerCalendar,
-  DateRangePickerCell,
-  DateRangePickerCellTrigger,
-  DateRangePickerContent,
-  DateRangePickerField,
-  DateRangePickerGrid,
-  DateRangePickerGridBody,
-  DateRangePickerGridHead,
-  DateRangePickerGridRow,
-  DateRangePickerHeadCell,
-  DateRangePickerHeader,
-  DateRangePickerHeading,
-  DateRangePickerInput,
-  DateRangePickerNext,
-  DateRangePickerPrev,
-  DateRangePickerTrigger,
-} from 'moriui'
+  import { shallowRef } from 'vue'
+  import { CalendarDate, getLocalTimeZone, today } from '@internationalized/date'
+  import {
+    DateRangePicker,
+    DateRangePickerCalendar,
+    DateRangePickerCell,
+    DateRangePickerCellTrigger,
+    DateRangePickerContent,
+    DateRangePickerField,
+    DateRangePickerGrid,
+    DateRangePickerGridBody,
+    DateRangePickerGridHead,
+    DateRangePickerGridRow,
+    DateRangePickerHeadCell,
+    DateRangePickerHeader,
+    DateRangePickerHeading,
+    DateRangePickerInput,
+    DateRangePickerNext,
+    DateRangePickerPrev,
+    DateRangePickerTrigger
+  } from 'moriui'
 
-const value = shallowRef({
-  start: today(getLocalTimeZone()).subtract({ days: 6 }),
-  end: today(getLocalTimeZone()),
-})
+  const value = shallowRef({
+    start: today(getLocalTimeZone()).subtract({ days: 6 }),
+    end: today(getLocalTimeZone())
+  })
 
-const presets = [
-  {
-    label: '最近 7 天',
-    get: () => {
-      const end = today(getLocalTimeZone())
-      const start = end.subtract({ days: 6 })
-      return { start, end }
+  const presets = [
+    {
+      label: '最近 7 天',
+      get: () => {
+        const end = today(getLocalTimeZone())
+        const start = end.subtract({ days: 6 })
+        return { start, end }
+      }
     },
-  },
-  {
-    label: '本月',
-    get: () => {
-      const now = today(getLocalTimeZone())
-      const start = new CalendarDate(now.year, now.month, 1)
-      const end = start.add({ months: 1 }).subtract({ days: 1 })
-      return { start, end }
+    {
+      label: '本月',
+      get: () => {
+        const now = today(getLocalTimeZone())
+        const start = new CalendarDate(now.year, now.month, 1)
+        const end = start.add({ months: 1 }).subtract({ days: 1 })
+        return { start, end }
+      }
     },
-  },
-  {
-    label: '上个月',
-    get: () => {
-      const now = today(getLocalTimeZone())
-      const start = new CalendarDate(now.year, now.month, 1).subtract({ months: 1 })
-      const end = new CalendarDate(now.year, now.month, 1).subtract({ days: 1 })
-      return { start, end }
+    {
+      label: '上个月',
+      get: () => {
+        const now = today(getLocalTimeZone())
+        const start = new CalendarDate(now.year, now.month, 1).subtract({ months: 1 })
+        const end = new CalendarDate(now.year, now.month, 1).subtract({ days: 1 })
+        return { start, end }
+      }
     },
-  },
-  {
-    label: '最近 30 天',
-    get: () => {
-      const end = today(getLocalTimeZone())
-      const start = end.subtract({ days: 29 })
-      return { start, end }
+    {
+      label: '最近 30 天',
+      get: () => {
+        const end = today(getLocalTimeZone())
+        const start = end.subtract({ days: 29 })
+        return { start, end }
+      }
     },
-  },
-  {
-    label: '最近 90 天',
-    get: () => {
-      const end = today(getLocalTimeZone())
-      const start = end.subtract({ days: 89 })
-      return { start, end }
+    {
+      label: '最近 90 天',
+      get: () => {
+        const end = today(getLocalTimeZone())
+        const start = end.subtract({ days: 89 })
+        return { start, end }
+      }
     },
-  },
-  {
-    label: '今年',
-    get: () => {
-      const now = today(getLocalTimeZone())
-      const start = new CalendarDate(now.year, 1, 1)
-      const end = new CalendarDate(now.year, 12, 31)
-      return { start, end }
-    },
-  },
-]
+    {
+      label: '今年',
+      get: () => {
+        const now = today(getLocalTimeZone())
+        const start = new CalendarDate(now.year, 1, 1)
+        const end = new CalendarDate(now.year, 12, 31)
+        return { start, end }
+      }
+    }
+  ]
 
-function applyPreset(preset: typeof presets[number]) {
-  value.value = preset.get()
-}
+  function applyPreset(preset: typeof presets[number]) {
+    value.value = preset.get()
+  }
 
-function format(date: CalendarDate | undefined): string {
-  if (!date) return ''
-  return `${date.year}年${date.month}月${date.day}日`
-}
+  function format(date: CalendarDate | undefined): string {
+    if (!date)
+      return ''
+    return `${date.year}年${date.month}月${date.day}日`
+  }
 </script>
 
 <template>

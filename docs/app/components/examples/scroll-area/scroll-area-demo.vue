@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { ScrollArea } from 'moriui'
+  import { ScrollArea } from 'moriui'
 </script>
+
 <template>
   <ScrollArea class="h-72 w-48 rounded-md border">
     <div class="p-4">
-      <h4 class="mb-4 text-sm leading-none font-medium">用户服务协议</h4>
+      <h4 class="mb-4 text-sm leading-none font-medium">
+        用户服务协议
+      </h4>
       <p class="mb-3 text-sm leading-relaxed">
         欢迎使用我们的服务。本协议是您与我们之间关于使用本服务的法律协议。请仔细阅读以下全部条款。
       </p>
