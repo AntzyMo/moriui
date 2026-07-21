@@ -28,6 +28,7 @@
 @import '../components/empty/style.css';
 @import '../components/dropdown-menu/style.css';
 @import '../components/hover-card/style.css';
+@import '../components/popover/style.css';
 @import '../components/tooltip/style.css';
 @import '../components/spinner/style.css';
 @import '../components/skeleton/style.css';
