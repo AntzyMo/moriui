@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
-import type { PopoverTriggerProps } from 'reka-ui'
+  import type { HTMLAttributes } from 'vue'
+  import type { PopoverTriggerProps } from 'reka-ui'
 
-import { popoverVariants } from './variants'
-import { PopoverTrigger, useForwardProps } from 'reka-ui'
+  import { popoverVariants } from './variants'
+  import { PopoverTrigger, useForwardProps } from 'reka-ui'
 
-interface Props extends PopoverTriggerProps {
-  class?: HTMLAttributes['class']
-}
+  interface Props extends PopoverTriggerProps {
+    class?: HTMLAttributes['class']
+  }
 
-const props = defineProps<Props>()
-const forwarded = useForwardProps(props)
-const slots = popoverVariants()
+  const props = defineProps<Props>()
+  const forwarded = useForwardProps(props)
+  const slots = popoverVariants()
 </script>
 
 <template>

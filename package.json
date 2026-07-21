@@ -12,7 +12,7 @@
     "build": "vp run moriui#build",
     "docs": "vp run docs#dev",
     "lint:fix": "eslint . --fix",
-    "release": "bumpp package.json packages/core/package.json --all"
+    "release": "bumpp packages/core/package.json --all"
   },
   "devDependencies": {
     "@antzy/eslint-config": "catalog:",

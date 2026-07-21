@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
+  import type { HTMLAttributes } from 'vue'
 
-import { popoverVariants } from './variants'
+  import { popoverVariants } from './variants'
 
-const slots = popoverVariants()
+  const props = defineProps<{
+    class?: HTMLAttributes['class']
+  }>()
 
-const props = defineProps<{
-  class?: HTMLAttributes['class']
-}>()
+  const slots = popoverVariants()
 </script>
 
 <template>

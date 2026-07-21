@@ -29,6 +29,7 @@
   import MenubarExample from './examples/MenubarExample.vue'
   import CommandExample from './examples/CommandExample.vue'
   import TooltipExample from './examples/TooltipExample.vue'
+  import PopoverExample from './examples/PopoverExample.vue'
   import TextareaExample from './examples/TextareaExample.vue'
   import SkeletonExample from './examples/SkeletonExample.vue'
   import ProgressExample from './examples/ProgressExample.vue'
@@ -108,6 +109,7 @@
     <ContextMenuExample />
     <DialogExample />
     <HoverCardExample />
+    <PopoverExample />
     <TooltipExample />
     <DirectionExample />
     <DrawerExample />

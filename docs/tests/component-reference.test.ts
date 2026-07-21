@@ -54,17 +54,11 @@ describe('component catalog and reference pages', () => {
       readFile(componentRouteUrl, 'utf8')
     ])
 
-    expect(reference.indexOf('component.reference.states')).toBeLessThan(
-      reference.indexOf('component.reference.examples')
-    )
     expect(reference.indexOf('component.reference.examples')).toBeLessThan(
       reference.indexOf('component.reference.api')
     )
-    expect(reference).toMatch(/id="无障碍说明"/)
-    expect(reference).toMatch(/v-for="state in component\.reference\.states"/)
     expect(reference).toMatch(/v-for="example in component\.reference\.examples"/)
     expect(reference).toMatch(/v-for="row in component\.reference\.api"/)
-    expect(reference).toMatch(/component\.reference\.accessibility\.description/)
     expect(reference).toMatch(/component\.name.*component\.title/)
     expect(route).toMatch(/getReferenceToc\(publishedComponent\)/)
     expect(route).not.toMatch(/referenceToc/)

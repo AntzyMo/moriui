@@ -1,20 +1,13 @@
 <script setup lang="ts">
-  import type { ComponentRecord, PublishedComponentRecord } from '~/documentation/registry'
+  import type { PublishedComponentRecord } from '~/documentation/registry'
 
-  import { computed } from 'vue'
-  import { Badge, Button } from 'moriui'
-
+  import { Badge } from 'moriui'
   import CodeBlock from './CodeBlock.vue'
   import ExamplePanel from './ExamplePanel.vue'
-  import { getComponent } from '~/documentation/registry'
 
   const props = defineProps<{
     component: PublishedComponentRecord
   }>()
-
-  const relatedComponents = computed(() => props.component.related
-    .map(slug => getComponent(slug))
-    .filter((record): record is ComponentRecord => Boolean(record)))
 </script>
 
 <template>
@@ -33,44 +26,12 @@
       </p>
     </header>
 
-    <section id="资源" class="grid scroll-mt-32 gap-4">
-      <h2 class="text-2xl font-semibold tracking-tight">
-        资源
-      </h2>
-      <div class="flex flex-wrap gap-2">
-        <Button
-          v-for="resource in component.reference.resources"
-          :key="resource.href"
-          as-child
-          size="sm"
-          variant="secondary"
-        >
-          <a :href="resource.href" rel="noreferrer" target="_blank">{{ resource.label }}</a>
-        </Button>
-      </div>
-    </section>
-
     <section id="导入" class="grid scroll-mt-32 gap-4">
       <h2 class="text-2xl font-semibold tracking-tight">
         导入
       </h2>
       <CodeBlock :code="component.reference.importCode" />
     </section>
-
-    <section
-      v-for="state in component.reference.states"
-      :id="state.id"
-      :key="state.id"
-      class="grid scroll-mt-32 gap-3"
-    >
-      <h2 class="text-2xl font-semibold tracking-tight">
-        {{ state.title }}
-      </h2>
-      <p class="leading-7 text-muted-foreground">
-        {{ state.description }}
-      </p>
-    </section>
-
     <section id="示例" class="grid scroll-mt-32 gap-8">
       <h2 class="text-2xl font-semibold tracking-tight">
         示例
@@ -122,37 +83,6 @@
           </tbody>
         </table>
       </div>
-    </section>
-
-    <section id="无障碍说明" class="grid scroll-mt-32 gap-3">
-      <h2 class="text-2xl font-semibold tracking-tight">
-        无障碍说明
-      </h2>
-      <p class="leading-7 text-muted-foreground">
-        {{ component.reference.accessibility.description }}
-      </p>
-    </section>
-
-    <section id="关联组件" class="grid scroll-mt-32 gap-4">
-      <h2 class="text-2xl font-semibold tracking-tight">
-        关联组件
-      </h2>
-      <div v-if="relatedComponents.length" class="flex flex-wrap gap-2">
-        <Button
-          v-for="record in relatedComponents"
-          :key="record.slug"
-          as-child
-          size="sm"
-          variant="secondary"
-        >
-          <NuxtLink :to="`/docs/components/${record.slug}`">
-            {{ record.title }}
-          </NuxtLink>
-        </Button>
-      </div>
-      <p v-else class="text-sm text-muted-foreground">
-        这个组件暂时没有登记关联条目。
-      </p>
     </section>
   </article>
 </template>

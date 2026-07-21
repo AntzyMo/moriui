@@ -1,14 +1,24 @@
 {
   "name": "moriui",
   "type": "module",
-  "version": "0.1.0",
-  "description": "基于 Reka UI 与 Nova 视觉语言的 Vue 组件库。",
+  "version": "0.2.0",
+  "description": "默认精致、天生可组合的 Vue 3 组件库，基于 Reka UI 与 Nova 视觉语言。",
   "license": "MIT",
+  "homepage": "https://moriui.antzy.me",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AntzyMo/moriui.git",
     "directory": "packages/core"
   },
+  "bugs": {
+    "url": "https://github.com/AntzyMo/moriui/issues"
+  },
+  "keywords": [
+    "moriui",
+    "vue",
+    "reka-ui",
+    "tailwindcss"
+  ],
   "sideEffects": [
     "*.css"
   ],

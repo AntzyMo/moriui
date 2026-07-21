@@ -28,11 +28,7 @@ export const catalogToc: readonly TocItem[] = componentGroups.map(group => ({
 }))
 
 export function getReferenceToc(component: PublishedComponentRecord): readonly TocItem[] {
-  return [
-    ...toc('资源', '导入'),
-    ...component.reference.states.map(state => ({ id: state.id, label: state.title })),
-    ...toc('示例', 'API-参考', '无障碍说明', '关联组件')
-  ]
+  return toc('导入', '示例', 'API 参考')
 }
 
 // 为只需要示例目录形状的调用方保留默认指南目录。
