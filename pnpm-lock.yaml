@@ -57,6 +57,12 @@ catalogs:
     bumpp:
       specifier: ^11.1.0
       version: 11.1.0
+    chrono-node:
+      specifier: ^2.10.1
+      version: 2.10.1
+    date-fns:
+      specifier: ^4.4.0
+      version: 4.4.0
     embla-carousel:
       specifier: ^8.6.0
       version: 8.6.0
@@ -69,6 +75,9 @@ catalogs:
     eslint:
       specifier: ^10.7.0
       version: 10.7.0
+    nuxt:
+      specifier: ^4.5.0
+      version: 4.5.0
     playwright:
       specifier: ^1.59.1
       version: 1.61.1
@@ -160,16 +169,16 @@ importers:
         specifier: 'catalog:'
         version: 12.11.1
       chrono-node:
-        specifier: ^2.10.1
+        specifier: 'catalog:'
         version: 2.10.1
       date-fns:
-        specifier: ^4.4.0
+        specifier: 'catalog:'
         version: 4.4.0
       moriui:
         specifier: workspace:*
         version: link:../packages/core
       nuxt:
-        specifier: ^4.5.0
+        specifier: 'catalog:'
         version: 4.5.0(fc35e618a565a36dbdd5733948c3f8fc)
       vue:
         specifier: 'catalog:'
