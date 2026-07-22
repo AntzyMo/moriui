@@ -36,4 +36,4 @@ jobs:
 
       - name: 发布到 npm
         working-directory: packages/core
-        run: vp pm publish --access public
+        run: vp pm publish --access public --no-git-checks
