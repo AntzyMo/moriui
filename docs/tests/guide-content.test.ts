@@ -57,6 +57,7 @@ describe('guide content and route', () => {
     expect(source).toMatch(/fatal:\s*true/)
     expect(source).toMatch(/<SiteHeader mode="docs"/)
     expect(source).toMatch(/<DocumentFrame\s+:toc="guide\.toc"/)
+    expect(source).toMatch(/<DocumentArticle>/)
     expect(source).toMatch(/<ContentRenderer[^>]*:value="page"/)
   })
 })

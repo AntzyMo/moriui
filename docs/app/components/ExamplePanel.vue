@@ -2,19 +2,19 @@
   import CodeBlock from './CodeBlock.vue'
 
   defineProps<{
-    title: string
-    description: string
+    title?: string
+    description?: string
     code: string
   }>()
 </script>
 
 <template>
   <section class="grid gap-4">
-    <div class="grid gap-1">
-      <h3 class="font-medium">
+    <div v-if="title || description" class="grid gap-1">
+      <h3 v-if="title" class="font-medium">
         {{ title }}
       </h3>
-      <p class="text-sm leading-6 text-muted-foreground">
+      <p v-if="description" class="text-sm leading-6 text-muted-foreground">
         {{ description }}
       </p>
     </div>

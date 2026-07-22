@@ -20,7 +20,7 @@ describe('new documentation shell', () => {
     expect(source).toMatch(/theme:\s*readonly\(theme\)/)
   })
 
-  it('provides a centered dual-mode MoriUI header with a docs-only section row', async () => {
+  it('provides a centered dual-mode MoriUI header with the shared primary navigation', async () => {
     const source = await readFile(headerUrl, 'utf8')
     const moriuiButtonImport = /import\s*\{\s*Button\s*\}\s*from\s*['"]moriui['"]/
 
@@ -28,8 +28,8 @@ describe('new documentation shell', () => {
     expect(source).toMatch(moriuiButtonImport)
     expect(source).toMatch(/max-w-\[1360px\]/)
     expect(source).toMatch(/文档[\s\S]*组件[\s\S]*主题[\s\S]*示例[\s\S]*搜索[\s\S]*GitHub/)
-    expect(source).toMatch(/v-if="mode === 'docs'"/)
-    expect(source).toMatch(/开始使用[\s\S]*组件[\s\S]*发布说明[\s\S]*迁移/)
+    expect(source).toMatch(/<nav aria-label="主导航">/)
+    expect(source).toMatch(/@click="toggleTheme"/)
     expect(source).not.toMatch(/<header[^>]*border-b/)
   })
 
@@ -45,7 +45,7 @@ describe('new documentation shell', () => {
     expect(frame.match(/<DocumentSidebar/g)).toHaveLength(2)
     expect(frame).toMatch(/max-w-\[1360px\]/)
     expect(frame).toMatch(/lg:grid-cols-\[14rem_minmax\(0,46rem\)\]/)
-    expect(frame).toMatch(/xl:grid-cols-\[14rem_minmax\(0,46rem\)_12rem\]/)
+    expect(frame).toMatch(/xl:grid-cols-\[14rem_minmax\(0,54rem\)_12rem\]/)
     expect(frame).toMatch(/lg:hidden/)
     expect(frame).toMatch(/<main[^>]*>\s*<slot\s*\/>\s*<\/main>/)
     expect(sidebar).toMatch(/componentRegistry/)

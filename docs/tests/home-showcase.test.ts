@@ -11,7 +11,7 @@ describe('new home entry', () => {
     expect(showcase).toMatch(/<SiteHeader mode="home"/)
     expect(showcase).toMatch(/默认精致，天生可组合。/)
     expect(showcase).toMatch(/<Tabs[^>]*default-value="components"/)
-    expect(showcase).toMatch(/<TabsTrigger value="components">组件<\/TabsTrigger>/)
+    expect(showcase).toMatch(/<TabsTrigger value="components">\s*组件\s*<\/TabsTrigger>/)
     expect(showcase).toMatch(/<ComponentsScene\s*\/>/)
     expect(showcase).toMatch(/<DashboardScene\s*\/>/)
     expect(showcase).toMatch(/<ChatScene\s*\/>/)

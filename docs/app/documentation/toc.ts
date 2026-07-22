@@ -1,9 +1,16 @@
 import { guideInventory } from './inventory'
-import { type PublishedComponentRecord, componentGroups } from './registry'
+import { componentGroups } from './registry'
 
 export interface TocItem {
   id: string
   label: string
+}
+
+export interface ContentTocLink {
+  id: string
+  text: string
+  depth: number
+  children?: readonly ContentTocLink[]
 }
 
 export interface GuidePage {
@@ -27,8 +34,11 @@ export const catalogToc: readonly TocItem[] = componentGroups.map(group => ({
   label: group.title
 }))
 
-export function getReferenceToc(component: PublishedComponentRecord): readonly TocItem[] {
-  return toc('导入', '示例', 'API 参考')
+export function getContentToc(links: readonly ContentTocLink[]): readonly TocItem[] {
+  return links.flatMap(link => [
+    ...(link.depth === 2 || link.depth === 3 ? [{ id: link.id, label: link.text }] : []),
+    ...getContentToc(link.children ?? [])
+  ])
 }
 
 // 为只需要示例目录形状的调用方保留默认指南目录。

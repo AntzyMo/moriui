@@ -40,8 +40,8 @@
       </div>
       <pre
         ref="preRef"
-        class="overflow-x-auto p-4 pb-12 text-xs leading-6"
-        :class="needsCollapse && !isExpanded ? 'max-h-27 overflow-hidden' : ''"
+        class="p-4 pb-12 text-xs leading-6"
+        :class="needsCollapse && !isExpanded ? 'max-h-27 overflow-hidden' : 'overflow-x-auto'"
       ><code>{{ code }}</code></pre>
       <div
         v-if="needsCollapse && !isExpanded"
