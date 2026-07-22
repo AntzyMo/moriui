@@ -47,6 +47,7 @@ export const componentInventory = [
   ['浮层', 'drawer', '抽屉面板', ['dialog', 'sheet']],
   ['浮层', 'dropdown-menu', '下拉菜单', ['context-menu']],
   ['浮层', 'hover-card', '悬浮信息卡', ['tooltip']],
+  ['浮层', 'popover', '弹出卡片', ['hover-card', 'tooltip']],
   ['浮层', 'sheet', '侧边面板', ['drawer']],
   ['浮层', 'tooltip', '悬停提示', ['hover-card']],
   ['数据与反馈', 'carousel', '内容轮播', []],

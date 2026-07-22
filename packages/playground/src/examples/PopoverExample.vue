@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  Button,
-  Input,
-  Label,
-  Popover,
-  PopoverContent,
-  PopoverDescription,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-} from 'moriui'
+  import { ref } from 'vue'
+  import {
+    Button,
+    Input,
+    Label,
+    Popover,
+    PopoverContent,
+    PopoverDescription,
+    PopoverHeader,
+    PopoverTitle,
+    PopoverTrigger
+  } from 'moriui'
 
-const width = ref('100%')
-const height = ref('25px')
+  const width = ref('100%')
+  const height = ref('25px')
 </script>
 
 <template>
@@ -24,7 +24,9 @@ const height = ref('25px')
       <!-- 基础示例：带表单的 Popover -->
       <Popover>
         <PopoverTrigger as-child>
-          <Button variant="outline">打开 Popover</Button>
+          <Button variant="outline">
+            打开 Popover
+          </Button>
         </PopoverTrigger>
         <PopoverContent class="w-80">
           <PopoverHeader>
@@ -47,7 +49,9 @@ const height = ref('25px')
       <!-- 对齐方式示例 -->
       <Popover>
         <PopoverTrigger as-child>
-          <Button variant="outline" size="sm">Start</Button>
+          <Button variant="outline" size="sm">
+            Start
+          </Button>
         </PopoverTrigger>
         <PopoverContent align="start" class="w-40">
           对齐到 start
@@ -56,7 +60,9 @@ const height = ref('25px')
 
       <Popover>
         <PopoverTrigger as-child>
-          <Button variant="outline" size="sm">Center</Button>
+          <Button variant="outline" size="sm">
+            Center
+          </Button>
         </PopoverTrigger>
         <PopoverContent align="center" class="w-40">
           对齐到 center
@@ -65,7 +71,9 @@ const height = ref('25px')
 
       <Popover>
         <PopoverTrigger as-child>
-          <Button variant="outline" size="sm">End</Button>
+          <Button variant="outline" size="sm">
+            End
+          </Button>
         </PopoverTrigger>
         <PopoverContent align="end" class="w-40">
           对齐到 end

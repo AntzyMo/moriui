@@ -14,7 +14,7 @@
   <aside
     v-if="items.length"
     aria-label="本页目录"
-    class="sticky top-28 hidden h-fit gap-1 text-sm text-muted-foreground xl:grid"
+    class="sticky top-16 hidden h-fit gap-1 text-sm text-muted-foreground xl:grid"
   >
     <p class="mb-2 px-2 font-medium text-foreground">
       本页目录

@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <header class="bg-background text-foreground">
+  <header class="sticky top-0 z-50 bg-background text-foreground">
     <nav aria-label="主导航">
       <div class="mx-auto flex min-h-16 max-w-[1360px] items-center gap-1 px-4 sm:px-6">
         <Button as-child class="mr-3 px-1 text-base font-semibold tracking-tight" variant="ghost">
@@ -72,51 +72,6 @@
             <a href="https://github.com/AntzyMo/moriui" rel="noreferrer" target="_blank">GitHub</a>
           </Button>
         </div>
-      </div>
-    </nav>
-
-    <nav v-if="mode === 'docs'" aria-label="文档分区" class="border-y border-border">
-      <div class="mx-auto flex max-w-[1360px] items-center gap-5 overflow-x-auto px-4 sm:px-6">
-        <Button
-          as-child
-          class="h-auto rounded-none px-0.5 py-3"
-          size="sm"
-          variant="ghost"
-        >
-          <NuxtLink active-class="text-foreground" to="/docs/getting-started">
-            开始使用
-          </NuxtLink>
-        </Button>
-        <Button
-          as-child
-          class="h-auto rounded-none px-0.5 py-3"
-          size="sm"
-          variant="ghost"
-        >
-          <NuxtLink active-class="text-foreground" to="/docs/components">
-            组件
-          </NuxtLink>
-        </Button>
-        <Button
-          as-child
-          class="h-auto rounded-none px-0.5 py-3"
-          size="sm"
-          variant="ghost"
-        >
-          <NuxtLink active-class="text-foreground" to="/docs/releases">
-            发布说明
-          </NuxtLink>
-        </Button>
-        <Button
-          as-child
-          class="h-auto rounded-none px-0.5 py-3"
-          size="sm"
-          variant="ghost"
-        >
-          <NuxtLink active-class="text-foreground" to="/docs/migration">
-            迁移
-          </NuxtLink>
-        </Button>
       </div>
     </nav>
   </header>

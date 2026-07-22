@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@11.15.1",
   "description": "",
   "author": "",
   "license": "MIT",
@@ -12,7 +13,7 @@
     "build": "vp run moriui#build",
     "docs": "vp run docs#dev",
     "lint:fix": "eslint . --fix",
-    "release": "bumpp package.json packages/core/package.json --all"
+    "release": "bumpp packages/core/package.json --all"
   },
   "devDependencies": {
     "@antzy/eslint-config": "catalog:",

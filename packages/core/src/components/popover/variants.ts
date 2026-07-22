@@ -9,8 +9,8 @@ export const popoverVariants = tv({
     anchor: 'popover__anchor',
     header: 'popover__header',
     title: 'popover__title',
-    description: 'popover__description',
-  },
+    description: 'popover__description'
+  }
 })
 
 export type PopoverVariants = VariantProps<typeof popoverVariants>

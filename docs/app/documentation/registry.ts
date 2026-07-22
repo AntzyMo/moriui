@@ -1273,6 +1273,32 @@ const references: Partial<Record<string, ReferenceDefinition>> = {
     ],
     accessibility: { description: 'HoverCard 复用 Reka UI Popper 的悬浮触发，并支持键盘焦点触发。Content 内的交互元素键盘用户可通过 Tab 进入；隐藏时不应保留可聚焦元素。' }
   },
+  'popover': {
+    importCode: 'import { Popover, PopoverAnchor, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from \'moriui\'',
+    resources: componentResources('popover'),
+    states: [
+      { id: '组合方式', title: '组合方式', description: 'Popover 由 Trigger、Content 组成；Content 内可使用 Header、Title 与 Description 提供清晰结构。', shadcnHeading: 'Composition' },
+      { id: '定位', title: '定位', description: 'Content 的 align 与 side 控制弹出卡片的方向和对齐。', shadcnHeading: 'Sides' },
+      { id: 'RTL', title: 'RTL', description: '方向由 DirectionProvider 控制。', shadcnHeading: 'RTL' }
+    ],
+    examples: [
+      defineExample('popover', 'popover-demo', '概览', 'Popover 的基本结构与标题、说明。'),
+      defineExample('popover', 'popover-form', '表单', '在 Popover 中放置表单字段。'),
+      defineExample('popover', 'popover-alignments', '对齐', '使用 align 控制内容对齐方向。'),
+      defineExample('popover', 'popover-rtl', 'RTL', '从右到左的弹出卡片布局。')
+    ],
+    variants: 'PopoverContent 的 align 与 side 来自 Reka Popper 定位。',
+    api: [
+      { name: 'Popover v-model:open', type: 'boolean', defaultValue: 'undefined', description: '弹出卡的受控打开状态。' },
+      { name: 'Popover defaultOpen', type: 'boolean', defaultValue: 'false', description: '非受控初始打开状态。' },
+      { name: 'Popover modal', type: 'boolean', defaultValue: 'true', description: '弹出卡打开时是否阻断背景交互。' },
+      { name: 'PopoverContent side / align', type: 'PopperContentProps', defaultValue: '\'bottom\' / \'center\'', description: '卡片方向与对齐。' },
+      { name: 'PopoverContent sideOffset', type: 'number', defaultValue: '4', description: '卡片与触发器的偏移像素。' },
+      { name: 'PopoverHeader class', type: 'HTMLAttributes["class"]', defaultValue: 'undefined', description: '合并到卡片头部的调用方类。' },
+      { name: 'PopoverAnchor as / asChild', type: 'string | Component / boolean', defaultValue: '\'div\' / false', description: '自定义锚点的元素组合能力。' }
+    ],
+    accessibility: { description: 'Popover 复用 Reka UI 的 Popper 定位、焦点管理、Escape 关闭与 DismissableLayer。Content 内应提供 PopoverTitle，并在需要时补充 PopoverDescription。' }
+  },
   'sheet': {
     importCode: 'import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger } from \'moriui\'',
     resources: componentResources('sheet'),
@@ -1906,6 +1932,7 @@ const publishedSlugs = new Set([
   'drawer',
   'dropdown-menu',
   'hover-card',
+  'popover',
   'sheet',
   'tooltip',
   'accordion',
@@ -1932,7 +1959,7 @@ const publishedSlugs = new Set([
 const publishedPreviews: Partial<Record<string, Component>> = {
   ...Object.fromEntries(baseSlugs.map(slug => [slug, defineCatalog(slug)])),
   ...Object.fromEntries(controlSlugs.map(slug => [slug, defineCatalog(slug)])),
-  ...Object.fromEntries(['alert', 'alert-dialog', 'command', 'context-menu', 'dialog', 'drawer', 'dropdown-menu', 'hover-card', 'sheet', 'tooltip'].map(slug => [slug, defineCatalog(slug)])),
+  ...Object.fromEntries(['alert', 'alert-dialog', 'command', 'context-menu', 'dialog', 'drawer', 'dropdown-menu', 'hover-card', 'popover', 'sheet', 'tooltip'].map(slug => [slug, defineCatalog(slug)])),
   ...Object.fromEntries(['accordion', 'breadcrumb', 'calendar', 'collapsible', 'date-picker', 'date-range-picker', 'menubar', 'navigation-menu', 'pagination', 'tabs'].map(slug => [slug, defineCatalog(slug)])),
   ...Object.fromEntries(['carousel', 'chart', 'message', 'message-scroller', 'progress', 'resizable', 'scroll-area', 'sonner', 'spinner', 'table'].map(slug => [slug, defineCatalog(slug)]))
 }

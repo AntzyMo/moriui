@@ -1,7 +1,5 @@
 shellEmulator: true
 
-trustPolicy: no-downgrade
-
 packages:
   - packages/**
   - docs
@@ -49,16 +47,6 @@ catalog:
   vue-sonner: ^2.0.9
   vue-tsc: ^3.2.8
 # 已审查但不参与文档静态构建的安装脚本，避免在 CI 中产生未批准脚本警告。
-ignoredBuiltDependencies:
-  - '@parcel/watcher'
-  - maplibre-gl
-  - vue-demi
-
-# 文档静态构建所需的原生模块和构建二进制；其余依赖的安装脚本默认不执行。
-onlyBuiltDependencies:
-  - better-sqlite3
-  - esbuild
-  - sharp
 peerDependencyRules:
   allowAny:
     - vite
@@ -66,3 +54,10 @@ peerDependencyRules:
   allowedVersions:
     vite: '*'
     vitest: '*'
+allowBuilds:
+  '@parcel/watcher': false
+  better-sqlite3: true
+  esbuild: true
+  maplibre-gl: false
+  sharp: false
+  vue-demi: false

@@ -568,15 +568,9 @@ describe('documentation registry', () => {
     expect(
       getReferenceToc(getComponent('button') as PublishedComponentRecord).map(item => item.id)
     ).toEqual([
-      '资源',
       '导入',
-      '鼠标指针',
-      '语义链接',
-      'RTL',
       '示例',
-      'API-参考',
-      '无障碍说明',
-      '关联组件'
+      'API-参考'
     ])
   })
 

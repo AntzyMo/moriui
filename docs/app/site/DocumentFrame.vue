@@ -40,11 +40,11 @@
     </Sheet>
   </div>
 
-  <div class="mx-auto grid max-w-[1360px] gap-8 px-4 py-8 lg:grid-cols-[14rem_minmax(0,46rem)] lg:px-6 xl:grid-cols-[14rem_minmax(0,46rem)_12rem]">
-    <aside class="sticky top-28 hidden h-[calc(100vh-8rem)] overflow-y-auto lg:block">
+  <div class="mx-auto grid max-w-[1360px] gap-8 px-4 pt-4 lg:grid-cols-[14rem_minmax(0,46rem)] lg:px-6 xl:grid-cols-[14rem_minmax(0,54rem)_12rem]">
+    <aside class="sticky top-16 hidden h-[calc(100vh-5rem)] overflow-y-auto lg:block">
       <DocumentSidebar />
     </aside>
-    <main class="min-w-0">
+    <main class="min-w-0 py-8">
       <slot />
     </main>
     <OnThisPage :items="props.toc" />
